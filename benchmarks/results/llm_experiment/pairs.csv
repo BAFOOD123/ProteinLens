@@ -1,0 +1,61 @@
+domain_a,domain_b,category,same_fold_truth,fold_a,fold_b,superfamily_a,superfamily_b,tm_score_a,tm_score_b,rmsd,seq_identity_percent,tm_rule_same_fold,tm_rule_correct
+1twfA03,1aw8B00,same superfamily,True,2.40.40,2.40.40,2.40.40.20,2.40.40.20,0.524,0.572,1.88,8.2,True,True
+2x1lA03,2v0cA04,same superfamily,True,1.10.730,1.10.730,1.10.730.10,1.10.730.10,0.625,0.67,2.51,17.5,True,True
+1i1rB00,1lk3A00,same superfamily,True,1.20.1250,1.20.1250,1.20.1250.10,1.20.1250.10,0.508,0.593,3.78,7.9,True,True
+1f6fA00,1exzB00,same superfamily,True,1.20.1250,1.20.1250,1.20.1250.10,1.20.1250.10,0.518,0.641,3.78,10.4,True,True
+2gkmA00,1a00B00,same superfamily,True,1.10.490,1.10.490,1.10.490.10,1.10.490.10,0.621,0.558,3.07,14.9,True,True
+2hjsA02,1p1jA02,same superfamily,True,3.30.360,3.30.360,3.30.360.10,3.30.360.10,0.418,0.619,2.67,7.1,True,True
+1x1iA03,1hn0A04,same superfamily,True,2.60.220,2.60.220,2.60.220.10,2.60.220.10,0.793,0.77,2.23,17.9,True,True
+7tuvA01,2vnuD01,same superfamily,True,2.40.50,2.40.50,2.40.50.690,2.40.50.690,0.748,0.696,1.66,37.2,True,True
+3bamA00,1sdoA00,same superfamily,True,3.40.91,3.40.91,3.40.91.20,3.40.91.20,0.68,0.724,2.49,19.1,True,True
+1bqbA02,4k90A02,same superfamily,True,1.10.390,1.10.390,1.10.390.10,1.10.390.10,0.787,0.621,2.38,19.2,True,True
+7z7vC01,5b3pA00,same superfamily,True,3.30.460,3.30.460,3.30.460.80,3.30.460.80,0.837,0.797,1.65,31.0,True,True
+5e4bA00,2pcsA00,same superfamily,True,3.30.530,3.30.530,3.30.530.20,3.30.530.20,0.656,0.743,3.26,14.8,True,True
+1j4sA00,5v6fA00,same superfamily,True,2.100.10,2.100.10,2.100.10.30,2.100.10.30,0.71,0.764,2.47,12.6,True,True
+2wmfA03,1f1sA03,same superfamily,True,2.60.220,2.60.220,2.60.220.10,2.60.220.10,0.41,0.587,2.88,8.6,True,True
+1jssA00,8es5A01,same superfamily,True,3.30.530,3.30.530,3.30.530.20,3.30.530.20,0.504,0.69,2.93,9.2,True,True
+3ce7A00,5kp7B00,same superfamily,True,1.10.1200,1.10.1200,1.10.1200.10,1.10.1200.10,0.669,0.74,2.03,17.3,True,True
+1b8dA00,4xxiA00,same superfamily,True,1.10.490,1.10.490,1.10.490.20,1.10.490.20,0.741,0.815,2.44,25.4,True,True
+3x2hA00,1wc2A00,same superfamily,True,2.40.40,2.40.40,2.40.40.10,2.40.40.10,0.66,0.66,2.99,26.2,True,True
+6fgjA01,3b0xA03,same superfamily,True,3.30.460,3.30.460,3.30.460.10,3.30.460.10,0.484,0.646,2.84,10.8,True,True
+1euvB00,3qc8B00,same superfamily,True,3.10.20,3.10.20,3.10.20.90,3.10.20.90,0.713,0.706,1.97,6.8,True,True
+4b0eD00,2wyqA00,"same fold, different superfamily",True,3.10.20,3.10.20,3.10.20.410,3.10.20.90,0.382,0.449,3.65,9.4,False,False
+1cpcB00,2w31A00,"same fold, different superfamily",True,1.10.490,1.10.490,1.10.490.20,1.10.490.10,0.607,0.672,3.19,10.2,True,True
+2vnuD02,2it1A02,"same fold, different superfamily",True,2.40.50,2.40.50,2.40.50.700,2.40.50.100,0.441,0.507,3.04,9.1,True,True
+4e6fA00,3otlA00,"same fold, different superfamily",True,3.30.530,3.30.530,3.30.530.80,3.30.530.20,0.499,0.549,3.15,7.8,True,True
+3ud1A02,2wcoA03,"same fold, different superfamily",True,2.60.220,2.60.220,2.60.220.30,2.60.220.10,0.358,0.471,3.57,12.3,False,False
+1lmiA00,4mypA00,"same fold, different superfamily",True,2.60.40,2.60.40,2.60.40.1240,2.60.40.1850,0.407,0.43,4.1,12.5,False,False
+6a2aA01,1hzfA00,"same fold, different superfamily",True,1.50.10,1.50.10,1.50.10.130,1.50.10.20,0.615,0.439,4.22,10.2,True,True
+6b9oA03,4lesA00,"same fold, different superfamily",True,2.60.40,2.60.40,2.60.40.1360,2.60.40.1240,0.47,0.338,3.83,7.1,False,False
+3erpA01,3tvaA00,"same fold, different superfamily",True,3.20.20,3.20.20,3.20.20.100,3.20.20.150,0.552,0.579,4.88,12.5,True,True
+1ynpB01,7lvlA01,"same fold, different superfamily",True,3.20.20,3.20.20,3.20.20.100,3.20.20.70,0.558,0.56,3.59,9.0,True,True
+1mfwA00,1ze3D00,"same fold, different superfamily",True,3.10.20,3.10.20,3.10.20.230,3.10.20.410,0.363,0.341,3.9,16.3,False,False
+2qp2A02,1i5pA03,"same fold, different superfamily",True,2.100.10,2.100.10,2.100.10.50,2.100.10.10,0.377,0.311,5.1,6.0,False,False
+4oagB02,6ywnA01,"same fold, different superfamily",True,3.30.460,3.30.460,3.30.460.90,3.30.460.10,0.419,0.641,3.2,10.1,True,True
+1sdoA00,2fokA03,"same fold, different superfamily",True,3.40.91,3.40.91,3.40.91.20,3.40.91.30,0.417,0.449,4.08,4.3,False,False
+2iqtA00,6kikA00,"same fold, different superfamily",True,3.20.20,3.20.20,3.20.20.70,3.20.20.100,0.503,0.531,4.91,9.0,True,True
+4fcaA03,3b34A03,"same fold, different superfamily",True,1.10.390,1.10.390,1.10.390.30,1.10.390.10,0.529,0.519,3.52,9.1,True,True
+6lpfA01,1wkbA03,"same fold, different superfamily",True,1.10.730,1.10.730,1.10.730.20,1.10.730.10,0.649,0.853,2.11,21.2,True,True
+1pj5A03,2ebbA00,"same fold, different superfamily",True,3.30.1360,3.30.1360,3.30.1360.120,3.30.1360.20,0.292,0.487,4.0,10.0,False,False
+5f2kB01,5mswA01,"same fold, different superfamily",True,1.10.1200,1.10.1200,1.10.1200.270,1.10.1200.10,0.245,0.337,4.48,8.3,False,False
+2pa8D01,1v5vA01,"same fold, different superfamily",True,3.30.1360,3.30.1360,3.30.1360.10,3.30.1360.120,0.478,0.306,3.51,6.6,False,False
+2iteA00,2ns9A01,different fold,False,2.60.40,3.30.530,2.60.40.1850,3.30.530.20,0.356,0.305,4.17,11.5,False,True
+5ejdA00,4dlqA03,different fold,False,1.10.1200,2.60.220,1.10.1200.10,2.60.220.50,0.342,0.175,4.34,8.3,False,True
+1iq0A03,3abiA02,different fold,False,1.10.730,3.30.360,1.10.730.10,3.30.360.10,0.337,0.249,4.14,6.2,False,True
+7sbiB01,3nvoA01,different fold,False,3.10.20,3.30.460,3.10.20.90,3.30.460.20,0.321,0.23,4.66,2.9,False,True
+1exzB00,4jhyA00,different fold,False,1.20.1250,3.30.530,1.20.1250.10,3.30.530.80,0.281,0.259,5.0,7.1,False,True
+3oqvA00,1h0hA04,different fold,False,3.40.50,2.40.40,3.40.50.11710,2.40.40.20,0.264,0.3,5.58,5.6,False,True
+1euvB00,1yleA02,different fold,False,3.10.20,2.40.40,3.10.20.90,2.40.40.20,0.349,0.392,3.58,10.0,False,True
+5bupA00,4at7B02,different fold,False,2.60.40,3.30.460,2.60.40.4100,3.30.460.10,0.315,0.278,5.21,1.9,False,True
+5k8jB00,1mhmB00,different fold,False,3.40.50,3.30.360,3.40.50.1010,3.30.360.50,0.181,0.314,4.03,7.7,False,True
+1dlwA00,1xi3A00,different fold,False,1.10.490,3.20.20,1.10.490.10,3.20.20.70,0.321,0.212,4.77,0.0,False,True
+1hulA00,1w6kA03,different fold,False,1.20.1250,1.50.10,1.20.1250.10,1.50.10.20,0.328,0.171,4.95,8.7,False,True
+4f0uA00,1lk3A00,different fold,False,1.10.490,1.20.1250,1.10.490.20,1.20.1250.10,0.308,0.342,5.31,13.0,False,True
+3w1yB00,4pifA00,different fold,False,3.10.20,2.100.10,3.10.20.90,2.100.10.30,0.305,0.258,4.98,7.5,False,True
+1a00B00,1qqfA00,different fold,False,1.10.490,1.50.10,1.10.490.10,1.50.10.20,0.366,0.232,5.17,5.1,False,True
+2oseA00,2wcoA03,different fold,False,2.40.100,2.60.220,2.40.100.10,2.60.220.10,0.22,0.316,4.97,4.5,False,True
+3vgpA00,2g5dA01,different fold,False,3.40.50,2.40.40,3.40.50.12610,2.40.40.10,0.309,0.268,5.08,7.3,False,True
+5kd5A01,6cz7C02,different fold,False,1.10.390,2.40.40,1.10.390.30,2.40.40.20,0.291,0.354,5.23,5.6,False,True
+1wkbA03,7tuvA02,different fold,False,1.10.730,2.40.50,1.10.730.10,2.40.50.700,0.218,0.261,5.35,6.7,False,True
+3qc8B00,6rqxA02,different fold,False,3.10.20,1.10.390,3.10.20.90,1.10.390.10,0.359,0.155,3.71,12.2,False,True
+1pj5A03,2nrkA00,different fold,False,3.30.1360,3.30.460,3.30.1360.120,3.30.460.10,0.273,0.31,5.26,0.0,False,True
