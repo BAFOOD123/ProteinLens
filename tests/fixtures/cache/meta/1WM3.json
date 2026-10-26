@@ -1,0 +1,84 @@
+{
+ "struct": {
+  "title": "Crystal structure of human SUMO-2 protein"
+ },
+ "exptl": [
+  {
+   "crystals_number": 1,
+   "method": "X-RAY DIFFRACTION"
+  }
+ ],
+ "rcsb_entry_info": {
+  "assembly_count": 1,
+  "branched_entity_count": 0,
+  "cis_peptide_count": 0,
+  "deposited_atom_count": 711,
+  "deposited_branched_entity_instance_count": 0,
+  "deposited_deuterated_water_count": 0,
+  "deposited_hydrogen_atom_count": 0,
+  "deposited_model_count": 1,
+  "deposited_modeled_polymer_monomer_count": 72,
+  "deposited_nonpolymer_entity_instance_count": 0,
+  "deposited_polymer_entity_instance_count": 1,
+  "deposited_polymer_monomer_count": 72,
+  "deposited_solvent_atom_count": 127,
+  "deposited_unmodeled_polymer_monomer_count": 0,
+  "diffrn_radiation_wavelength_maximum": 1.0717,
+  "diffrn_radiation_wavelength_minimum": 1.0717,
+  "disulfide_bond_count": 0,
+  "entity_count": 2,
+  "experimental_method": "X-ray",
+  "experimental_method_count": 1,
+  "inter_mol_covalent_bond_count": 0,
+  "inter_mol_metalic_bond_count": 0,
+  "molecular_weight": 8.36,
+  "na_polymer_entity_types": "Other",
+  "nonpolymer_entity_count": 0,
+  "polymer_composition": "homomeric protein",
+  "polymer_entity_count": 1,
+  "polymer_entity_count_DNA": 0,
+  "polymer_entity_count_RNA": 0,
+  "polymer_entity_count_nucleic_acid": 0,
+  "polymer_entity_count_nucleic_acid_hybrid": 0,
+  "polymer_entity_count_protein": 1,
+  "polymer_entity_taxonomy_count": 1,
+  "polymer_molecular_weight_maximum": 8.36,
+  "polymer_molecular_weight_minimum": 8.36,
+  "polymer_monomer_count_maximum": 72,
+  "polymer_monomer_count_minimum": 72,
+  "resolution_combined": [
+   1.2
+  ],
+  "selected_polymer_entity_types": "Protein (only)",
+  "software_programs_combined": [
+   "CNS",
+   "DENZO",
+   "SCALEPACK"
+  ],
+  "solvent_entity_count": 1,
+  "structure_determination_methodology": "experimental",
+  "structure_determination_methodology_priority": 10,
+  "diffrn_resolution_high": {
+   "provenance_source": "Depositor assigned",
+   "value": 1.2
+  }
+ },
+ "rcsb_entry_container_identifiers": {
+  "assembly_ids": [
+   "1"
+  ],
+  "entity_ids": [
+   "1",
+   "2"
+  ],
+  "entry_id": "1WM3",
+  "model_ids": [
+   1
+  ],
+  "polymer_entity_ids": [
+   "1"
+  ],
+  "pubmed_id": 15479240,
+  "rcsb_id": "1WM3"
+ }
+}

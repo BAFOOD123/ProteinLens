@@ -1,0 +1,89 @@
+{
+ "struct": {
+  "title": "THE CRYSTAL STRUCTURE OF HUMAN DEOXYHAEMOGLOBIN AT 1.74 ANGSTROMS RESOLUTION"
+ },
+ "exptl": [
+  {
+   "method": "X-RAY DIFFRACTION"
+  }
+ ],
+ "rcsb_entry_info": {
+  "assembly_count": 1,
+  "branched_entity_count": 0,
+  "cis_peptide_count": 0,
+  "deposited_atom_count": 4779,
+  "deposited_branched_entity_instance_count": 0,
+  "deposited_deuterated_water_count": 0,
+  "deposited_hydrogen_atom_count": 0,
+  "deposited_model_count": 1,
+  "deposited_modeled_polymer_monomer_count": 574,
+  "deposited_nonpolymer_entity_instance_count": 6,
+  "deposited_polymer_entity_instance_count": 4,
+  "deposited_polymer_monomer_count": 574,
+  "deposited_solvent_atom_count": 221,
+  "deposited_unmodeled_polymer_monomer_count": 0,
+  "disulfide_bond_count": 0,
+  "entity_count": 5,
+  "experimental_method": "X-ray",
+  "experimental_method_count": 1,
+  "inter_mol_covalent_bond_count": 0,
+  "inter_mol_metalic_bond_count": 4,
+  "molecular_weight": 64.74,
+  "na_polymer_entity_types": "Other",
+  "nonpolymer_bound_components": [
+   "HEM"
+  ],
+  "nonpolymer_entity_count": 2,
+  "nonpolymer_molecular_weight_maximum": 0.62,
+  "nonpolymer_molecular_weight_minimum": 0.09,
+  "polymer_composition": "heteromeric protein",
+  "polymer_entity_count": 2,
+  "polymer_entity_count_DNA": 0,
+  "polymer_entity_count_RNA": 0,
+  "polymer_entity_count_nucleic_acid": 0,
+  "polymer_entity_count_nucleic_acid_hybrid": 0,
+  "polymer_entity_count_protein": 2,
+  "polymer_entity_taxonomy_count": 2,
+  "polymer_molecular_weight_maximum": 15.89,
+  "polymer_molecular_weight_minimum": 15.15,
+  "polymer_monomer_count_maximum": 146,
+  "polymer_monomer_count_minimum": 141,
+  "resolution_combined": [
+   1.74
+  ],
+  "selected_polymer_entity_types": "Protein (only)",
+  "solvent_entity_count": 1,
+  "structure_determination_methodology": "experimental",
+  "structure_determination_methodology_priority": 10,
+  "diffrn_resolution_high": {
+   "provenance_source": "From refinement resolution cutoff",
+   "value": 1.74
+  }
+ },
+ "rcsb_entry_container_identifiers": {
+  "assembly_ids": [
+   "1"
+  ],
+  "entity_ids": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "entry_id": "4HHB",
+  "model_ids": [
+   1
+  ],
+  "non_polymer_entity_ids": [
+   "3",
+   "4"
+  ],
+  "polymer_entity_ids": [
+   "1",
+   "2"
+  ],
+  "pubmed_id": 6726807,
+  "rcsb_id": "4HHB"
+ }
+}

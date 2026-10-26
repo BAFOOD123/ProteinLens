@@ -1,0 +1,497 @@
+{
+ "rcsb_entity_source_organism": [
+  {
+   "ncbi_common_names": [
+    "Gallus domesticus",
+    "Gallus gallus domesticus",
+    "Phasianus gallus",
+    "bantam",
+    "chicken",
+    "chickens"
+   ],
+   "ncbi_parent_scientific_name": "Eukaryota",
+   "ncbi_scientific_name": "Gallus gallus",
+   "ncbi_taxonomy_id": 9031,
+   "pdbx_src_id": 1,
+   "provenance_source": "Primary Data",
+   "scientific_name": "Gallus gallus",
+   "source_type": "natural",
+   "taxonomy_lineage": [
+    {
+     "depth": 1,
+     "id": "131567",
+     "name": "cellular organisms"
+    },
+    {
+     "depth": 1,
+     "id": "131567",
+     "name": "biota"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "Eukaryota"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "Eucarya"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "Eucaryotae"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "Eukarya"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "Eukaryotae"
+    },
+    {
+     "depth": 2,
+     "id": "2759",
+     "name": "eukaryotes"
+    },
+    {
+     "depth": 3,
+     "id": "33154",
+     "name": "Opisthokonta"
+    },
+    {
+     "depth": 3,
+     "id": "33154",
+     "name": "Fungi/Metazoa group"
+    },
+    {
+     "depth": 3,
+     "id": "33154",
+     "name": "opisthokonts"
+    },
+    {
+     "depth": 4,
+     "id": "33208",
+     "name": "Metazoa"
+    },
+    {
+     "depth": 4,
+     "id": "33208",
+     "name": "Animalia"
+    },
+    {
+     "depth": 4,
+     "id": "33208",
+     "name": "animals"
+    },
+    {
+     "depth": 4,
+     "id": "33208",
+     "name": "metazoans"
+    },
+    {
+     "depth": 4,
+     "id": "33208",
+     "name": "multicellular animals"
+    },
+    {
+     "depth": 5,
+     "id": "6072",
+     "name": "Eumetazoa"
+    },
+    {
+     "depth": 6,
+     "id": "33213",
+     "name": "Bilateria"
+    },
+    {
+     "depth": 7,
+     "id": "33511",
+     "name": "Deuterostomia"
+    },
+    {
+     "depth": 7,
+     "id": "33511",
+     "name": "deuterostomes"
+    },
+    {
+     "depth": 8,
+     "id": "7711",
+     "name": "Chordata"
+    },
+    {
+     "depth": 8,
+     "id": "7711",
+     "name": "chordates"
+    },
+    {
+     "depth": 9,
+     "id": "89593",
+     "name": "Craniata"
+    },
+    {
+     "depth": 10,
+     "id": "7742",
+     "name": "Vertebrata"
+    },
+    {
+     "depth": 10,
+     "id": "7742",
+     "name": "vertebrates"
+    },
+    {
+     "depth": 11,
+     "id": "7776",
+     "name": "Gnathostomata"
+    },
+    {
+     "depth": 11,
+     "id": "7776",
+     "name": "jawed vertebrates"
+    },
+    {
+     "depth": 12,
+     "id": "117570",
+     "name": "Teleostomi"
+    },
+    {
+     "depth": 13,
+     "id": "117571",
+     "name": "Euteleostomi"
+    },
+    {
+     "depth": 13,
+     "id": "117571",
+     "name": "bony vertebrates"
+    },
+    {
+     "depth": 14,
+     "id": "8287",
+     "name": "Sarcopterygii"
+    },
+    {
+     "depth": 15,
+     "id": "1338369",
+     "name": "Dipnotetrapodomorpha"
+    },
+    {
+     "depth": 16,
+     "id": "32523",
+     "name": "Tetrapoda"
+    },
+    {
+     "depth": 16,
+     "id": "32523",
+     "name": "tetrapods"
+    },
+    {
+     "depth": 17,
+     "id": "32524",
+     "name": "Amniota"
+    },
+    {
+     "depth": 17,
+     "id": "32524",
+     "name": "amniotes"
+    },
+    {
+     "depth": 18,
+     "id": "8457",
+     "name": "Sauropsida"
+    },
+    {
+     "depth": 18,
+     "id": "8457",
+     "name": "sauropsids"
+    },
+    {
+     "depth": 19,
+     "id": "32561",
+     "name": "Sauria"
+    },
+    {
+     "depth": 19,
+     "id": "32561",
+     "name": "Diapsida"
+    },
+    {
+     "depth": 19,
+     "id": "32561",
+     "name": "diapsids"
+    },
+    {
+     "depth": 20,
+     "id": "1329799",
+     "name": "Archelosauria"
+    },
+    {
+     "depth": 20,
+     "id": "1329799",
+     "name": "Archosauria-Testudines"
+    },
+    {
+     "depth": 20,
+     "id": "1329799",
+     "name": "Testudines + Archosauria group"
+    },
+    {
+     "depth": 21,
+     "id": "8492",
+     "name": "Archosauria"
+    },
+    {
+     "depth": 22,
+     "id": "436486",
+     "name": "Dinosauria"
+    },
+    {
+     "depth": 22,
+     "id": "436486",
+     "name": "dinosaurs"
+    },
+    {
+     "depth": 23,
+     "id": "436489",
+     "name": "Saurischia"
+    },
+    {
+     "depth": 24,
+     "id": "436491",
+     "name": "Theropoda"
+    },
+    {
+     "depth": 25,
+     "id": "436492",
+     "name": "Coelurosauria"
+    },
+    {
+     "depth": 26,
+     "id": "8782",
+     "name": "Aves"
+    },
+    {
+     "depth": 26,
+     "id": "8782",
+     "name": "avian"
+    },
+    {
+     "depth": 26,
+     "id": "8782",
+     "name": "birds"
+    },
+    {
+     "depth": 27,
+     "id": "8825",
+     "name": "Neognathae"
+    },
+    {
+     "depth": 28,
+     "id": "1549675",
+     "name": "Galloanserae"
+    },
+    {
+     "depth": 28,
+     "id": "1549675",
+     "name": "Galloanseri"
+    },
+    {
+     "depth": 28,
+     "id": "1549675",
+     "name": "ducks, geese, chickens, fowl, quail, currasows and allies"
+    },
+    {
+     "depth": 29,
+     "id": "8976",
+     "name": "Galliformes"
+    },
+    {
+     "depth": 29,
+     "id": "8976",
+     "name": "landfowls"
+    },
+    {
+     "depth": 30,
+     "id": "9005",
+     "name": "Phasianidae"
+    },
+    {
+     "depth": 30,
+     "id": "9005",
+     "name": "turkeys"
+    },
+    {
+     "depth": 31,
+     "id": "9072",
+     "name": "Phasianinae"
+    },
+    {
+     "depth": 32,
+     "id": "9030",
+     "name": "Gallus"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "Gallus gallus"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "Gallus domesticus"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "Gallus gallus domesticus"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "Phasianus gallus"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "bantam"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "chicken"
+    },
+    {
+     "depth": 33,
+     "id": "9031",
+     "name": "chickens"
+    }
+   ]
+  }
+ ],
+ "rcsb_polymer_entity": {
+  "formula_weight": 26.54,
+  "pdbx_description": "TRIOSE PHOSPHATE ISOMERASE",
+  "pdbx_ec": "5.3.1.1",
+  "pdbx_number_of_molecules": 2,
+  "rcsb_multiple_source_flag": "N",
+  "rcsb_source_part_count": 1,
+  "rcsb_source_taxonomy_count": 1,
+  "src_method": "nat",
+  "rcsb_ec_lineage": [
+   {
+    "depth": 1,
+    "id": "5",
+    "name": "Isomerases"
+   },
+   {
+    "depth": 2,
+    "id": "5.3",
+    "name": "Intramolecular oxidoreductases"
+   },
+   {
+    "depth": 3,
+    "id": "5.3.1",
+    "name": "Interconverting aldoses and ketoses, and related compounds"
+   },
+   {
+    "depth": 4,
+    "id": "5.3.1.1",
+    "name": "triose-phosphate isomerase"
+   },
+   {
+    "depth": 1,
+    "id": "4",
+    "name": "Lyases"
+   },
+   {
+    "depth": 2,
+    "id": "4.2",
+    "name": "Carbon-oxygen lyases"
+   },
+   {
+    "depth": 3,
+    "id": "4.2.3",
+    "name": "Acting on phosphates"
+   },
+   {
+    "depth": 4,
+    "id": "4.2.3.3",
+    "name": "methylglyoxal synthase"
+   }
+  ],
+  "rcsb_macromolecular_names_combined": [
+   {
+    "name": "TRIOSE PHOSPHATE ISOMERASE",
+    "provenance_code": "ECO:0000304",
+    "provenance_source": "PDB Preferred Name"
+   }
+  ],
+  "rcsb_enzyme_class_combined": [
+   {
+    "depth": 4,
+    "ec": "5.3.1.1",
+    "provenance_source": "PDB Primary Data"
+   },
+   {
+    "depth": 4,
+    "ec": "4.2.3.3",
+    "provenance_source": "UniProt"
+   }
+  ],
+  "rcsb_polymer_name_combined": {
+   "names": [
+    "Triosephosphate isomerase"
+   ],
+   "provenance_source": "UniProt Name"
+  }
+ },
+ "rcsb_polymer_entity_container_identifiers": {
+  "asym_ids": [
+   "A",
+   "B"
+  ],
+  "auth_asym_ids": [
+   "A",
+   "B"
+  ],
+  "chem_comp_monomers": [
+   "ALA",
+   "ARG",
+   "ASN",
+   "ASP",
+   "CYS",
+   "GLN",
+   "GLU",
+   "GLY",
+   "HIS",
+   "ILE",
+   "LEU",
+   "LYS",
+   "MET",
+   "PHE",
+   "PRO",
+   "SER",
+   "THR",
+   "TRP",
+   "TYR",
+   "VAL"
+  ],
+  "entity_id": "1",
+  "entry_id": "8TIM",
+  "rcsb_id": "8TIM_1",
+  "uniprot_ids": [
+   "P00940"
+  ],
+  "reference_sequence_identifiers": [
+   {
+    "database_accession": "P00940",
+    "database_name": "UniProt",
+    "entity_sequence_coverage": 1.0,
+    "provenance_source": "SIFTS",
+    "reference_sequence_coverage": 0.9959677419354839
+   }
+  ]
+ }
+}
