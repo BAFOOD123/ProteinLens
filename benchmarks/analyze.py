@@ -253,6 +253,32 @@ def main() -> None:
         ]
     ].to_csv(res_dir / "failures.csv", index=False)
     summary["n_structure_fold_errors"] = int(len(fails))
+    sf_fails = per_query[per_query["struct_pred_sf"] != per_query["superfamily"]].copy()
+    sf_fails["nn_superfamily"] = sf_fails["struct_pred_sf"]
+    sf_fails["seq_correct_sf"] = sf_fails["seq_pred_sf"] == sf_fails["superfamily"]
+    sf_fails.sort_values("struct_nn_tm", ascending=False)[
+        [
+            "domain",
+            "length",
+            "fold",
+            "superfamily",
+            "struct_nn",
+            "nn_superfamily",
+            "struct_nn_tm",
+            "max_seq_id_same_sf",
+            "seq_correct_sf",
+        ]
+    ].to_csv(res_dir / "superfamily_failures.csv", index=False)
+    summary["n_structure_superfamily_errors"] = int(len(sf_fails))
+    # Leave-one-out majority is always wrong when classes are (nearly) balanced: removing the
+    # query makes its own class smaller than the others. The share of the largest class is
+    # the more intuitive "chance" reference, so report it too.
+    summary["largest_class_fraction"] = {
+        "fold": round(float(pd.Series(fold).value_counts().iloc[0] / n), 4),
+        "superfamily": round(float(pd.Series(sf).value_counts().iloc[0] / n), 4),
+    }
+    high_id = np.triu(seq_id, 1) >= 0.4
+    summary["pairs_with_seq_id_ge_40pct"] = int(high_id.sum())
 
     # Accuracy vs sequence identity (queries that have a same-superfamily partner).
     bins = [0, 0.15, 0.20, 0.25, 0.30, 1.01]
@@ -303,23 +329,24 @@ def main() -> None:
                 accs,
                 0.24,
                 color=col,
-                label=m,
+                label="majority (leave-one-out)" if m == "majority" else m,
                 yerr=err,
                 capsize=3,
                 ecolor=MUTED,
             )
-            for xi, a in zip(x + (k - 1) * 0.26, accs, strict=True):
-                ax.text(xi, a + 0.03, f"{a:.2f}", ha="center", fontsize=8, color=INK)
+            for xi, a, c in zip(x + (k - 1) * 0.26, accs, cis, strict=True):
+                ax.text(xi, c[1] + 0.02, f"{100 * a:.1f}%", ha="center", fontsize=7, color=INK)
         n_q = block["structure"]["fold"]["n"]
         ax.set_title(f"{title} (n={n_q})")
         ax.set_xticks(x, ["Fold (CATH topology)", "Superfamily"])
-        ax.set_ylim(0, 1.1)
+        ax.set_ylim(0, 1.12)
         style_axes(ax)
     axes[0].set_ylabel("Leave-one-out 1-NN accuracy")
-    axes[0].legend(frameon=False, loc="upper right", fontsize=8)
+    handles, labs = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labs, frameon=False, loc="lower center", ncol=3, fontsize=8)
     fig.suptitle("Fold classification accuracy with 95% bootstrap CIs", fontsize=11)
-    fig.tight_layout()
-    fig.savefig(fig_dir / "accuracy.png", dpi=150)
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
+    fig.savefig(fig_dir / "accuracy.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
     # 2. accuracy vs sequence identity
@@ -335,7 +362,7 @@ def main() -> None:
     ax.set_title("Structure keeps working where sequence similarity fades")
     style_axes(ax)
     fig.tight_layout()
-    fig.savefig(fig_dir / "accuracy_vs_identity.png", dpi=150)
+    fig.savefig(fig_dir / "accuracy_vs_identity.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
     # 3. confusion matrix (fold level, structure)
@@ -367,7 +394,7 @@ def main() -> None:
     ax.set_ylabel("True fold (CATH)")
     ax.set_title("Fold confusion matrix (counts; color = row fraction)")
     fig.tight_layout()
-    fig.savefig(fig_dir / "confusion_matrix.png", dpi=150)
+    fig.savefig(fig_dir / "confusion_matrix.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
     # 4. TM-score distributions by relationship
@@ -396,7 +423,7 @@ def main() -> None:
     ax.legend(frameon=False, fontsize=8)
     style_axes(ax)
     fig.tight_layout()
-    fig.savefig(fig_dir / "tm_distributions.png", dpi=150)
+    fig.savefig(fig_dir / "tm_distributions.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
     for m in ("structure", "sequence", "majority"):

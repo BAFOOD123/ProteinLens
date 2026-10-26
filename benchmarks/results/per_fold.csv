@@ -1,0 +1,21 @@
+fold,fold_name,n,structure_acc,sequence_acc
+1.10.1200,Non-ribosomal Peptide Synthetase Peptidyl Carrier Protein; Chain A,15,1.0,0.9333
+1.10.390,Neutral Protease; domain 2,14,1.0,0.9286
+1.10.490,Globin-like,15,1.0,0.9333
+1.10.730,Isoleucyl-tRNA Synthetase; Domain 1,15,1.0,1.0
+1.20.1250,Growth Hormone; Chain: A;,15,1.0,0.4667
+1.50.10,Glycosyltransferase,11,1.0,1.0
+2.100.10,"Vitelline Membrane Outer Layer Protein I, subunit A",15,1.0,1.0
+2.40.100,Cyclophilin,15,1.0,0.8
+2.40.40,Barwin-like endoglucanases,15,1.0,0.8667
+2.40.50,"OB fold (Dihydrolipoamide Acetyltransferase, E2P)",15,1.0,0.6667
+2.60.220,"Chondroitinase Ac; Chain A, domain 3",14,1.0,0.7857
+2.60.40,Immunoglobulin-like,13,1.0,0.6154
+3.10.20,Ubiquitin-like (UB roll),15,1.0,0.7333
+3.20.20,TIM Barrel,15,1.0,1.0
+3.30.1360,Gyrase A; domain 2,15,1.0,0.9333
+3.30.360,Dihydrodipicolinate Reductase; domain 2,15,0.9333,0.6
+3.30.460,Beta Polymerase; domain 2,15,1.0,0.5333
+3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",15,1.0,0.8667
+3.40.50,Rossmann fold,15,1.0,0.7333
+3.40.91,Restriction Endonuclease,11,1.0,0.8182
