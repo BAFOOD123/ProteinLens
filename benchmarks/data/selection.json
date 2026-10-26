@@ -1,0 +1,47 @@
+{
+  "cath_release_url": "https://download.cathdb.info/cath/releases/latest-release",
+  "cath_domain_version": "v4_4_0",
+  "seed": 42,
+  "max_resolution": 2.5,
+  "min_length": 50,
+  "max_length": 300,
+  "classes": [
+    1,
+    2,
+    3
+  ],
+  "min_domains_per_fold": 10,
+  "min_superfamilies_with_2": 2,
+  "anchor_folds": [
+    "1.10.490",
+    "3.10.20",
+    "3.20.20",
+    "2.60.40",
+    "3.40.50"
+  ],
+  "random_folds_per_class": 5,
+  "superfamilies_per_fold": 4,
+  "domains_per_fold": 15,
+  "folds": [
+    "1.10.490",
+    "3.10.20",
+    "3.20.20",
+    "2.60.40",
+    "3.40.50",
+    "1.10.1200",
+    "1.10.390",
+    "1.10.730",
+    "1.20.1250",
+    "1.50.10",
+    "2.100.10",
+    "2.40.100",
+    "2.40.40",
+    "2.40.50",
+    "2.60.220",
+    "3.30.1360",
+    "3.30.360",
+    "3.30.460",
+    "3.30.530",
+    "3.40.91"
+  ]
+}

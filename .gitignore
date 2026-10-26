@@ -10,3 +10,4 @@ data/benchmark/
 benchmarks/logs/
 *.log
 .DS_Store
+benchmarks/smoke/
