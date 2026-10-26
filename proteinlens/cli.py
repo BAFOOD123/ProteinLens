@@ -11,7 +11,11 @@ import typer
 
 from proteinlens.align import SAME_FOLD_TM
 from proteinlens.align import compare as compare_structures
+from proteinlens.classify import classify as classify_structure
+from proteinlens.classify import load_reference
 from proteinlens.data import ProteinLensError, Structure, load_structure
+from proteinlens.llm import get_client
+from proteinlens.report import build_facts, generate_report
 
 app = typer.Typer(
     add_completion=False, help="ProteinLens: compare and classify protein structures."
@@ -90,6 +94,54 @@ def compare(
     typer.echo(r.aligned_seq_a)
     typer.echo(r.match_line)
     typer.echo(r.aligned_seq_b)
+
+
+@app.command()
+def classify(
+    identifier: str = typer.Argument(..., help="Structure to classify"),
+    chain: str = typer.Option(None, help="Chain ID"),
+    range_: str = typer.Option(None, "--range", help="Residue range, e.g. 10-120"),
+    top: int = typer.Option(5, help="Number of hits to show"),
+    workers: int = typer.Option(4, help="Parallel processes"),
+) -> None:
+    """Find the most similar CATH reference domains (and so the likely fold)."""
+    s = _load(identifier, chain, range_)
+    hits = classify_structure(s, top_k=top, workers=workers)
+    typer.echo(f"{s.name} ({len(s)} residues) vs {len(load_reference())} CATH reference domains")
+    typer.echo(f"{'TM(query)':>9} {'TM(ref)':>8} {'RMSD':>6}  {'domain':8} {'fold':10} name")
+    for h in hits:
+        typer.echo(
+            f"{h.tm_query:9.3f} {h.tm_reference:8.3f} {h.rmsd:6.2f}  {h.domain:8} {h.fold:10} "
+            f"{h.fold_name}"
+        )
+    best = hits[0]
+    note = "" if best.tm_query > SAME_FOLD_TM else "  (low confidence: top TM-score <= 0.5)"
+    typer.echo(f"Predicted fold: {best.fold} {best.fold_name}{note}")
+
+
+@app.command()
+def report(
+    a: str = typer.Argument(..., help="First structure"),
+    b: str = typer.Argument(..., help="Second structure"),
+    chain_a: str = typer.Option(None, help="Chain of A"),
+    chain_b: str = typer.Option(None, help="Chain of B"),
+    with_folds: bool = typer.Option(True, help="Also find the nearest CATH folds"),
+    show_facts: bool = typer.Option(False, help="Print the facts JSON too"),
+) -> None:
+    """Write a plain-English comparison that is checked against the computed numbers."""
+    sa, sb = _load(a, chain_a, None), _load(b, chain_b, None)
+    r = compare_structures(sa, sb)
+    hits_a = classify_structure(sa, top_k=3, workers=4) if with_folds else None
+    hits_b = classify_structure(sb, top_k=3, workers=4) if with_folds else None
+    facts = build_facts(sa, sb, r, hits_a, hits_b)
+    out = generate_report(facts, get_client())
+    if show_facts:
+        typer.echo(json.dumps(facts, indent=2))
+    typer.echo(out.text)
+    mark = "✓ verified against computed data" if out.verified else "✗ NOT verified"
+    typer.echo(f"\n[{mark}; source: {out.source}; LLM attempts: {out.attempts}]")
+    if out.note:
+        typer.echo(f"[note: {out.note}]")
 
 
 @app.command()
