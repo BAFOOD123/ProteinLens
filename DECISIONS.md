@@ -26,3 +26,5 @@ One line each: decision — reason.
 - **tmtools is GPL-3.0; ProteinLens code stays MIT** — tmtools is a pip dependency, not redistributed; this is stated in README and CITATIONS.
 - **App seeds its cache from the bundled fixtures** — the four example pairs work offline and on first load.
 - **LLM experiment pairs exclude nearest-fold hits from the grounded facts** — those domains are in the reference set, so a fold lookup would leak the answer.
+- **Extension: a harder second benchmark (600 domains / 120 random folds / 5 per fold, seed 2026)** — the main set gives every query 10–14 fold-mates; this tests the few-examples case. Design committed before running.
+- **Abstention at TM 0.5 reported for both sets** — threshold from the literature (Xu & Zhang 2010), not tuned; shows how often 1-NN can answer confidently.

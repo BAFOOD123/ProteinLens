@@ -81,15 +81,17 @@ def style_axes(ax) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--set", choices=["main", "hard"], default="main", help="benchmark set")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
-    res_dir = REPO / "benchmarks" / ("smoke" if args.smoke else "results")
-    fig_dir = res_dir if args.smoke else REPO / "benchmarks" / "figures"
+    suffix = "" if args.set == "main" else f"_{args.set}"
+    res_dir = REPO / "benchmarks" / ("smoke" if args.smoke else f"results{suffix}")
+    fig_dir = res_dir if args.smoke else REPO / "benchmarks" / f"figures{suffix}"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     pw = np.load(res_dir / "pairwise.npz")
     names = [str(x) for x in pw["domain"]]
-    table = pd.read_csv(REPO / "benchmarks" / "data" / "dataset.csv").set_index("domain")
+    table = pd.read_csv(REPO / "benchmarks" / f"data{suffix}" / "dataset.csv").set_index("domain")
     table = table.loc[names].reset_index()
     fold = table["fold"].to_numpy()
     sf = table["superfamily"].to_numpy()
@@ -277,6 +279,28 @@ def main() -> None:
         "fold": round(float(pd.Series(fold).value_counts().iloc[0] / n), 4),
         "superfamily": round(float(pd.Series(sf).value_counts().iloc[0] / n), 4),
     }
+    # Superfamily accuracy counted only over queries that have a same-superfamily partner in
+    # the set (a query whose superfamily is unique here can never be classified correctly).
+    summary["queries_with_superfamily_partner"] = {
+        "n": int(has_sf_partner.sum()),
+        **{
+            m: acc_entry(correct[m]["superfamily"][has_sf_partner], rng)
+            for m in ("structure", "sequence")
+        },
+    }
+    # Abstention at the literature threshold (pre-specified, not tuned): answer only when the
+    # nearest neighbour's TM-score is above 0.5.
+    top_tm = tm[np.arange(n), nn_struct]
+    confident = top_tm > 0.5
+    summary["abstain_below_tm_0_5"] = {
+        "coverage": round(float(confident.mean()), 4),
+        "n_answered": int(confident.sum()),
+        "fold_accuracy_answered": acc_entry(correct["structure"]["fold"][confident], rng),
+        "fold_accuracy_abstained": acc_entry(correct["structure"]["fold"][~confident], rng),
+        "superfamily_accuracy_answered": acc_entry(
+            correct["structure"]["superfamily"][confident], rng
+        ),
+    }
     high_id = np.triu(seq_id, 1) >= 0.4
     summary["pairs_with_seq_id_ge_40pct"] = int(high_id.sum())
 
@@ -365,37 +389,38 @@ def main() -> None:
     fig.savefig(fig_dir / "accuracy_vs_identity.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
-    # 3. confusion matrix (fold level, structure)
-    folds_sorted = sorted(set(fold))
-    k = len(folds_sorted)
-    pos = {f: i for i, f in enumerate(folds_sorted)}
-    cm = np.zeros((k, k), dtype=int)
-    for t, p in zip(fold, pred["structure"]["fold"], strict=True):
-        cm[pos[t], pos[p]] += 1
-    fig, ax = plt.subplots(figsize=(8.5, 7.5))
-    ax.imshow(cm / cm.sum(axis=1, keepdims=True), cmap="Blues", vmin=0, vmax=1)
-    short = [f"{f} {fold_names[f][:28]}" for f in folds_sorted]
-    ax.set_xticks(range(k), folds_sorted, rotation=90, fontsize=7)
-    ax.set_yticks(range(k), short, fontsize=7)
-    for i in range(k):
-        for j in range(k):
-            if cm[i, j]:
-                frac = cm[i, j] / cm[i].sum()
-                ax.text(
-                    j,
-                    i,
-                    cm[i, j],
-                    ha="center",
-                    va="center",
-                    fontsize=7,
-                    color="white" if frac > 0.6 else INK,
-                )
-    ax.set_xlabel("Predicted fold (structure 1-NN)")
-    ax.set_ylabel("True fold (CATH)")
-    ax.set_title("Fold confusion matrix (counts; color = row fraction)")
-    fig.tight_layout()
-    fig.savefig(fig_dir / "confusion_matrix.png", dpi=150, bbox_inches="tight")
-    plt.close(fig)
+    # 3. confusion matrix (fold level, structure); unreadable for many folds, so skipped then
+    if len(set(fold)) <= 30:
+        folds_sorted = sorted(set(fold))
+        k = len(folds_sorted)
+        pos = {f: i for i, f in enumerate(folds_sorted)}
+        cm = np.zeros((k, k), dtype=int)
+        for t, p in zip(fold, pred["structure"]["fold"], strict=True):
+            cm[pos[t], pos[p]] += 1
+        fig, ax = plt.subplots(figsize=(8.5, 7.5))
+        ax.imshow(cm / cm.sum(axis=1, keepdims=True), cmap="Blues", vmin=0, vmax=1)
+        short = [f"{f} {fold_names[f][:28]}" for f in folds_sorted]
+        ax.set_xticks(range(k), folds_sorted, rotation=90, fontsize=7)
+        ax.set_yticks(range(k), short, fontsize=7)
+        for i in range(k):
+            for j in range(k):
+                if cm[i, j]:
+                    frac = cm[i, j] / cm[i].sum()
+                    ax.text(
+                        j,
+                        i,
+                        cm[i, j],
+                        ha="center",
+                        va="center",
+                        fontsize=7,
+                        color="white" if frac > 0.6 else INK,
+                    )
+        ax.set_xlabel("Predicted fold (structure 1-NN)")
+        ax.set_ylabel("True fold (CATH)")
+        ax.set_title("Fold confusion matrix (counts; color = row fraction)")
+        fig.tight_layout()
+        fig.savefig(fig_dir / "confusion_matrix.png", dpi=150, bbox_inches="tight")
+        plt.close(fig)
 
     # 4. TM-score distributions by relationship
     fig, ax = plt.subplots(figsize=(6.4, 3.8))

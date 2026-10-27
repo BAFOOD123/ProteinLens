@@ -2,7 +2,7 @@
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 
-.PHONY: setup test test-all lint format dataset benchmark benchmark-smoke eval-llm app clean
+.PHONY: setup test test-all lint format dataset benchmark benchmark-smoke benchmark-hard eval-llm app clean
 
 setup:            ## Create .venv and install pinned dependencies + the package
 	python3 -m venv .venv
@@ -34,6 +34,11 @@ benchmark: dataset ## Full benchmark: all-vs-all TM-align + sequence baseline + 
 benchmark-smoke:  ## Quick end-to-end check on a 40-domain subset (writes to benchmarks/smoke/)
 	$(PY) benchmarks/run_benchmark.py --smoke
 	$(PY) benchmarks/analyze.py --smoke
+
+benchmark-hard:   ## Harder second benchmark: 600 domains / 120 folds (resumable; re-run if it stops)
+	$(PY) benchmarks/build_dataset.py --set hard
+	$(PY) benchmarks/run_benchmark.py --set hard
+	$(PY) benchmarks/analyze.py --set hard
 
 eval-llm:         ## Grounded vs ungrounded LLM experiment (needs ANTHROPIC_API_KEY)
 	$(PY) benchmarks/llm_experiment.py

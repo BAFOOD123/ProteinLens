@@ -215,6 +215,58 @@
     "fold": 0.0521,
     "superfamily": 0.0451
   },
+  "queries_with_superfamily_partner": {
+    "n": 288,
+    "structure": {
+      "accuracy": 0.9583,
+      "ci95": [
+        0.934,
+        0.9792
+      ],
+      "n_correct": 276,
+      "n": 288
+    },
+    "sequence": {
+      "accuracy": 0.7812,
+      "ci95": [
+        0.7326,
+        0.8299
+      ],
+      "n_correct": 225,
+      "n": 288
+    }
+  },
+  "abstain_below_tm_0_5": {
+    "coverage": 0.9826,
+    "n_answered": 283,
+    "fold_accuracy_answered": {
+      "accuracy": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "n_correct": 283,
+      "n": 283
+    },
+    "fold_accuracy_abstained": {
+      "accuracy": 0.8,
+      "ci95": [
+        0.4,
+        1.0
+      ],
+      "n_correct": 4,
+      "n": 5
+    },
+    "superfamily_accuracy_answered": {
+      "accuracy": 0.9647,
+      "ci95": [
+        0.9435,
+        0.9859
+      ],
+      "n_correct": 273,
+      "n": 283
+    }
+  },
   "pairs_with_seq_id_ge_40pct": 9,
   "accuracy_vs_identity_superfamily": [
     {

@@ -7,6 +7,7 @@ Everything here is produced by the scripts in this folder; nothing is typed in b
 | `make dataset` (`build_dataset.py`) | builds the CATH benchmark set | ~1 min first time, seconds when cached |
 | `make benchmark` | dataset + all-vs-all alignment (`run_benchmark.py`) + analysis (`analyze.py`) | ~8 min |
 | `make benchmark-smoke` | the same on a 40-domain subset → `benchmarks/smoke/` | ~10 s |
+| `make benchmark-hard` | the harder second benchmark (below) → `results_hard/`, `figures_hard/` | ~30 min |
 | `make eval-llm` (`llm_experiment.py`) | grounded vs ungrounded LLM experiment (needs an API key) | see `results/llm_experiment/` |
 
 `run_benchmark.py` is resumable: finished chunks are saved under `data/cache/benchmark_chunks/`,
@@ -81,3 +82,28 @@ classification and the app work without re-downloading anything.
 * `results/pairwise.npz` — the full 288 × 288 matrices (TM-score, RMSD, sequence scores)
 * `figures/accuracy.png`, `figures/accuracy_vs_identity.png`, `figures/confusion_matrix.png`,
   `figures/tm_distributions.png`
+
+## Second benchmark: the "hard" set (pre-specified before running)
+
+The main set is easy in one important way: every query has 10–14 members of its own fold to match.
+The hard set tests the realistic case of **many folds with few known examples each**. Its design
+and analysis were written down and committed before any of its results were computed.
+
+* Same quality filters as the main set (S40, X-ray ≤ 2.5 Å, 50–300 residues, classes 1–3).
+* Eligible fold: ≥ 5 such domains (430 folds). **120 folds** drawn uniformly at random with seed
+  **2026** (no anchor folds, no superfamily requirement).
+* **5 domains per fold**, drawn uniformly at random within the fold (no superfamily balancing).
+* Result: **600 domains, 120 folds (27 / 25 / 68 in classes 1 / 2 / 3), 236 superfamilies**, of which
+  107 have a single member; 6 folds also occur in the main set. Each query has only 4 fold-mates.
+* Same methods, same primary metric, same bootstrap, same remote-homolog definition as the main set.
+* Superfamily accuracy is reported over all queries and over the queries that have at least one
+  same-superfamily partner (a singleton superfamily can never be predicted correctly).
+* Expected difficulty (stated in advance): fold accuracy below the main set's, because there are
+  6× more classes and far fewer examples per class.
+
+## Abstention analysis (both sets, pre-specified)
+
+1-NN always answers, even when nothing in the reference set resembles the query. Using the
+literature threshold (TM-score > 0.5 usually means the same fold; not tuned on these data), we also
+report the **coverage** (fraction of queries whose best match has TM > 0.5) and the accuracy on the
+answered and abstained queries (`summary.json` → `abstain_below_tm_0_5`).

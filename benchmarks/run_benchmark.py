@@ -41,10 +41,14 @@ def smoke_indices(table) -> list[int]:
     return [int(i) for i in table.groupby("fold", sort=False).head(2).index]
 
 
-def row_job(args: tuple[int, list[int]]) -> tuple[int, np.ndarray]:
+DATA_DIRS = {"main": "data", "hard": "data_hard"}
+RESULT_DIRS = {"main": "results", "hard": "results_hard"}
+
+
+def row_job(args: tuple[int, list[int], str]) -> tuple[int, np.ndarray]:
     """Compare query i against every j in ``cols`` (all j > i). Runs in a worker process."""
-    i, cols = args
-    ref = load_reference()
+    i, cols, data_dir = args
+    ref = load_reference(data_dir)
     a = ref.structures[i]
     out = np.zeros((len(cols), len(FIELDS)))
     for k, j in enumerate(cols):
@@ -65,20 +69,22 @@ def row_job(args: tuple[int, list[int]]) -> tuple[int, np.ndarray]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--set", choices=sorted(DATA_DIRS), default="main", help="benchmark set")
     ap.add_argument("--smoke", action="store_true", help="40-domain subset")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--max-minutes", type=float, default=25.0)
     ap.add_argument("--chunk-rows", type=int, default=20)
     args = ap.parse_args()
 
-    ref = load_reference()
+    data_dir = str(REPO / "benchmarks" / DATA_DIRS[args.set])
+    ref = load_reference(data_dir)
     idx = smoke_indices(ref.table) if args.smoke else list(range(len(ref)))
     names = [ref.structures[i].name for i in idx]
     n = len(idx)
     tag = hashlib.sha1(",".join(names).encode()).hexdigest()[:10]
     chunk_dir = cache_dir() / "benchmark_chunks" / f"{'smoke' if args.smoke else 'full'}_{tag}"
     chunk_dir.mkdir(parents=True, exist_ok=True)
-    out_dir = REPO / "benchmarks" / ("smoke" if args.smoke else "results")
+    out_dir = REPO / "benchmarks" / ("smoke" if args.smoke else RESULT_DIRS[args.set])
     out_dir.mkdir(parents=True, exist_ok=True)
 
     chunks = [list(range(s, min(s + args.chunk_rows, n))) for s in range(0, n, args.chunk_rows)]
@@ -93,7 +99,7 @@ def main() -> int:
             if (time.time() - t0) / 60 > args.max_minutes:
                 print("Time limit reached; run again to resume.", flush=True)
                 return 3
-            jobs = [(idx[r], [idx[j] for j in range(r + 1, n)]) for r in rows]
+            jobs = [(idx[r], [idx[j] for j in range(r + 1, n)], data_dir) for r in rows]
             results = dict(pool.map(row_job, jobs))
             data = {f"row_{r}": results[idx[r]] for r in rows}
             tmp = path.with_suffix(".tmp.npz")

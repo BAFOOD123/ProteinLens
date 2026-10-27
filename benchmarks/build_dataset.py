@@ -24,6 +24,7 @@ benchmarks/data/selection.json. Coordinates are cached in data/cache/cath/ (giti
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -44,7 +45,8 @@ from proteinlens.data import (  # noqa: E402
 )
 
 CATH_RELEASE = "https://download.cathdb.info/cath/releases/latest-release"
-CONFIG = {
+MAIN_CONFIG = {
+    "name": "main",
     "cath_release_url": CATH_RELEASE,
     "cath_domain_version": "v4_4_0",
     "seed": 42,
@@ -59,7 +61,21 @@ CONFIG = {
     "superfamilies_per_fold": 4,
     "domains_per_fold": 15,
 }
-OUT = REPO / "benchmarks" / "data"
+# A harder, pre-specified second benchmark: many folds, few examples each. Same quality filters.
+HARD_CONFIG = {
+    **MAIN_CONFIG,
+    "name": "hard",
+    "seed": 2026,
+    "min_domains_per_fold": 5,
+    "min_superfamilies_with_2": 0,
+    "anchor_folds": [],
+    "n_random_folds": 120,  # drawn uniformly from all eligible folds (any class 1-3)
+    "superfamilies_per_fold": None,  # None = domains drawn uniformly at random within the fold
+    "domains_per_fold": 5,
+}
+CONFIGS = {"main": MAIN_CONFIG, "hard": HARD_CONFIG}
+CONFIG = MAIN_CONFIG  # replaced in main() according to --set
+DATA_DIRS = {"main": "data", "hard": "data_hard"}
 
 
 def download_cath_files() -> dict[str, Path]:
@@ -111,6 +127,8 @@ def choose_folds(d: pd.DataFrame, rng: np.random.Generator) -> list[str]:
     )
     for f in CONFIG["anchor_folds"]:
         assert f in eligible, f"anchor fold {f} is not eligible"
+    if CONFIG.get("n_random_folds"):
+        return sorted(rng.choice(eligible, CONFIG["n_random_folds"], replace=False))
     folds = list(CONFIG["anchor_folds"])
     for cls in CONFIG["classes"]:
         pool = [f for f in eligible if f.startswith(f"{cls}.") and f not in folds]
@@ -121,6 +139,8 @@ def choose_folds(d: pd.DataFrame, rng: np.random.Generator) -> list[str]:
 def candidate_order(d: pd.DataFrame, fold: str, rng: np.random.Generator) -> list[str]:
     """Round-robin order of candidate domains across up to N random superfamilies."""
     sub = d[d["fold"] == fold]
+    if CONFIG["superfamilies_per_fold"] is None:
+        return [str(x) for x in rng.permutation(sub["domain"].to_numpy())]
     sizes = sub.groupby("superfamily").size()
     sfs = sorted(sizes[sizes >= 2].index)
     k = min(CONFIG["superfamilies_per_fold"], len(sfs))
@@ -158,6 +178,11 @@ def fetch_fold(fold: str, candidates: list[str]) -> list[dict]:
 
 
 def main() -> None:
+    global CONFIG
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--set", choices=sorted(CONFIGS), default="main", help="which benchmark set")
+    CONFIG = CONFIGS[ap.parse_args().set]
+    OUT = REPO / "benchmarks" / DATA_DIRS[CONFIG["name"]]
     OUT.mkdir(parents=True, exist_ok=True)
     print("Downloading CATH classification files (cached after the first run)...", flush=True)
     files = download_cath_files()
@@ -205,7 +230,9 @@ def main() -> None:
         offsets=offsets,
         ca=np.concatenate(coords).astype(np.float32),
     )
-    (OUT / "selection.json").write_text(json.dumps({**CONFIG, "folds": folds}, indent=2))
+    (OUT / "selection.json").write_text(
+        json.dumps({**{k: v for k, v in CONFIG.items() if k != "name"}, "folds": folds}, indent=2)
+    )
     print(
         f"Wrote {len(df)} domains, {df['fold'].nunique()} folds, "
         f"{df['superfamily'].nunique()} superfamilies to {OUT}",
