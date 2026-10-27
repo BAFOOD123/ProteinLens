@@ -7,8 +7,13 @@ offline.
 
 Method (1-nearest-neighbour, "1-NN"): align the query against every reference
 domain with TM-align and predict the fold and superfamily of the reference
-domain with the highest TM-score, normalized by the *query's* length (so the
-score answers "how much of my protein is covered by this reference?").
+domain with the highest score. Two scores are available:
+
+* ``"query"``: TM-score normalized by the query's length ("how much of my protein is
+  covered?"). This was the pre-specified score for the first two benchmarks.
+* ``"coverage"``: the smaller of the two TM-scores (normalized by the longer protein), so
+  a match has to cover *both* proteins. It was chosen on the development sets and checked
+  on a held-out test set (see benchmarks/README.md).
 """
 
 from __future__ import annotations
@@ -70,6 +75,10 @@ def load_reference(data_dir: str | None = None) -> ReferenceSet:
     return ReferenceSet(table=table, structures=structs)
 
 
+SCORES = ("query", "coverage")
+DEFAULT_SCORE = "query"
+
+
 @dataclass
 class Hit:
     domain: str
@@ -84,6 +93,11 @@ class Hit:
     seq_identity: float
 
 
+def hit_score(h: Hit, score: str = DEFAULT_SCORE) -> float:
+    """The number a hit is ranked by."""
+    return h.tm_query if score == "query" else min(h.tm_query, h.tm_reference)
+
+
 def _score_one(args: tuple[Structure, Structure]) -> tuple[float, float, float, int, float]:
     q, ref = args
     r = compare(q, ref)
@@ -96,8 +110,15 @@ def classify(
     top_k: int = 5,
     exclude: set[str] | None = None,
     workers: int = 1,
+    score: str | None = None,
 ) -> list[Hit]:
-    """Return the ``top_k`` most similar reference domains, best first."""
+    """Return the ``top_k`` most similar reference domains, best first.
+
+    ``score`` is "query" or "coverage" (see the module docstring); default DEFAULT_SCORE.
+    """
+    score = score or DEFAULT_SCORE
+    if score not in SCORES:
+        raise ValueError(f"score must be one of {SCORES}, not {score!r}")
     ref = reference or load_reference()
     keep = [i for i, s in enumerate(ref.structures) if not exclude or s.name not in exclude]
     jobs = [(query, ref.structures[i]) for i in keep]
@@ -125,7 +146,7 @@ def classify(
                 seq_identity=round(sid, 4),
             )
         )
-    hits.sort(key=lambda h: h.tm_query, reverse=True)
+    hits.sort(key=lambda h: hit_score(h, score), reverse=True)
     return hits[:top_k]
 
 

@@ -39,3 +39,21 @@ def test_classify_can_exclude_domains():
     q = ref.structures[0]
     hits = classify(q, ref, top_k=1, exclude={q.name})
     assert hits[0].domain != q.name
+
+
+def test_coverage_score_ranks_by_smaller_tm(offline_cache):
+    from proteinlens.classify import hit_score
+
+    q = load_structure("1UBQ", with_metadata=False)
+    hits = classify(q, top_k=5, score="coverage")
+    scores = [hit_score(h, "coverage") for h in hits]
+    assert scores == sorted(scores, reverse=True)
+    assert all(hit_score(h, "coverage") == min(h.tm_query, h.tm_reference) for h in hits)
+    assert hits[0].fold == "3.10.20"
+
+
+def test_unknown_score_is_rejected():
+    import pytest
+
+    with pytest.raises(ValueError):
+        classify(load_reference().structures[0], score="bogus")

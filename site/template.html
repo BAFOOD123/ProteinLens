@@ -1,0 +1,642 @@
+<title>ProteinLens</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: one calm reading column (max 1080px), sections stacked; demo and charts get two
+   columns on wide screens and stack on phones. Ribbon colours double as data colours:
+   blue = structure / protein A, orange = sequence / protein B. */
+:root {
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --ink: #14181d;
+  --muted: #586270;
+  --line: #dbe1e7;
+  --grid: #e9edf1;
+  --struct: #2a78d6;
+  --seq: #eb6834;
+  --third: #1baf7a;
+  --neutral: #9a9993;
+  --ok: #1d7f48;
+  --ok-bg: #e5f4ec;
+  --bad: #b8322a;
+  --bad-bg: #fbe9e7;
+  --warn-bg: #fff4dc;
+  --warn: #7a5300;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101317; --surface: #171b20; --ink: #e7eaee; --muted: #a0a9b4; --line: #2a3139;
+    --grid: #232a31; --struct: #3987e5; --seq: #d95926; --third: #199e70; --neutral: #8b8a85;
+    --ok: #4cc283; --ok-bg: #12291d; --bad: #ef7b72; --bad-bg: #2e1715; --warn-bg: #2d2412;
+    --warn: #f0c46a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101317; --surface: #171b20; --ink: #e7eaee; --muted: #a0a9b4; --line: #2a3139;
+  --grid: #232a31; --struct: #3987e5; --seq: #d95926; --third: #199e70; --neutral: #8b8a85;
+  --ok: #4cc283; --ok-bg: #12291d; --bad: #ef7b72; --bad-bg: #2e1715; --warn-bg: #2d2412;
+  --warn: #f0c46a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body);
+  font-size: 16px; line-height: 1.55;
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--struct); }
+code, .mono { font-family: var(--font-mono); font-size: 0.92em; }
+.num { font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+
+/* header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 20px; padding-block: 10px; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.top nav { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.92rem; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover, .top nav a:focus-visible { color: var(--ink); }
+
+section { padding-block: 44px; border-bottom: 1px solid var(--line); }
+section .head { display: grid; gap: 10px; margin-bottom: 24px; }
+
+/* hero */
+.hero { padding-block: 48px 36px; }
+.hero .lede { font-size: 1.15rem; color: var(--muted); margin-top: 12px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 28px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
+.stat .big { font-family: var(--font-display); font-size: 2.1rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .big small { font-size: 1rem; color: var(--muted); font-weight: 500; }
+
+/* controls */
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button {
+  font: inherit; font-size: 0.92rem; padding: 7px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.seg button:focus-visible, .copy:focus-visible { outline: 2px solid var(--struct); outline-offset: 2px; }
+
+/* demo */
+.demo { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; margin-top: 18px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; min-width: 0; }
+#viewer { position: relative; width: 100%; height: 400px; border-radius: 8px; overflow: hidden; background: var(--surface); }
+#viewer .fallback { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px 16px; }
+.metric .v { font-family: var(--font-mono); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.metric .k { font-size: 0.8rem; color: var(--muted); }
+.verdict { margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: var(--bg); font-weight: 500; }
+.report { margin-top: 14px; display: grid; gap: 10px; }
+.badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; width: fit-content; }
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.bad { background: var(--bad-bg); color: var(--bad); }
+mark.n { background: var(--ok-bg); color: var(--ok); border-radius: 4px; padding: 0 3px; font-variant-numeric: tabular-nums; }
+
+/* charts */
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+.chart h3 { margin-bottom: 4px; }
+.chart .sub { font-size: 0.86rem; color: var(--muted); margin-bottom: 8px; }
+svg.c { width: 100%; height: auto; display: block; overflow: visible; }
+svg.c text { fill: var(--muted); font-family: var(--font-body); font-size: 11px; }
+svg.c .lbl { fill: var(--ink); font-size: 11px; font-variant-numeric: tabular-nums; }
+svg.c .gridl { stroke: var(--grid); stroke-width: 1; }
+svg.c .axis { stroke: var(--line); stroke-width: 1; }
+.keys { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+#tip {
+  position: fixed; z-index: 20; pointer-events: none; background: var(--ink); color: var(--bg);
+  font-size: 0.82rem; padding: 6px 9px; border-radius: 6px; max-width: 260px; line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+}
+.callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 20px; }
+.callout { border-left: 3px solid var(--line); padding: 4px 0 4px 14px; display: grid; gap: 4px; }
+.callout b { font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* tables */
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; font-size: 0.82rem; }
+td.r, th.r { text-align: right; }
+.up { color: var(--ok); font-weight: 600; }
+.down { color: var(--bad); font-weight: 600; }
+
+/* checker */
+.checker { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; }
+.issues { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.issues li { display: grid; grid-template-columns: auto 1fr; gap: 10px; font-size: 0.9rem; align-items: baseline; }
+.kind { font-family: var(--font-mono); font-size: 0.75rem; color: var(--bad); background: var(--bad-bg); padding: 1px 6px; border-radius: 4px; }
+.pending { background: var(--warn-bg); color: var(--warn); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 6px; }
+
+/* reproduce */
+pre { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6; margin: 0; }
+.prewrap { position: relative; }
+.copy { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 0.8rem; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.stack { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; max-width: 75ch; }
+footer { padding-block: 28px 48px; color: var(--muted); font-size: 0.86rem; display: grid; gap: 6px; }
+
+@media (max-width: 760px) {
+  .demo { grid-template-columns: 1fr; }
+  #viewer { height: 320px; }
+  section { padding-block: 32px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">ProteinLens</a>
+    <nav aria-label="Sections">
+      <a href="#compare">Compare</a>
+      <a href="#results">Results</a>
+      <a href="#improve">Improving the score</a>
+      <a href="#checker">Checked reports</a>
+      <a href="#method">Method</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <p class="eyebrow">Protein structure · CATH v4.4 · TM-align</p>
+    <h1>ProteinLens</h1>
+    <p class="lede">Compares the 3D shapes of proteins, predicts which fold a protein belongs to, measures how often that prediction is right, and lets an AI describe the result only after every number it writes has been checked.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Try it</p>
+        <h2>Compare two protein structures</h2>
+        <p class="muted">Each pair below was aligned by ProteinLens. Protein A (blue) is rotated onto protein B (orange) with the superposition TM-align found. The report on the right is the template report, checked number by number against the computed values.</p>
+      </div>
+      <div class="seg" id="exbtns" role="group" aria-label="Example pairs"></div>
+      <div class="demo">
+        <div class="panel">
+          <div id="viewer" aria-label="3D superposition of the two structures"><div class="fallback">Loading the 3D viewer…</div></div>
+          <div class="legend" id="vlegend"></div>
+        </div>
+        <div class="panel">
+          <div class="metrics" id="metrics"></div>
+          <div class="verdict" id="verdict"></div>
+          <div class="report" id="report"></div>
+        </div>
+      </div>
+      <div class="panel chart" style="margin-top:20px">
+        <h3>Where the two shapes differ</h3>
+        <p class="sub" id="distsub"></p>
+        <div id="distchart"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Benchmark</p>
+        <h2>How often is the predicted fold right?</h2>
+        <p class="muted">Every domain takes a turn as the unknown query. It gets the fold of its most similar other domain (leave-one-out nearest neighbour), and the answer is compared with CATH. Bars show accuracy; whiskers show 95% bootstrap confidence intervals.</p>
+      </div>
+      <div class="seg" id="setbtns" role="group" aria-label="Benchmark set"></div>
+      <p class="small muted" id="setdesc" style="margin-top:10px"></p>
+      <div class="charts" style="margin-top:18px">
+        <div class="panel chart">
+          <h3>Accuracy by method</h3>
+          <p class="sub">All queries, and remote homologs (relatives with under 25% sequence identity).</p>
+          <div id="barchart"></div>
+          <div class="keys" id="barkeys"></div>
+        </div>
+        <div class="panel chart">
+          <h3>Structure keeps working when sequences stop matching</h3>
+          <p class="sub">Superfamily accuracy, grouped by each query's highest sequence identity to a relative in the set.</p>
+          <div id="idchart"></div>
+          <div class="keys" id="idkeys"></div>
+        </div>
+        <div class="panel chart">
+          <h3>TM-score of every pair</h3>
+          <p class="sub" id="histsub"></p>
+          <div id="histchart"></div>
+          <div class="keys" id="histkeys"></div>
+        </div>
+        <div class="panel chart">
+          <h3>What the numbers mean</h3>
+          <div class="callouts" id="callouts" style="margin-top:6px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="improve">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Getting better without fooling ourselves</p>
+        <h2>Fixing the size bias, tested on held-out data</h2>
+        <p class="muted" id="improvetext"></p>
+      </div>
+      <div class="tbl panel" id="improvetable"></div>
+      <p class="small muted" id="improvefoot" style="margin-top:12px"></p>
+    </div>
+  </section>
+
+  <section id="checker">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Faithfulness checker</p>
+        <h2>An AI may describe the results, but every number is checked</h2>
+        <p class="muted">The checker reads a report and verifies every number, protein ID, CATH code, fold name and same-fold claim against the computed facts. It also rejects claims about biological function, because nothing here computes function. Both examples below were run through the real checker when this page was built.</p>
+      </div>
+      <div class="checker">
+        <div class="panel" id="goodreport"></div>
+        <div class="panel" id="badreport"></div>
+      </div>
+      <div style="margin-top:20px" id="llm"></div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap stack">
+      <div class="head" style="margin:0">
+        <p class="eyebrow">Method and limits</p>
+        <h2>How it works</h2>
+      </div>
+      <div class="charts">
+        <div>
+          <h3 style="margin-bottom:8px">Pipeline</h3>
+          <ul class="plain">
+            <li>Structures come from RCSB PDB, AlphaFold DB or CATH, cleaned to one chain of amino acids.</li>
+            <li>TM-align superimposes the C-alpha atoms. The TM-score runs from 0 to 1; above 0.5 usually means the same fold, and unrelated proteins score about 0.17.</li>
+            <li>Classification copies the fold of the most similar reference domain. The sequence baseline uses Smith-Waterman alignment with BLOSUM62.</li>
+            <li>Benchmarks use CATH's S40 set (no two domains share 40% identity). Confidence intervals come from 2,000 bootstrap resamples.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-bottom:8px">Limitations</h3>
+          <ul class="plain" id="limits"></ul>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom:8px">Reproduce everything</h3>
+        <div class="prewrap">
+          <pre id="cmds">git clone https://github.com/bafood123/proteinlens.git
+cd proteinlens
+make setup && make test       # pinned dependencies, offline tests
+make benchmark                # main set, about 8 minutes on 4 CPUs
+make benchmark-hard           # hard set, about 30 minutes
+make benchmark-test           # held-out test set, about 30 minutes
+make app                      # interactive app at localhost:8501
+python site/build_site.py     # rebuild this page from the result files</pre>
+          <button class="copy" id="copybtn" type="button">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Data: RCSB PDB, AlphaFold DB (CC BY 4.0), CATH v4.4 (CC BY 4.0). Software: TM-align via tmtools (GPL-3.0), Biopython, 3Dmol.js. ProteinLens code is MIT licensed.</p>
+  <p>Built with AI coding assistance. Every number on this page is generated by <code>site/build_site.py</code> from the committed result files.</p>
+</footer>
+<div id="tip" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/3dmol@2.5.5/build/3Dmol-min.js"></script>
+<script>
+const D = /*__DATA__*/null;
+const $ = (id) => document.getElementById(id);
+const pct = (x, d = 1) => (100 * x).toFixed(d) + "%";
+const ci = (e) => `[${(100 * e.ci95[0]).toFixed(1)}, ${(100 * e.ci95[1]).toFixed(1)}]`;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const tip = $("tip");
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.hidden = false;
+  const x = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+  tip.style.left = x + "px"; tip.style.top = (ev.clientY + 14) + "px";
+}
+function hoverable(node, html) {
+  node.addEventListener("mousemove", (ev) => showTip(ev, html));
+  node.addEventListener("mouseleave", () => { tip.hidden = true; });
+  node.style.cursor = "default";
+}
+const setByKey = Object.fromEntries(D.sets.map((s) => [s.key, s]));
+
+/* ---------------- hero stats ---------------- */
+(function stats() {
+  const main = setByKey.main?.summary, hard = setByKey.hard?.summary, test = setByKey.test?.summary;
+  const cards = [];
+  if (main) cards.push({ big: pct(main.all_queries.structure.fold.accuracy), sub: `fold accuracy on the main set (${main.n_domains} domains, ${main.n_folds} folds)`, note: `95% CI ${ci(main.all_queries.structure.fold)}` });
+  const harder = test || hard;
+  if (harder) cards.push({ big: pct(harder.all_queries.structure.fold.accuracy), sub: `fold accuracy on the ${test ? "held-out test" : "hard"} set (${harder.n_folds} folds, 5 domains each)`, note: `sequence alone: ${pct(harder.all_queries.sequence.fold.accuracy)}` });
+  if (main) {
+    const r = main.remote_homologs;
+    cards.push({ big: `${pct(r.structure.superfamily.accuracy, 0)} <small>vs</small> ${pct(r.sequence.superfamily.accuracy, 0)}`, sub: `structure vs sequence on remote homologs (n = ${r.n})`, note: "superfamily accuracy, main set" });
+  }
+  $("stats").innerHTML = cards.map((c) => `<div class="stat"><div class="big">${c.big}</div><div>${c.sub}</div><div class="small muted">${c.note}</div></div>`).join("");
+})();
+
+/* ---------------- compare demo ---------------- */
+let viewer = null;
+function initViewer() {
+  if (viewer || typeof $3Dmol === "undefined") return viewer;
+  $("viewer").innerHTML = "";
+  viewer = $3Dmol.createViewer($("viewer"), { backgroundColor: css("--surface") || "white" });
+  return viewer;
+}
+function drawStructures(ex) {
+  const v = initViewer();
+  if (!v) {
+    $("viewer").innerHTML = '<div class="fallback">The 3D viewer could not load (3Dmol.js from jsDelivr). The numbers and charts on this page do not depend on it.</div>';
+    return;
+  }
+  v.removeAllModels();
+  v.addModel(ex.pdb_a, "pdb");
+  v.addModel(ex.pdb_b, "pdb");
+  v.setStyle({ model: 0 }, { cartoon: { color: css("--struct") } });
+  v.setStyle({ model: 1 }, { cartoon: { color: css("--seq"), opacity: 0.85 } });
+  v.zoomTo(); v.render();
+}
+function distChart(ex) {
+  const W = Math.max(300, $("distchart").clientWidth || 760), H = 210, m = { l: 36, r: 12, t: 10, b: 28 };
+  const ys = ex.distance.filter((d) => d !== null);
+  const ymax = Math.max(4, Math.ceil(Math.max(...ys)));
+  const n = ex.distance.length;
+  const sx = (i) => m.l + (i / Math.max(1, n - 1)) * (W - m.l - m.r);
+  const sy = (y) => H - m.b - (y / ymax) * (H - m.t - m.b);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "c", role: "img", "aria-label": "Distance per residue after superposition" });
+  const step = ymax <= 6 ? 1 : ymax <= 12 ? 2 : 5;
+  for (let y = 0; y <= ymax; y += step) {
+    el("line", { x1: m.l, x2: W - m.r, y1: sy(y), y2: sy(y), class: "gridl" }, svg);
+    el("text", { x: m.l - 6, y: sy(y) + 4, "text-anchor": "end" }, svg).textContent = y;
+  }
+  el("text", { x: 4, y: m.t + 4 }, svg).textContent = "Å";
+  const tickEvery = Math.max(1, Math.round(n / (W < 500 ? 4 : 8)));
+  for (let i = 0; i < n; i += tickEvery) {
+    el("text", { x: sx(i), y: H - 8, "text-anchor": "middle" }, svg).textContent = ex.residue_ids[i];
+  }
+  el("line", { x1: m.l, x2: W - m.r, y1: sy(3), y2: sy(3), stroke: css("--muted"), "stroke-dasharray": "4 4", "stroke-width": 1 }, svg);
+  el("text", { x: W - m.r, y: sy(3) - 5, "text-anchor": "end" }, svg).textContent = "3 Å";
+  let d = "", pen = false;
+  ex.distance.forEach((v, i) => {
+    if (v === null) { pen = false; return; }
+    d += `${pen ? "L" : "M"}${sx(i).toFixed(1)},${sy(v).toFixed(1)}`; pen = true;
+  });
+  el("path", { d, fill: "none", stroke: css("--struct"), "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+  const hit = el("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+  hit.addEventListener("mousemove", (ev) => {
+    const box = svg.getBoundingClientRect();
+    const fx = ((ev.clientX - box.left) / box.width) * W;
+    const i = Math.max(0, Math.min(n - 1, Math.round(((fx - m.l) / (W - m.l - m.r)) * (n - 1))));
+    const v = ex.distance[i];
+    showTip(ev, `Residue ${esc(ex.residue_ids[i])} of ${esc(ex.a.name)}<br>${v === null ? "not aligned" : v.toFixed(2) + " Å from its partner"}`);
+  });
+  hit.addEventListener("mouseleave", () => { tip.hidden = true; });
+  $("distchart").replaceChildren(svg);
+  const nAligned = ys.length;
+  $("distsub").textContent = `Distance from each residue of ${ex.a.name} to its partner in ${ex.b.name} after superposition. ${nAligned} of ${n} residues are aligned; gaps are unaligned residues.`;
+}
+function highlightNumbers(text) {
+  return esc(text).replace(/(?<![A-Za-z0-9.:])(\d+(?:\.\d+)?)(?![A-Za-z0-9])(\s*%)?/g, '<mark class="n">$1$2</mark>');
+}
+function showExample(k) {
+  const ex = D.examples[k];
+  document.querySelectorAll("#exbtns button").forEach((b, i) => b.setAttribute("aria-pressed", String(i === k)));
+  drawStructures(ex);
+  $("vlegend").innerHTML = `<span><span class="sw" style="background:var(--struct)"></span>A: ${esc(ex.a.name)} · ${esc(ex.a.description || "")}</span><span><span class="sw" style="background:var(--seq)"></span>B: ${esc(ex.b.name)} · ${esc(ex.b.description || "")}</span>`;
+  const mk = (v, k) => `<div class="metric"><div class="v">${v}</div><div class="k">${k}</div></div>`;
+  $("metrics").innerHTML = [
+    mk(ex.tm_a.toFixed(3), `TM-score, normalized by A (${ex.a.length} res)`),
+    mk(ex.tm_b.toFixed(3), `TM-score, normalized by B (${ex.b.length} res)`),
+    mk(ex.rmsd.toFixed(2) + " Å", "RMSD over aligned pairs"),
+    mk(ex.aligned, "aligned pairs within 5 Å"),
+    mk(ex.identity_pct.toFixed(1) + "%", "identical residues among them"),
+  ].join("");
+  const best = Math.max(ex.tm_a, ex.tm_b).toFixed(3);
+  $("verdict").textContent = ex.same_fold
+    ? `Likely the same fold: the larger TM-score (${best}) is above 0.5.`
+    : `Likely different folds: the larger TM-score (${best}) is not above 0.5.`;
+  $("report").innerHTML = `<span class="badge ${ex.verified ? "ok" : "bad"}">${ex.verified ? "✓ Verified against computed data" : "✗ Not verified"} · ${ex.numbers_checked} numbers checked</span><p class="small">${highlightNumbers(ex.report)}</p>`;
+  distChart(ex);
+}
+$("exbtns").innerHTML = D.examples.map((e, i) => `<button type="button" id="ex${i}" aria-pressed="false">${esc(e.label)}</button>`).join("");
+document.querySelectorAll("#exbtns button").forEach((b, i) => b.addEventListener("click", () => showExample(i)));
+
+/* ---------------- benchmark charts ---------------- */
+function barChart(s) {
+  const W = Math.max(300, $("barchart").clientWidth || 520), H = 280, m = { l: 36, r: 8, t: 22, b: 46 };
+  const groups = [
+    ["All · fold", s.all_queries, "fold"], ["All · superfamily", s.all_queries, "superfamily"],
+    ["Remote · fold", s.remote_homologs, "fold"], ["Remote · superfamily", s.remote_homologs, "superfamily"],
+  ];
+  const series = [["structure", "--struct", "Structure (TM-score)"], ["sequence", "--seq", "Sequence (Smith-Waterman)"]];
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "c", role: "img", "aria-label": "Accuracy by method" });
+  const sy = (y) => H - m.b - y * (H - m.t - m.b);
+  for (let y = 0; y <= 1.0001; y += 0.25) {
+    el("line", { x1: m.l, x2: W - m.r, y1: sy(y), y2: sy(y), class: "gridl" }, svg);
+    el("text", { x: m.l - 6, y: sy(y) + 4, "text-anchor": "end" }, svg).textContent = Math.round(y * 100) + "%";
+  }
+  const gw = (W - m.l - m.r) / groups.length, bw = Math.min(34, gw / 3);
+  groups.forEach(([label, block, lv], gi) => {
+    const cx = m.l + gw * gi + gw / 2;
+    series.forEach(([key, color, name], si) => {
+      const e = block[key][lv];
+      if (!e || !e.n) return;
+      const x = cx + (si - 0.5) * (bw + 4) - bw / 2;
+      const top = sy(e.accuracy);
+      const bar = el("rect", { x, y: top, width: bw, height: sy(0) - top, fill: css(color), rx: 3 }, svg);
+      const cxb = x + bw / 2;
+      el("line", { x1: cxb, x2: cxb, y1: sy(e.ci95[0]), y2: sy(e.ci95[1]), stroke: css("--ink"), "stroke-width": 1.2 }, svg);
+      el("line", { x1: cxb - 4, x2: cxb + 4, y1: sy(e.ci95[1]), y2: sy(e.ci95[1]), stroke: css("--ink"), "stroke-width": 1.2 }, svg);
+      el("line", { x1: cxb - 4, x2: cxb + 4, y1: sy(e.ci95[0]), y2: sy(e.ci95[0]), stroke: css("--ink"), "stroke-width": 1.2 }, svg);
+      el("text", { x: cxb, y: sy(e.ci95[1]) - 5, "text-anchor": "middle", class: "lbl" }, svg).textContent = (100 * e.accuracy).toFixed(1);
+      hoverable(bar, `<b>${name}</b><br>${label}: ${pct(e.accuracy)} (${e.n_correct}/${e.n})<br>95% CI ${ci(e)}`);
+    });
+    const t = el("text", { x: cx, y: H - m.b + 16, "text-anchor": "middle" }, svg);
+    t.textContent = label.split(" · ")[0];
+    el("text", { x: cx, y: H - m.b + 30, "text-anchor": "middle" }, svg).textContent = label.split(" · ")[1];
+  });
+  el("line", { x1: m.l, x2: W - m.r, y1: sy(0), y2: sy(0), class: "axis" }, svg);
+  $("barchart").replaceChildren(svg);
+  $("barkeys").innerHTML = series.map(([, c, n]) => `<span><span class="sw" style="background:var(${c})"></span>${n}</span>`).join("") + `<span>Remote: n = ${s.remote_homologs.n}</span>`;
+}
+function idChart(s) {
+  const rows = s.accuracy_vs_identity_superfamily;
+  const W = Math.max(300, $("idchart").clientWidth || 520), H = 260, m = { l: 36, r: 12, t: 14, b: 44 };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "c", role: "img", "aria-label": "Accuracy versus sequence identity" });
+  const sx = (i) => m.l + 20 + i * ((W - m.l - m.r - 40) / (rows.length - 1));
+  const sy = (y) => H - m.b - y * (H - m.t - m.b);
+  for (let y = 0; y <= 1.0001; y += 0.25) {
+    el("line", { x1: m.l, x2: W - m.r, y1: sy(y), y2: sy(y), class: "gridl" }, svg);
+    el("text", { x: m.l - 6, y: sy(y) + 4, "text-anchor": "end" }, svg).textContent = Math.round(y * 100) + "%";
+  }
+  rows.forEach((r, i) => {
+    el("text", { x: sx(i), y: H - m.b + 16, "text-anchor": "middle" }, svg).textContent = r.bin;
+    el("text", { x: sx(i), y: H - m.b + 30, "text-anchor": "middle" }, svg).textContent = `n = ${r.n}`;
+  });
+  [["structure", "--struct", "Structure"], ["sequence", "--seq", "Sequence"]].forEach(([k, c, name]) => {
+    const pts = rows.map((r, i) => [sx(i), sy(r[k])]);
+    el("path", { d: pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(""), fill: "none", stroke: css(c), "stroke-width": 2 }, svg);
+    pts.forEach((p, i) => {
+      const dot = el("circle", { cx: p[0], cy: p[1], r: 5, fill: css(c), stroke: css("--surface"), "stroke-width": 2 }, svg);
+      hoverable(dot, `<b>${name}</b><br>identity ${rows[i].bin}: ${pct(rows[i][k])} of ${rows[i].n} queries`);
+    });
+  });
+  $("idchart").replaceChildren(svg);
+  $("idkeys").innerHTML = `<span><span class="sw" style="background:var(--struct)"></span>Structure</span><span><span class="sw" style="background:var(--seq)"></span>Sequence</span>`;
+}
+function histChart(h) {
+  const W = Math.max(300, $("histchart").clientWidth || 520), H = 240, m = { l: 36, r: 12, t: 16, b: 30 };
+  const groups = [["different fold", "--neutral"], ["same fold, different superfamily", "--third"], ["same superfamily", "--struct"]];
+  const ymax = Math.max(...groups.flatMap(([g]) => h[g].density));
+  const nb = h.edges.length - 1;
+  const sx = (x) => m.l + x * (W - m.l - m.r);
+  const sy = (y) => H - m.b - (y / ymax) * (H - m.t - m.b);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "c", role: "img", "aria-label": "Distribution of pairwise TM-scores" });
+  for (let x = 0; x <= 1.0001; x += 0.25) {
+    el("line", { x1: sx(x), x2: sx(x), y1: m.t, y2: H - m.b, class: "gridl" }, svg);
+    el("text", { x: sx(x), y: H - 10, "text-anchor": "middle" }, svg).textContent = x.toFixed(2);
+  }
+  el("line", { x1: m.l, x2: W - m.r, y1: sy(0), y2: sy(0), class: "axis" }, svg);
+  groups.forEach(([g, c]) => {
+    let d = `M${sx(0)},${sy(0)}`;
+    h[g].density.forEach((v, i) => { d += `L${sx(h.edges[i]).toFixed(1)},${sy(v).toFixed(1)}L${sx(h.edges[i + 1]).toFixed(1)},${sy(v).toFixed(1)}`; });
+    d += `L${sx(1)},${sy(0)}`;
+    el("path", { d, fill: "none", stroke: css(c), "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+  });
+  [[0.17, "0.17 random"], [0.5, "0.5 same fold"]].forEach(([x, t]) => {
+    el("line", { x1: sx(x), x2: sx(x), y1: m.t, y2: H - m.b, stroke: css("--ink"), "stroke-dasharray": "3 4", "stroke-width": 1 }, svg);
+    el("text", { x: sx(x) + 4, y: m.t + 4, class: "lbl" }, svg).textContent = t;
+  });
+  $("histchart").replaceChildren(svg);
+  $("histkeys").innerHTML = groups.map(([g, c]) => `<span><span class="sw" style="background:var(${c})"></span>${g} (${h[g].n.toLocaleString()} pairs)</span>`).join("");
+}
+function callouts(s) {
+  const ab = s.abstain_below_tm_0_5, ps = Object.fromEntries(s.pair_stats.map((p) => [p.relation, p]));
+  const err = s.structure_fold_errors_vs_neighbour_size?.errors;
+  const items = [];
+  if (ab) items.push(`<b>${pct(ab.coverage)}</b><span>of queries have a match with TM-score above 0.5. On those, the fold is right <b>${pct(ab.fold_accuracy_answered.accuracy)}</b> of the time. Saying "not sure" for the rest is the safer behaviour.</span>`);
+  items.push(`<b>${pct(ps["same fold, different superfamily"].frac_tm_above_0_5)}</b><span>of same-fold pairs from different superfamilies pass TM 0.5, versus ${pct(ps["different fold"].frac_tm_above_0_5, 2)} of different-fold pairs. The 0.5 rule is a guide, not a law.</span>`);
+  if (err && err.n > 1) items.push(`<b>${pct(err.fraction_neighbour_longer)}</b><span>of the ${err.n} fold errors matched a <i>longer</i> protein (median ${err.median_neighbour_to_query_length_ratio}× the query's length). Small domains can fit inside parts of big ones.</span>`);
+  items.push(`<b>${pct(s.largest_class_fraction.fold)}</b><span>is what always guessing the most common fold would score. Structure beats sequence by ${(100 * s.structure_minus_sequence.fold.all.diff).toFixed(1)} points at fold level ${ci({ ci95: s.structure_minus_sequence.fold.all.ci95 })}.</span>`);
+  $("callouts").innerHTML = items.map((t) => `<div class="callout">${t}</div>`).join("");
+}
+function showSet(key) {
+  const set = setByKey[key], s = set.summary;
+  document.querySelectorAll("#setbtns button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.key === key)));
+  const desc = {
+    main: "20 folds chosen in advance (including globins, TIM barrels and ubiquitin-like folds), up to 15 domains each. Each query has 10 to 14 relatives of its own fold.",
+    hard: "120 random folds with only 5 domains each, designed before it was run. Each query has just 4 relatives of its own fold.",
+    test: "Built after the score below was chosen: 120 new random folds, 5 domains each, no domain shared with the other sets.",
+  }[key];
+  $("setdesc").textContent = `${set.label}: ${s.n_domains} CATH domains, ${s.n_folds} folds, ${s.n_superfamilies} superfamilies. ${desc}`;
+  barChart(s); idChart(s); histChart(set.tm_hist); callouts(s);
+  $("histsub").textContent = `${(s.n_domains * (s.n_domains - 1) / 2).toLocaleString()} pairs, TM-score normalized by the shorter protein.`;
+}
+$("setbtns").innerHTML = D.sets.map((s) => `<button type="button" data-key="${s.key}" aria-pressed="false">${esc(s.label)}</button>`).join("");
+document.querySelectorAll("#setbtns button").forEach((b) => b.addEventListener("click", () => showSet(b.dataset.key)));
+
+/* ---------------- improvement ---------------- */
+(function improve() {
+  const sel = D.score_selection;
+  const rows = D.sets.filter((s) => s.summary.coverage_aware_score);
+  const role = { main: "development", hard: "development", test: "held-out test" };
+  const fmtDiff = (d) => {
+    const v = (100 * d.diff).toFixed(1), cls = d.ci95[0] > 0 ? "up" : d.ci95[1] < 0 ? "down" : "";
+    return `<span class="${cls}">${d.diff > 0 ? "+" : ""}${v}</span> <span class="muted">${ci({ ci95: d.ci95 })}</span>`;
+  };
+  $("improvetable").innerHTML = `<table><thead><tr><th>Set</th><th>Used for</th><th class="r">Original score</th><th class="r">Coverage-aware score</th><th class="r">Change, points (95% CI)</th></tr></thead><tbody>${rows.map((s) => {
+    const p = s.summary.all_queries.structure.fold, c = s.summary.coverage_aware_score.fold;
+    return `<tr><td>${esc(s.label)}</td><td>${role[s.key]}</td><td class="r">${pct(p.accuracy)}</td><td class="r">${pct(c.accuracy)}</td><td class="r">${fmtDiff(s.summary.coverage_aware_score.minus_primary.fold)}</td></tr>`;
+  }).join("")}</tbody></table>`;
+  const test = setByKey.test?.summary;
+  let verdict;
+  if (test) {
+    const d = test.coverage_aware_score.minus_primary.fold;
+    const adopted = d.diff >= 0;
+    verdict = adopted
+      ? `On the held-out test set the coverage-aware score changed fold accuracy by ${d.diff > 0 ? "+" : ""}${(100 * d.diff).toFixed(1)} points ${ci({ ci95: d.ci95 })}, so it passed the adoption rule and is now the default ranking in ProteinLens.`
+      : `On the held-out test set the coverage-aware score changed fold accuracy by ${(100 * d.diff).toFixed(1)} points ${ci({ ci95: d.ci95 })}, so it failed the adoption rule and the original score stays.`;
+  } else {
+    verdict = "The held-out test set has not been run yet.";
+  }
+  $("improvetext").textContent = `The original score divides the TM-score by the query's length, so a small domain can score well by fitting inside part of a larger protein. A coverage-aware score uses the smaller of the two TM-scores, so a match has to cover both proteins. To avoid tuning on data we had already seen, the score was chosen on the two development sets with a fixed rule${sel ? ` (it selected normalization by the ${sel.selected.startsWith("longer") ? "longer protein" : sel.selected})` : ""} and then tested on a fresh set that was built afterwards. ${verdict}`;
+  $("improvefoot").textContent = "Fold accuracy, leave-one-out nearest neighbour. Positive change means the coverage-aware score is better; the change is a paired bootstrap over the same queries.";
+})();
+
+/* ---------------- checker ---------------- */
+(function checker() {
+  const c = D.checker;
+  $("goodreport").innerHTML = `<h3>A faithful report</h3><span class="badge ok" style="margin-top:8px">✓ Passed · ${c.good_numbers} numbers checked</span><p class="small" style="margin-top:10px">${highlightNumbers(c.good)}</p>`;
+  $("badreport").innerHTML = `<h3>The same report, corrupted</h3><span class="badge bad" style="margin-top:8px">✗ Rejected · ${c.issues.length} problems found</span><p class="small" style="margin-top:10px">${esc(c.bad)}</p><ul class="issues">${c.issues.map((i) => `<li><span class="kind">${esc(i.kind)}</span><span><b>${esc(i.text.length > 70 ? i.text.slice(0, 70) + "…" : i.text)}</b>: ${esc(i.detail)}</span></li>`).join("")}</ul>`;
+  const l = D.llm;
+  if (l.status === "PENDING") {
+    const b = l.tm_rule_baseline;
+    $("llm").innerHTML = `<div class="pending"><b>Grounded vs ungrounded AI experiment: pending</b><span class="small">This experiment asks an AI whether ${l.n_pairs} protein pairs share a fold, once with only their names and once with ProteinLens's computed facts. It has not been run because no API key was available, and no result is reported until it is. Already computed: the simple rule "same fold if TM-score is above 0.5" gets ${pct(b.accuracy)} ${ci(b)} of these pairs right, which is the bar a grounded AI has to beat. Run it with <code>make eval-llm</code>.</span></div>`;
+  } else {
+    $("llm").innerHTML = `<div class="panel small">Grounded vs ungrounded experiment results: see <code>benchmarks/results/llm_experiment/summary.json</code>.</div>`;
+  }
+})();
+
+/* ---------------- limits + copy ---------------- */
+(function limits() {
+  const main = setByKey.main.summary, hard = setByKey.hard?.summary;
+  const items = [
+    "CATH itself is built partly from structure comparison, so agreement between a structure method and CATH is partly expected. The fair comparison is structure versus sequence on the same queries.",
+    `The main set is easy: ${main.n_folds} folds with many members each.${hard ? ` With 5 examples per fold, accuracy drops to ${pct(hard.all_queries.structure.fold.accuracy)}.` : ""}`,
+    "All benchmark domains are high-resolution X-ray structures already cut into single domains. Real inputs are messier, and a fold missing from the reference set can never be predicted.",
+    `CATH's 40% redundancy filter uses its own rules: ${main.pairs_with_seq_id_ge_40pct} main-set pairs still exceed 40% identity by our measure. They were kept and reported rather than removed after seeing results.`,
+    "The checker verifies numbers, IDs, fold names, verdicts and listed function words. It cannot prove that wording without such tokens is correct, and passing it does not mean the AI understands proteins.",
+  ];
+  $("limits").innerHTML = items.map((t) => `<li>${esc(t)}</li>`).join("");
+  $("copybtn").addEventListener("click", async () => {
+    const text = $("cmds").textContent;
+    try { await navigator.clipboard.writeText(text); $("copybtn").textContent = "Copied"; }
+    catch { const r = document.createRange(); r.selectNodeContents($("cmds")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("copybtn").textContent = "Selected"; }
+    setTimeout(() => { $("copybtn").textContent = "Copy"; }, 1600);
+  });
+})();
+
+showExample(0);
+showSet(D.sets.some((s) => s.key === "test") ? "test" : D.sets[0].key);
+function redraw() {
+  const ex = document.querySelector("#exbtns [aria-pressed=true]");
+  const st = document.querySelector("#setbtns [aria-pressed=true]");
+  if (ex) distChart(D.examples[[...document.querySelectorAll("#exbtns button")].indexOf(ex)]);
+  if (st) { const s = setByKey[st.dataset.key]; barChart(s.summary); idChart(s.summary); histChart(s.tm_hist); }
+}
+let resizeTimer = null;
+window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(redraw, 150); });
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  const ex = document.querySelector("#exbtns [aria-pressed=true]");
+  const st = document.querySelector("#setbtns [aria-pressed=true]");
+  if (viewer) viewer.setBackgroundColor(css("--surface"));
+  if (ex) showExample([...document.querySelectorAll("#exbtns button")].indexOf(ex));
+  if (st) showSet(st.dataset.key);
+});
+</script>

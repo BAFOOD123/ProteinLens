@@ -11,3 +11,4 @@ benchmarks/logs/
 *.log
 .DS_Store
 benchmarks/smoke/
+site/fragment.html
