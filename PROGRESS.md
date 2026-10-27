@@ -72,3 +72,12 @@ User asked to continue with the best-fit improvement. Chose depth on the core (M
 - Failure analysis: 95.8 % of fold errors have a longer nearest neighbour (size bias of query-normalized TM).
 - Abstention at TM 0.5: hard set 90.0 % coverage / 93.2 % accuracy; main set 98.3 % / 100.0 %.
 - README, WRITEUP, UNDERSTANDING, app (Benchmarks tabs) updated; docs-number test covers hard-set numbers.
+
+## Extension E2 — better score (dev/test) + results website (2026-10-27 03:10 → 19:30 UTC, VM paused in between)
+User asked to "make it better" and create a simple website for the results.
+- Main + hard became development sets; `select_score.py` (fixed rule) picked the coverage-aware score.
+- Held-out test set (seed 7777, 600 domains, none shared) pre-registered and committed before running.
+  The VM paused mid-run; the resumable runner continued from the saved chunks.
+- Test result: fold accuracy 84.8 % → 89.5 % (+4.7 [2.7, 6.7]); adopted as default in classify/CLI/report/app.
+- Website: `site/build_site.py` + `site/template.html` → `site/index.html`; checked at 1300 px and 400 px,
+  light and dark (no horizontal overflow); freshness test in CI; GitHub Pages workflow (needs Pages enabled).

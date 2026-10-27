@@ -1,0 +1,401 @@
+{
+  "n_domains": 600,
+  "n_folds": 120,
+  "n_superfamilies": 247,
+  "bootstrap": {
+    "resamples": 2000,
+    "seed": 0,
+    "method": "percentile, over queries"
+  },
+  "primary_metric": "TM-score normalized by query length, leave-one-out 1-NN",
+  "all_queries": {
+    "structure": {
+      "fold": {
+        "accuracy": 0.8483,
+        "ci95": [
+          0.82,
+          0.8783
+        ],
+        "n_correct": 509,
+        "n": 600
+      },
+      "superfamily": {
+        "accuracy": 0.7617,
+        "ci95": [
+          0.7283,
+          0.795
+        ],
+        "n_correct": 457,
+        "n": 600
+      }
+    },
+    "sequence": {
+      "fold": {
+        "accuracy": 0.575,
+        "ci95": [
+          0.535,
+          0.6133
+        ],
+        "n_correct": 345,
+        "n": 600
+      },
+      "superfamily": {
+        "accuracy": 0.5583,
+        "ci95": [
+          0.5183,
+          0.5967
+        ],
+        "n_correct": 335,
+        "n": 600
+      }
+    },
+    "majority": {
+      "fold": {
+        "accuracy": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_correct": 0,
+        "n": 600
+      },
+      "superfamily": {
+        "accuracy": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_correct": 0,
+        "n": 600
+      }
+    }
+  },
+  "remote_homologs": {
+    "definition": "query has >=1 same-superfamily domain in the set, and < 25% sequence identity to every one of them",
+    "n": 270,
+    "structure": {
+      "fold": {
+        "accuracy": 0.937,
+        "ci95": [
+          0.9074,
+          0.963
+        ],
+        "n_correct": 253,
+        "n": 270
+      },
+      "superfamily": {
+        "accuracy": 0.9222,
+        "ci95": [
+          0.8889,
+          0.9519
+        ],
+        "n_correct": 249,
+        "n": 270
+      }
+    },
+    "sequence": {
+      "fold": {
+        "accuracy": 0.5,
+        "ci95": [
+          0.4407,
+          0.5593
+        ],
+        "n_correct": 135,
+        "n": 270
+      },
+      "superfamily": {
+        "accuracy": 0.4815,
+        "ci95": [
+          0.4185,
+          0.5407
+        ],
+        "n_correct": 130,
+        "n": 270
+      }
+    },
+    "majority": {
+      "fold": {
+        "accuracy": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_correct": 0,
+        "n": 270
+      },
+      "superfamily": {
+        "accuracy": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "n_correct": 0,
+        "n": 270
+      }
+    }
+  },
+  "structure_minus_sequence": {
+    "fold": {
+      "all": {
+        "diff": 0.2733,
+        "ci95": [
+          0.2383,
+          0.3083
+        ]
+      },
+      "remote": {
+        "diff": 0.437,
+        "ci95": [
+          0.3778,
+          0.4963
+        ]
+      }
+    },
+    "superfamily": {
+      "all": {
+        "diff": 0.2033,
+        "ci95": [
+          0.17,
+          0.2367
+        ]
+      },
+      "remote": {
+        "diff": 0.4407,
+        "ci95": [
+          0.3815,
+          0.5
+        ]
+      }
+    }
+  },
+  "sensitivity_tm_normalization": {
+    "query_length (primary)": {
+      "fold": 0.8483,
+      "superfamily": 0.7617
+    },
+    "reference_length": {
+      "fold": 0.865,
+      "superfamily": 0.7483
+    },
+    "shorter_length (max of the two)": {
+      "fold": 0.85,
+      "superfamily": 0.76
+    },
+    "longer_length (min of the two)": {
+      "fold": 0.895,
+      "superfamily": 0.77
+    }
+  },
+  "pair_stats": [
+    {
+      "relation": "different fold",
+      "n_pairs": 178500,
+      "median_tm": 0.32440000772476196,
+      "frac_tm_above_0_5": 0.008799999952316284,
+      "median_seq_id": 0.05999999865889549
+    },
+    {
+      "relation": "same fold, different superfamily",
+      "n_pairs": 434,
+      "median_tm": 0.43630000948905945,
+      "frac_tm_above_0_5": 0.3179999887943268,
+      "median_seq_id": 0.0617000013589859
+    },
+    {
+      "relation": "same superfamily",
+      "n_pairs": 766,
+      "median_tm": 0.7243000268936157,
+      "frac_tm_above_0_5": 0.9373000264167786,
+      "median_seq_id": 0.13019999861717224
+    }
+  ],
+  "n_structure_fold_errors": 91,
+  "n_structure_superfamily_errors": 143,
+  "largest_class_fraction": {
+    "fold": 0.0083,
+    "superfamily": 0.0083
+  },
+  "queries_with_superfamily_partner": {
+    "n": 479,
+    "structure": {
+      "accuracy": 0.9541,
+      "ci95": [
+        0.9332,
+        0.9729
+      ],
+      "n_correct": 457,
+      "n": 479
+    },
+    "sequence": {
+      "accuracy": 0.6994,
+      "ci95": [
+        0.6576,
+        0.7411
+      ],
+      "n_correct": 335,
+      "n": 479
+    }
+  },
+  "abstain_below_tm_0_5": {
+    "coverage": 0.8833,
+    "n_answered": 530,
+    "fold_accuracy_answered": {
+      "accuracy": 0.9019,
+      "ci95": [
+        0.8755,
+        0.9264
+      ],
+      "n_correct": 478,
+      "n": 530
+    },
+    "fold_accuracy_abstained": {
+      "accuracy": 0.4429,
+      "ci95": [
+        0.3286,
+        0.5571
+      ],
+      "n_correct": 31,
+      "n": 70
+    },
+    "superfamily_accuracy_answered": {
+      "accuracy": 0.8358,
+      "ci95": [
+        0.8038,
+        0.8679
+      ],
+      "n_correct": 443,
+      "n": 530
+    }
+  },
+  "coverage_aware_score": {
+    "definition": "1-NN on min(TM by query length, TM by reference length)",
+    "fold": {
+      "accuracy": 0.895,
+      "ci95": [
+        0.87,
+        0.9183
+      ],
+      "n_correct": 537,
+      "n": 600
+    },
+    "superfamily": {
+      "accuracy": 0.77,
+      "ci95": [
+        0.7367,
+        0.8033
+      ],
+      "n_correct": 462,
+      "n": 600
+    },
+    "minus_primary": {
+      "fold": {
+        "diff": 0.0467,
+        "ci95": [
+          0.0267,
+          0.0667
+        ]
+      },
+      "superfamily": {
+        "diff": 0.0083,
+        "ci95": [
+          -0.0067,
+          0.0233
+        ]
+      }
+    },
+    "remote_homologs_superfamily": {
+      "accuracy": 0.9407,
+      "ci95": [
+        0.9147,
+        0.9667
+      ],
+      "n_correct": 254,
+      "n": 270
+    },
+    "queries_with_superfamily_partner": {
+      "accuracy": 0.9645,
+      "ci95": [
+        0.9457,
+        0.9791
+      ],
+      "n_correct": 462,
+      "n": 479
+    }
+  },
+  "structure_fold_errors_vs_neighbour_size": {
+    "errors": {
+      "n": 91,
+      "median_neighbour_to_query_length_ratio": 1.97,
+      "fraction_neighbour_longer": 0.967
+    },
+    "correct": {
+      "n": 509,
+      "median_neighbour_to_query_length_ratio": 1.02,
+      "fraction_neighbour_longer": 0.5501
+    }
+  },
+  "structure_fold_accuracy_by_query_length_tercile": [
+    {
+      "length_range": "(49.999, 110.0]",
+      "n": 201,
+      "accuracy": 0.7214
+    },
+    {
+      "length_range": "(110.0, 163.0]",
+      "n": 201,
+      "accuracy": 0.8856
+    },
+    {
+      "length_range": "(163.0, 310.0]",
+      "n": 198,
+      "accuracy": 0.9394
+    }
+  ],
+  "structure_fold_accuracy_by_class": {
+    "1": {
+      "n": 165,
+      "accuracy": 0.7758
+    },
+    "2": {
+      "n": 90,
+      "accuracy": 0.8333
+    },
+    "3": {
+      "n": 345,
+      "accuracy": 0.887
+    }
+  },
+  "pairs_with_seq_id_ge_40pct": 7,
+  "accuracy_vs_identity_superfamily": [
+    {
+      "bin": "<15%",
+      "n": 130,
+      "structure": 0.8769,
+      "sequence": 0.2
+    },
+    {
+      "bin": "15-20%",
+      "n": 61,
+      "structure": 0.9672,
+      "sequence": 0.6557
+    },
+    {
+      "bin": "20-25%",
+      "n": 79,
+      "structure": 0.962,
+      "sequence": 0.8101
+    },
+    {
+      "bin": "25-30%",
+      "n": 71,
+      "structure": 0.9859,
+      "sequence": 0.9437
+    },
+    {
+      "bin": "\u226530%",
+      "n": 138,
+      "structure": 1.0,
+      "sequence": 1.0
+    }
+  ]
+}

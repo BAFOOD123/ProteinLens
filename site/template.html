@@ -552,7 +552,7 @@ function showSet(key) {
   const desc = {
     main: "20 folds chosen in advance (including globins, TIM barrels and ubiquitin-like folds), up to 15 domains each. Each query has 10 to 14 relatives of its own fold.",
     hard: "120 random folds with only 5 domains each, designed before it was run. Each query has just 4 relatives of its own fold.",
-    test: "Built after the score below was chosen: 120 new random folds, 5 domains each, no domain shared with the other sets.",
+    test: "Built after the score below was chosen: 120 new random folds, 5 domains each, no domain shared with the other sets. Structure bars use the original score; the improved score is compared in the next section.",
   }[key];
   $("setdesc").textContent = `${set.label}: ${s.n_domains} CATH domains, ${s.n_folds} folds, ${s.n_superfamilies} superfamilies. ${desc}`;
   barChart(s); idChart(s); histChart(set.tm_hist); callouts(s);

@@ -59,7 +59,7 @@ def _hit_facts(hits: list[Hit] | None) -> list[dict[str, Any]]:
             "cath_fold": h.fold,
             "fold_name": h.fold_name,
             "reference_domain": h.domain,
-            "tm_score": round(h.tm_query, 3),
+            "tm_score": round(h.tm_coverage, 3),  # normalized by the longer protein
         }
         for h in hits or []
     ]

@@ -29,7 +29,8 @@ def test_reference_set_is_consistent():
 def test_classify_ubiquitin_and_globin(offline_cache):
     hits = classify(load_structure("1UBQ", with_metadata=False), top_k=3)
     assert hits[0].fold == "3.10.20"  # ubiquitin-like (UB roll)
-    assert hits[0].tm_query >= hits[1].tm_query >= hits[2].tm_query
+    # Ranked by the default (coverage-aware) score.
+    assert hits[0].tm_coverage >= hits[1].tm_coverage >= hits[2].tm_coverage
     hb = classify(load_structure("4HHB:B", with_metadata=False), top_k=1)
     assert hb[0].fold == "1.10.490"  # globin-like
 

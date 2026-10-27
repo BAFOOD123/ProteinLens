@@ -1,0 +1,121 @@
+fold,fold_name,n,structure_acc,sequence_acc
+1.10.1040,N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2,5,0.6,0.0
+1.10.12,"Lyase 2-enoyl-coa Hydratase; Chain  A, domain 2",5,0.6,0.8
+1.10.1240,"Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1",5,0.4,0.4
+1.10.1330,Type 1 dockerin domain,5,0.8,0.8
+1.10.1400,"Penicillin amidase (Acylase) alpha subunit, N-terminal domain",5,1.0,0.6
+1.10.1660,Multidrug-efflux Transporter Regulator; Chain: A; Domain 2,5,1.0,1.0
+1.10.1780,Double Clp-N motif,5,1.0,1.0
+1.10.1840,"main proteinase (3clpro) structure, domain 3",5,1.0,1.0
+1.10.20,"Histone, subunit A",5,1.0,1.0
+1.10.225,NK-Lysin,5,1.0,0.8
+1.10.240,Tyrosyl-Transfer RNA Synthetase,5,1.0,1.0
+1.10.30,"DNA Binding (I), subunit A",5,0.6,0.6
+1.10.3210,Hypothetical protein af1432,5,1.0,0.4
+1.10.3290,Fic-like fold,5,1.0,0.8
+1.10.357,Tetracycline Repressor; domain 2,5,0.8,0.8
+1.10.540,"Butyryl-Coa Dehydrogenase, subunit A; domain 1",5,1.0,0.8
+1.10.565,Retinoid X Receptor,5,1.0,1.0
+1.10.620,"Ribonucleotide Reductase, subunit A",5,1.0,0.6
+1.10.760,"Cytochrome Bc1 Complex; Chain D, domain 2",5,1.0,0.8
+1.10.8,"Helicase, Ruva Protein; domain 3",5,0.4,0.0
+1.20.1180,Udp N-acetylglucosamine O-acyltransferase; Domain 2,5,1.0,1.0
+1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",5,0.0,0.0
+1.20.1260,Ferritin,5,0.4,0.4
+1.20.1280,Monooxygenase,5,0.0,0.0
+1.20.1300,3 helical TM bundles of succinate and fumarate reductases,5,1.0,0.8
+1.20.1310,5 helical Cullin repeat like,5,0.8,0.0
+1.20.1330,"f41 fragment of flagellin, N-terminal domain",5,1.0,1.0
+1.20.141,"Chitosanase, subunit A; domain 1",5,1.0,0.6
+1.20.200,"Fumarase C; Chain A, domain 2",5,1.0,1.0
+1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,5,0.0,0.0
+1.20.58,"Methane Monooxygenase Hydroxylase; Chain G, domain 1",5,0.4,0.4
+1.20.910,Heme Oxygenase; Chain A,5,1.0,0.6
+1.20.930,Transcription Elongation Factor S-II; Chain A,5,0.8,0.8
+2.10.270,left handed beta-beta-3-solenoid,5,1.0,1.0
+2.120.10,Neuraminidase,5,1.0,0.8
+2.170.120,"RNA Polymerase Alpha Subunit; Chain A, domain 2",5,0.8,0.8
+2.20.25,N-terminal domain of TfIIb,5,0.0,0.0
+2.30.130,"Archaeosine Trna-guanine Transglycosylase; Chain: A, domain 4",5,0.8,0.0
+2.30.40,"Urease, subunit C; domain 1",5,1.0,1.0
+2.30.42,Pdz3 Domain,5,1.0,0.8
+2.40.10,"Thrombin, subunit H",5,1.0,0.0
+2.40.160,Porin,5,0.6,0.0
+2.40.260,Sortase; Chain: A;,5,1.0,1.0
+2.40.320,Hypothetical Protein Pfu-838710-001,5,1.0,0.6
+2.60.120,Jelly Rolls,5,1.0,0.0
+2.60.270,"Mutm (Fpg) Protein; Chain: A, domain 2",5,1.0,0.0
+2.60.40,Immunoglobulin-like,5,0.0,0.0
+2.70.130,Cation-dependent Mannose-6-phosphate Receptor; Chain A,5,1.0,0.8
+2.70.20,Topoisomerase I; domain 3,5,1.0,0.0
+2.70.40,Deoxyuridine 5'-Triphosphate Nucleotidohydrolase; Chain A,5,1.0,0.8
+2.90.10,"Agglutinin, subunit A",5,0.8,1.0
+3.10.130,P-30 Protein,5,1.0,1.0
+3.10.170,Elastase; domain 1,5,1.0,0.6
+3.10.450,"Nuclear Transport Factor 2; Chain: A,",5,0.6,0.0
+3.10.50,Chitinase A; domain 3,5,1.0,0.4
+3.10.620,C8orf32 fold,5,1.0,0.4
+3.20.20,TIM Barrel,5,1.0,0.0
+3.30.10,Trypsin Inhibitor V; Chain A,5,0.8,0.2
+3.30.1050,Nonspecific Lipid-transfer Protein; Chain A,5,1.0,0.6
+3.30.1110,"Adenosine kinase, small domain",5,1.0,1.0
+3.30.1130,"GTP Cyclohydrolase I, domain 2",5,1.0,0.4
+3.30.1180,Hypothetical Protein Tm841; Chain: A;domain 3,5,1.0,0.8
+3.30.1240,"Hypothetical Protein, Haloacid Dehalogenase-like Hydrolase; Chain: A; domain 2",5,1.0,0.4
+3.30.1300,"Pantoate--beta-alanine Ligase; Chain: A,domain 2",5,1.0,0.4
+3.30.1370,"Ribosomal Protein S8; Chain: A, domain 1",5,0.4,0.4
+3.30.1380,Muramoyl-pentapeptide Carboxypeptidase; domain 2,5,1.0,0.6
+3.30.1440,"50s Ribosomal Protein L5; Chain: A,",5,1.0,0.8
+3.30.160,Double Stranded RNA Binding Domain,5,0.4,0.0
+3.30.2130,VC0802-like,5,1.0,0.4
+3.30.2330,arginine biosynthesis bifunctional protein fold,5,1.0,1.0
+3.30.300,"GMP Synthetase; Chain A, domain 3",5,0.4,0.4
+3.30.310,TATA-Binding Protein,5,0.4,0.0
+3.30.410,Cholesterol Oxidase; domain 2,5,1.0,0.0
+3.30.43,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 2,5,0.6,0.4
+3.30.465,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 3,5,1.0,0.4
+3.30.499,Aconitase; domain 3,5,1.0,1.0
+3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",5,1.0,0.0
+3.30.565,Heat Shock Protein 90,5,0.8,0.4
+3.30.60,Wheat Germ Agglutinin (Isolectin 2); domain 1,5,0.4,0.4
+3.30.750,Transcription Regulator spoIIAA,5,0.0,0.0
+3.30.870,Endonuclease; Chain A,5,1.0,0.4
+3.30.920,"Metal Transport, Frataxin; Chain A",5,0.6,0.6
+3.40.1000,Protein Transport Mog1p; Chain A,5,0.8,0.0
+3.40.1050,Beta-carbonic Anhydrase; Chain A,5,1.0,1.0
+3.40.1080,Glutaconate Coenzyme A-transferase,5,1.0,0.2
+3.40.1160,Carbamate kinase,5,1.0,1.0
+3.40.1170,"MutS, DNA mismatch repair protein, domain I",5,0.8,0.6
+3.40.120,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 3",5,1.0,0.8
+3.40.1260,"Hypothetical Protein Ychn; Chain: A,",5,1.0,0.4
+3.40.1350,"Trna Endonuclease; Chain: A, domain 1",5,0.8,0.6
+3.40.1390,"Udp-n-acetylmuramoylalanyl-d-glutamate--2,6- Diaminopimelate Ligase; Chain: A, domain 1",5,0.6,0.4
+3.40.1400,"Ribose 5-phosphate Isomerase B; Chain: A,",5,1.0,1.0
+3.40.190,D-Maltodextrin-Binding Protein; domain 2,5,1.0,0.0
+3.40.20,Severin,5,1.0,0.6
+3.40.220,"Leucine Aminopeptidase, subunit E; domain 1",5,1.0,1.0
+3.40.30,Glutaredoxin,5,0.8,0.0
+3.40.350,"Creatine Amidinohydrolase; Chain A, domain 1",5,1.0,1.0
+3.40.420,Ricin (A subunit); domain 1,5,1.0,1.0
+3.40.50,Rossmann fold,5,0.6,0.0
+3.40.91,Restriction Endonuclease,5,1.0,0.6
+3.40.930,Mannitol-specific EII; Chain A,5,1.0,1.0
+3.40.980,Molybdenum Cofactor Biosythetic Enzyme; Chain A,5,1.0,0.8
+3.50.30,Glucose Oxidase; domain 1,5,1.0,0.6
+3.50.4,Hepatocyte Growth Factor,5,1.0,1.0
+3.50.70,Chalcone isomerase,5,1.0,0.6
+3.60.20,"Glutamine Phosphoribosylpyrophosphate, subunit 1, domain 1",5,1.0,0.6
+3.60.40,Phosphatase 2c; domain 1,5,1.0,1.0
+3.65.10,UDP-n-acetylglucosamine1-carboxyvinyl-transferase; Chain,5,1.0,1.0
+3.75.10,L-arginine/glycine Amidinotransferase; Chain A,5,1.0,1.0
+3.90.1150,"Aspartate Aminotransferase, domain 1",5,0.8,0.0
+3.90.120,"DNA Methylase; Chain A, domain 2",5,0.8,0.8
+3.90.1200,"Aminoglycoside 3'-phosphotransferase; Chain: A, domain 2",5,1.0,1.0
+3.90.1720,endopeptidase fold (from Nostoc punctiforme),5,1.0,0.8
+3.90.190,Protein-Tyrosine Phosphatase; Chain A,5,1.0,1.0
+3.90.25,UDP-galactose 4-epimerase; domain 1,5,1.0,0.8
+3.90.400,"Oligo-1,6-glucosidase; domain 2",5,1.0,0.8
+3.90.470,Ribosomal Protein L22; Chain A,5,0.8,0.6
+3.90.650,"Phosphoribosyl-aminoimidazole Synthetase; Chain A, domain 2",5,1.0,1.0
+3.90.70,Cathepsin B; Chain A,5,1.0,0.8
+3.90.780,5'-nucleotidase;  domain 2,5,1.0,0.8

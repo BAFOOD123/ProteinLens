@@ -1,0 +1,92 @@
+domain,length,fold,true_fold_name,struct_nn,nn_length,struct_pred_fold,pred_fold_name,struct_nn_tm,best_same_fold_tm
+3bt5A00,151,1.20.1260,Ferritin,3ee4A00,289,1.10.620,"Ribonucleotide Reductase, subunit A",0.7951,0.7587
+4wy4B00,58,1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,3pwxA01,184,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.788,0.6661
+3hiuD00,152,1.20.1260,Ferritin,3ee4A00,289,1.10.620,"Ribonucleotide Reductase, subunit A",0.7773,0.762
+3ntnA02,52,1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,5mawD00,260,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.7655,0.6946
+4modA00,76,1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,4nx9A01,155,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.7215,0.535
+3vn5A01,69,3.30.310,TATA-Binding Protein,1yemB00,166,2.40.320,Hypothetical Protein Pfu-838710-001,0.6946,0.6779
+2yb5F01,86,1.20.1280,Monooxygenase,5mawD00,260,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.6718,0.4747
+3c6kA01,94,3.30.160,Double Stranded RNA Binding Domain,4r7kA00,168,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.658,0.3005
+3ostA00,119,3.30.310,TATA-Binding Protein,2flhB00,153,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.6571,0.5174
+1fpoC02,91,1.20.1280,Monooxygenase,5olkB01,279,1.10.620,"Ribonucleotide Reductase, subunit A",0.6547,0.5757
+1f0xB02,144,3.30.43,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 2,2uuuA02,224,3.30.465,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 3,0.6491,0.5505
+4e9jA02,69,3.30.1370,"Ribosomal Protein S8; Chain: A, domain 1",1vjhA00,120,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.6444,0.6416
+1e2aA00,102,1.20.58,"Methane Monooxygenase Hydroxylase; Chain G, domain 1",5z7qA00,176,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.6363,0.578
+1mhyG02,73,1.20.1280,Monooxygenase,2fji101,209,1.10.357,Tetracycline Repressor; domain 2,0.6312,0.6062
+4fvmA07,65,1.20.1280,Monooxygenase,2wzkA02,127,1.20.1310,5 helical Cullin repeat like,0.6279,0.5404
+4ltyA02,64,3.30.160,Double Stranded RNA Binding Domain,1gs5A00,258,3.40.1160,Carbamate kinase,0.6152,0.3447
+1cgnA00,124,1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",5xnyA02,244,1.20.200,"Fumarase C; Chain A, domain 2",0.6122,0.4766
+2iexA02,51,1.10.12,"Lyase 2-enoyl-coa Hydratase; Chain  A, domain 2",2ptqA02,278,1.20.200,"Fumarase C; Chain A, domain 2",0.6046,0.529
+3rsiB01,64,3.30.300,"GMP Synthetase; Chain A, domain 3",1j72A01,109,3.40.20,Severin,0.6026,0.4489
+1kfiA04,125,3.30.310,TATA-Binding Protein,4xrtA02,160,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.5992,0.4995
+1qsaA02,70,1.10.1240,"Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1",3mpiA01,121,1.10.540,"Butyryl-Coa Dehydrogenase, subunit A; domain 1",0.5974,0.551
+3iuwA00,79,2.30.130,"Archaeosine Trna-guanine Transglycosylase; Chain: A, domain 4",5k9aA00,215,2.40.260,Sortase; Chain: A;,0.5945,0.5162
+2anrA01,80,3.30.1370,"Ribosomal Protein S8; Chain: A, domain 1",2flhB00,153,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.5903,0.5758
+4qndA00,97,1.20.1280,Monooxygenase,1h0oA00,288,1.10.620,"Ribonucleotide Reductase, subunit A",0.5896,0.5475
+2iojA00,120,3.40.1390,"Udp-n-acetylmuramoylalanyl-d-glutamate--2,6- Diaminopimelate Ligase; Chain: A, domain 1",3fedA02,222,3.50.30,Glucose Oxidase; domain 1,0.5893,0.5527
+3bulA01,87,1.10.1240,"Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1",1h0oA00,288,1.10.620,"Ribonucleotide Reductase, subunit A",0.5881,0.4732
+5grqA00,90,1.10.8,"Helicase, Ruva Protein; domain 3",3ezuA01,182,1.20.1260,Ferritin,0.5806,0.3693
+2b1eA02,151,1.20.1310,5 helical Cullin repeat like,2fji101,209,1.10.357,Tetracycline Repressor; domain 2,0.575,0.5422
+7ahsA03,88,2.60.40,Immunoglobulin-like,1xuvA00,163,3.30.530,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 4",0.5681,0.4119
+3dfuA02,99,1.10.1040,N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2,1h0oA00,288,1.10.620,"Ribonucleotide Reductase, subunit A",0.5624,0.5354
+1hf2A01,90,3.30.750,Transcription Regulator spoIIAA,2iu4A02,151,3.30.1180,Hypothetical Protein Tm841; Chain: A;domain 3,0.5586,0.4936
+1avyB00,54,1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,5mawD00,260,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.5528,0.5081
+3lklA00,93,3.30.750,Transcription Regulator spoIIAA,4uxdA00,274,3.20.20,TIM Barrel,0.5491,0.4826
+1ekgA00,119,3.30.920,"Metal Transport, Frataxin; Chain A",3jrqA00,271,3.60.40,Phosphatase 2c; domain 1,0.541,0.3963
+3hl6A02,115,1.20.58,"Methane Monooxygenase Hydroxylase; Chain G, domain 1",1n83A00,251,1.10.565,Retinoid X Receptor,0.537,0.4323
+1w53A00,84,1.10.1240,"Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1",6hj2A00,274,1.10.565,Retinoid X Receptor,0.5368,0.4328
+3b9qA01,89,1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",3n3uA00,291,1.10.3290,Fic-like fold,0.5358,0.4987
+3ju4A01,72,3.30.750,Transcription Regulator spoIIAA,2ebnA00,285,3.20.20,TIM Barrel,0.5325,0.4048
+3q1tC02,53,1.10.12,"Lyase 2-enoyl-coa Hydratase; Chain  A, domain 2",1qmgA02,293,1.10.1040,N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2,0.5323,0.5257
+2vqeM01,71,1.10.8,"Helicase, Ruva Protein; domain 3",3tcrA00,158,3.40.980,Molybdenum Cofactor Biosythetic Enzyme; Chain A,0.5315,0.4177
+2hf1A01,55,2.20.25,N-terminal domain of TfIIb,1eq6A00,189,3.40.1000,Protein Transport Mog1p; Chain A,0.5283,0.4958
+3ezuA01,182,1.20.1260,Ferritin,3ee4A00,289,1.10.620,"Ribonucleotide Reductase, subunit A",0.527,0.5065
+3vsmA03,94,2.60.40,Immunoglobulin-like,4udqA02,180,3.30.410,Cholesterol Oxidase; domain 2,0.5241,0.4657
+2i8dA01,81,3.90.1150,"Aspartate Aminotransferase, domain 1",1ekgA00,119,3.30.920,"Metal Transport, Frataxin; Chain A",0.521,0.4118
+1fc6A01,98,3.30.750,Transcription Regulator spoIIAA,1jqpA02,228,3.90.70,Cathepsin B; Chain A,0.5208,0.3336
+1nmoA02,122,3.40.1390,"Udp-n-acetylmuramoylalanyl-d-glutamate--2,6- Diaminopimelate Ligase; Chain: A, domain 1",3bm3A00,259,3.40.91,Restriction Endonuclease,0.5201,0.5104
+2o4cA03,88,3.30.1370,"Ribosomal Protein S8; Chain: A, domain 1",2fji101,209,1.10.357,Tetracycline Repressor; domain 2,0.52,0.4056
+3kwrA00,83,3.30.160,Double Stranded RNA Binding Domain,3nyiA02,137,3.30.1180,Hypothetical Protein Tm841; Chain: A;domain 3,0.5146,0.3143
+2de6A03,55,2.20.25,N-terminal domain of TfIIb,3g4eA00,297,2.120.10,Neuraminidase,0.5133,0.4958
+3eafA02,177,3.40.50,Rossmann fold,1gs5A00,258,3.40.1160,Carbamate kinase,0.5105,0.4483
+1nu7D02,128,1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",6wngA02,271,1.20.200,"Fumarase C; Chain A, domain 2",0.5089,0.426
+5ysnB01,67,1.10.30,"DNA Binding (I), subunit A",2ogiB00,193,1.10.3210,Hypothetical protein af1432,0.5025,0.3921
+6okdA03,139,1.20.930,Transcription Elongation Factor S-II; Chain A,1dofA01,244,1.20.200,"Fumarase C; Chain A, domain 2",0.498,0.3805
+5hqhA00,96,2.170.120,"RNA Polymerase Alpha Subunit; Chain A, domain 2",4uqfA02,134,3.30.1130,"GTP Cyclohydrolase I, domain 2",0.4942,0.4857
+3gd0A02,112,3.30.920,"Metal Transport, Frataxin; Chain A",1gp0A00,133,2.70.130,Cation-dependent Mannose-6-phosphate Receptor; Chain A,0.4921,0.4129
+3mogA03,94,3.30.750,Transcription Regulator spoIIAA,1ng5B00,206,2.40.260,Sortase; Chain: A;,0.492,0.4071
+3pesA00,83,3.30.300,"GMP Synthetase; Chain A, domain 3",8ew8A01,232,3.50.70,Chalcone isomerase,0.4834,0.4114
+4fe9A03,110,2.60.40,Immunoglobulin-like,3cjyA00,253,2.40.160,Porin,0.4795,0.4073
+3kyqA02,52,1.20.5,Single alpha-helices involved in coiled-coils or other helix-helix interfaces,1i6pA00,214,3.40.1050,Beta-carbonic Anhydrase; Chain A,0.4794,0.2931
+3fqmA02,86,2.20.25,N-terminal domain of TfIIb,3isrA01,185,3.10.620,C8orf32 fold,0.4786,0.3206
+4mdyA02,149,3.40.50,Rossmann fold,2a1fC00,237,3.40.1160,Carbamate kinase,0.4733,0.4244
+4a15A02,81,1.10.30,"DNA Binding (I), subunit A",2p8eA00,278,3.60.40,Phosphatase 2c; domain 1,0.4723,0.404
+1jj2Y00,73,2.20.25,N-terminal domain of TfIIb,2gb7D00,292,3.40.91,Restriction Endonuclease,0.4707,0.3472
+6hdrA01,69,3.30.10,Trypsin Inhibitor V; Chain A,1eyqA02,159,3.50.70,Chalcone isomerase,0.4702,0.3409
+4o8sA01,125,3.10.450,"Nuclear Transport Factor 2; Chain: A,",4qunA00,283,3.90.190,Protein-Tyrosine Phosphatase; Chain A,0.4656,0.3618
+1izmA00,170,1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",6wngA02,271,1.20.200,"Fumarase C; Chain A, domain 2",0.4615,0.3801
+3imlD03,91,3.30.300,"GMP Synthetase; Chain A, domain 3",6zq3A01,208,3.90.70,Cathepsin B; Chain A,0.4579,0.3362
+1n13E00,50,3.30.60,Wheat Germ Agglutinin (Isolectin 2); domain 1,2w3qA02,164,3.40.1050,Beta-carbonic Anhydrase; Chain A,0.4565,0.2684
+7bgsA01,119,3.40.1350,"Trna Endonuclease; Chain: A, domain 1",8be0A01,191,3.40.91,Restriction Endonuclease,0.4562,0.4447
+2fji101,209,1.10.357,Tetracycline Repressor; domain 2,2b1eA02,151,1.20.1310,5 helical Cullin repeat like,0.4538,0.3582
+3cz6A01,104,1.20.120,"Four Helix Bundle (Hemerythrin (Met), subunit A)",3isrA01,185,3.10.620,C8orf32 fold,0.4536,0.449
+1qf8A02,72,2.20.25,N-terminal domain of TfIIb,8ew8A01,232,3.50.70,Chalcone isomerase,0.4534,0.3829
+1zhxA03,191,2.40.160,Porin,3g4eA00,297,2.120.10,Neuraminidase,0.4522,0.3911
+1pjuA01,63,3.30.60,Wheat Germ Agglutinin (Isolectin 2); domain 1,3hwjA00,149,2.60.120,Jelly Rolls,0.4471,0.2805
+4iu3B02,119,1.10.1330,Type 1 dockerin domain,5z7qA00,176,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.4467,0.4431
+4l9cA00,150,3.40.1000,Protein Transport Mog1p; Chain A,1gwyA00,175,2.60.270,"Mutm (Fpg) Protein; Chain: A, domain 2",0.4441,0.3904
+2v1lA00,129,3.10.450,"Nuclear Transport Factor 2; Chain: A,",8ew8A01,232,3.50.70,Chalcone isomerase,0.4404,0.2862
+3ejbB01,83,3.30.43,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 2,3psqB00,182,2.40.260,Sortase; Chain: A;,0.4402,0.382
+3mfiA02,97,3.40.1170,"MutS, DNA mismatch repair protein, domain I",2bvfA02,141,3.30.465,Uridine Diphospho-n-acetylenolpyruvylglucosamine Reductase; domain 3,0.4355,0.388
+4b6dB00,57,3.30.60,Wheat Germ Agglutinin (Isolectin 2); domain 1,1zvpD00,131,3.30.2130,VC0802-like,0.4261,0.2943
+4juyB00,188,1.20.58,"Methane Monooxygenase Hydroxylase; Chain G, domain 1",5z7qA00,176,1.20.1330,"f41 fragment of flagellin, N-terminal domain",0.4226,0.3004
+1vq8R00,150,3.90.470,Ribosomal Protein L22; Chain A,1qmgA02,293,1.10.1040,N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2,0.4199,0.3638
+3s5tA01,153,3.30.565,Heat Shock Protein 90,1txoB00,236,3.60.40,Phosphatase 2c; domain 1,0.4179,0.402
+4gc1A02,101,2.90.10,"Agglutinin, subunit A",5gv0A00,162,2.40.160,Porin,0.4121,0.4113
+4qamB00,180,2.60.40,Immunoglobulin-like,3d7aA01,136,3.30.1440,"50s Ribosomal Protein L5; Chain: A,",0.3962,0.2985
+1fohA03,209,3.40.30,Glutaredoxin,2ebnA00,285,3.20.20,TIM Barrel,0.3873,0.3859
+1jb0F00,141,1.10.8,"Helicase, Ruva Protein; domain 3",1dofA01,244,1.20.200,"Fumarase C; Chain A, domain 2",0.3815,0.2677
+5gutA04,186,3.90.120,"DNA Methylase; Chain A, domain 2",1xr4A02,269,3.40.1080,Glutaconate Coenzyme A-transferase,0.3618,0.325
+5x7qA01,226,2.60.40,Immunoglobulin-like,3dr2A00,299,2.120.10,Neuraminidase,0.3488,0.2529
+3cjyA00,253,2.40.160,Porin,3n3uA00,291,1.10.3290,Fic-like fold,0.3478,0.2911
+1qmgA02,293,1.10.1040,N-(1-d-carboxylethyl)-l-norvaline Dehydrogenase; domain 2,3memA02,310,1.10.3210,Hypothetical protein af1432,0.3317,0.3086

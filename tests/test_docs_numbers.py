@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SUMMARY = json.loads((ROOT / "benchmarks/results/summary.json").read_text())
+TEST = json.loads((ROOT / "benchmarks/results_test/summary.json").read_text())
 HARD = json.loads((ROOT / "benchmarks/results_hard/summary.json").read_text())
 LLM = json.loads((ROOT / "benchmarks/results/llm_experiment/summary.json").read_text())
 
@@ -46,6 +47,14 @@ def expected_strings() -> list[str]:
     )
     ab_main = SUMMARY["abstain_below_tm_0_5"]
     out.append(f"{pct(ab_main['coverage'])} % of main-set queries")
+    # Held-out test and the score change
+    out.append(acc_string(TEST["all_queries"]["structure"]["fold"]))
+    out.append(acc_string(TEST["coverage_aware_score"]["fold"]))
+    for name in ("results", "results_hard", "results_test"):
+        d = json.loads((ROOT / f"benchmarks/{name}/summary.json").read_text())
+        diff = d["coverage_aware_score"]["minus_primary"]["fold"]
+        sign = "+" if diff["diff"] > 0 else ""
+        out.append(f"{sign}{pct(diff['diff'])} [{pct(diff['ci95'][0])}, {pct(diff['ci95'][1])}]")
     errs = HARD["structure_fold_errors_vs_neighbour_size"]["errors"]
     out.append(f"{pct(errs['fraction_neighbour_longer'])} % of the {errs['n']} fold errors")
     return out

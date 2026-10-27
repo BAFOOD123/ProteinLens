@@ -59,7 +59,8 @@ across sizes. Rules of thumb: about **0.17** for unrelated proteins, **> 0.5** u
 **Two TM-scores.** Since L is one protein's length, there are two versions. If a small domain (70
 residues) sits inside a big protein (250 residues), the score normalized by the small one can be
 high ("all of me is covered") while the one normalized by the big one is low ("most of me is not").
-For classification ProteinLens uses the score normalized by the *query*.
+For classification ProteinLens first used the score normalized by the *query*. It now uses the
+smaller of the two (normalized by the *longer* protein), for the reason explained in section 6.
 
 **TM-align** (Zhang & Skolnick, 2005) searches for the alignment and superposition that maximize
 the TM-score, without needing the sequences to be similar. ProteinLens calls it through `tmtools`.
@@ -136,9 +137,17 @@ job easy. A second **hard set** (600 domains, 120 folds, only 5 per fold) was de
 Looking at the errors showed a **size bias**. The TM-score used for ranking is divided by the
 *query's* length, so it measures "how much of my protein is covered". A small domain can be
 covered by *part* of a much bigger protein, and in 95.8 % of the errors the wrong neighbour was
-longer than the query. A score that requires covering *both* proteins would have done better on
-this set, but not on the main set. Switching after seeing the results would be test-set tuning,
-so the headline keeps the original choice.
+longer than the query.
+
+**Fixing it without cheating.** A score that requires covering *both* proteins (the smaller of the two
+TM-scores) looked better on the hard set. But choosing a method on data you have already seen and
+then reporting that same data is test-set tuning: the result would look better than it really is.
+The fix is the standard machine-learning split. The main and hard sets became the **development**
+data where the choice was made, by a rule written in advance. Then a brand-new **test** set was
+built (600 domains that appear in neither development set) and committed before it was run. On that
+test set the coverage-aware score raised fold accuracy from 84.8 % to 89.5 % (+4.7 points, 95 % CI
+2.7 to 6.7). Because the gain held up on data it was never chosen on, it became the default. The
+main and hard tables still show the original score, because that was what was planned for them.
 
 **Abstention** means saying "I'm not sure" instead of guessing. If ProteinLens answers only when its
 best match has TM-score > 0.5, it answers 90.0 % of hard-set queries and gets 93.2 % of those right.
@@ -266,8 +275,9 @@ pairs, so a grounded LLM must beat 83.3 % to show it adds anything beyond the ru
 10. **Your fold accuracy is 99.7 %. Should I believe it?**
     It is real for that benchmark, but the benchmark is easy: 20 well-populated folds, clean single
     domains, and CATH itself uses structural comparison. On a harder, pre-specified set with 120
-    folds and only 5 examples each, accuracy is 88.0 %, still well above sequence (65.5 %). The most
-    meaningful result is the large gap over sequence on remote homologs in both sets.
+    folds and only 5 examples each, accuracy is 88.0 %, still well above sequence (65.5 %). On a
+    held-out test set it is 84.8 % with the original score and 89.5 % with the improved one. The most
+    meaningful result is the large gap over sequence on remote homologs in every set.
 
 11. **Describe a failure and what you learned from it.**
     1f06A02 was put in the wrong fold. Its best TM-score to its own fold was only 0.385, so it did not

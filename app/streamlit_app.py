@@ -279,20 +279,22 @@ def page_classify() -> None:
     with st.spinner(f"Aligning against {len(ref)} reference domains…"):
         hits = cached_classify(key, s, 5)
     best = hits[0]
-    if best.tm_query > SAME_FOLD_TM:
+    if best.tm_coverage > SAME_FOLD_TM:
         st.success(
-            f"Predicted fold: **{best.fold} — {best.fold_name}** (top TM-score {best.tm_query:.3f})"
+            f"Predicted fold: **{best.fold} — {best.fold_name}** "
+            f"(top TM-score {best.tm_coverage:.3f})"
         )
     else:
         st.warning(
             f"Low confidence: the best match {best.fold} — {best.fold_name} has "
-            f"TM-score {best.tm_query:.3f} (not above {SAME_FOLD_TM}). The fold may not "
+            f"TM-score {best.tm_coverage:.3f} (not above {SAME_FOLD_TM}). The fold may not "
             "be in the reference set."
         )
     c1, c2 = st.columns([3, 2])
     with c1:
         cols = [
             "domain",
+            "tm_coverage",
             "tm_query",
             "tm_reference",
             "rmsd",
@@ -306,7 +308,7 @@ def page_classify() -> None:
         st.dataframe(pd.DataFrame([h.__dict__ for h in hits])[cols], hide_index=True)
         fig = go.Figure(
             go.Bar(
-                x=[h.tm_query for h in hits][::-1],
+                x=[h.tm_coverage for h in hits][::-1],
                 y=[f"{h.domain} ({h.fold})" for h in hits][::-1],
                 orientation="h",
                 marker_color=COLOR_A,
@@ -317,7 +319,7 @@ def page_classify() -> None:
         fig.update_layout(
             height=260,
             margin=dict(l=10, r=10, t=10, b=10),
-            xaxis=dict(range=[0, 1], title="TM-score (normalized by your structure)"),
+            xaxis=dict(range=[0, 1], title="TM-score (normalized by the longer protein)"),
             plot_bgcolor="white",
         )
         st.plotly_chart(fig, use_container_width=True)

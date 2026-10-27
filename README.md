@@ -74,6 +74,36 @@ and 95.5 % for the longest third ([hard-set failure analysis](benchmarks/results
 literature threshold, not tuned), it answers 90.0 % of hard-set queries with 93.2 % [90.9, 95.2]
 fold accuracy, and 98.3 % of main-set queries with 100.0 % (283/283).
 
+### Improving the classifier, confirmed on held-out data
+
+The hard set's errors pointed to a fix: rank by a **coverage-aware score** (the smaller of the two
+TM-scores, so a match must cover *both* proteins). To avoid tuning on data already seen, the main
+and hard sets were treated as **development** data: a fixed rule (`benchmarks/select_score.py`)
+chose the score there, and a **new held-out test set** was built afterwards (600 domains, 120 random
+folds, seed 7777, no domain shared with the other sets) and committed before it was run. Fold
+accuracy, leave-one-out 1-NN:
+
+| Set | Original score (query-normalized) | Coverage-aware score | Change, points [95% CI] |
+|---|---|---|---|
+| Main (development) | 99.7 % [99.0, 100.0] | 99.0 % [97.6, 100.0] | -0.7 [-1.7, 0.0] |
+| Hard (development) | 88.0 % [85.5, 90.3] | 92.0 % [89.8, 94.0] | +4.0 [2.3, 5.8] |
+| **Held-out test** | 84.8 % [82.0, 87.8] | 89.5 % [87.0, 91.8] | +4.7 [2.7, 6.7] |
+
+The gain replicated on data it was not chosen on, so by the pre-registered rule the coverage-aware
+score is now the **default ranking** in `proteinlens classify`, reports and the app. (Superfamily
+accuracy changed by +0.8 [-0.7, 2.3] points on the test set, which is not a clear difference.) On
+the test set, sequence 1-NN scores 57.5 % [53.5, 61.3] at fold level, and on remote homologs
+(n = 270) structure finds the superfamily 92.2 % [88.9, 95.2] of the time vs 48.1 % [41.9, 54.1]
+for sequence. Source: [`benchmarks/results_test/summary.json`](benchmarks/results_test/summary.json).
+
+### Results website
+
+[`site/index.html`](site/index.html) is a self-contained page with the 3D comparisons, all three
+benchmark sets, the score improvement and the checker demo. It is generated from the result files by
+`python site/build_site.py`, and a test fails if it is out of date. To publish it on GitHub Pages, enable
+Pages with source "GitHub Actions" in the repository settings; `.github/workflows/pages.yml` then
+deploys it on every push to `main`.
+
 **Read these numbers with care** (details in [Limitations](#limitations) and the
 [failure analysis](benchmarks/results/FAILURE_ANALYSIS.md)): the benchmark is clean and small
 (20 well-populated folds, X-ray domains ≤ 2.5 Å), and CATH itself is built partly from structure
@@ -114,8 +144,9 @@ Optional LLM narration: copy `.env.example`, set `ANTHROPIC_API_KEY` (and option
 the template.
 
 Reproduce the benchmark: `make benchmark` (≈ 8 minutes on 4 CPUs; resumable) or
-`make benchmark-smoke` (40 domains, ≈ 10 s). The harder second benchmark: `make benchmark-hard`
-(≈ 30 minutes; if it stops at its time limit, run it again to resume).
+`make benchmark-smoke` (40 domains, ≈ 10 s). The harder second benchmark: `make benchmark-hard`;
+the held-out test: `make benchmark-test` (≈ 30 minutes each; if one stops at its time limit, run it
+again to resume). Rebuild the website: `python site/build_site.py`.
 
 ## How it works
 
@@ -150,19 +181,20 @@ More: [plain-language explainer](docs/UNDERSTANDING.md) · [paper-style write-up
   chains, NMR models, low-confidence predictions, folds absent from the reference set) are harder
   still. 1-NN cannot predict a fold that is not in its reference set; the app warns when the best
   TM-score is ≤ 0.5.
-* **Size bias of the score.** Normalizing the TM-score by the query's length lets small domains
-  match fragments of large proteins; this causes most hard-set errors. Normalizing by the longer
-  protein would have scored 92.0 % there, but on the main set another normalization was best, so no
-  choice wins everywhere. The pre-specified score is kept for all headline numbers.
+* **Size bias, now reduced.** The original query-normalized score let small domains match fragments
+  of large proteins. The coverage-aware score fixes much of this (+4.7 points on held-out data) and
+  is the default, but it cost 0.7 points on the easy main set and does not help superfamily
+  accuracy clearly. The headline tables for the main and hard sets still report the pre-specified
+  original score.
 * **Circularity with the answer key.** CATH uses structural comparison when classifying domains,
   so high agreement between a structure method and CATH is partly built in. The meaningful
   comparison is structure vs sequence on the same queries.
 * **Residual redundancy.** 9 of 41,328 pairs exceed 40 % identity by our measure (identical
   residues ÷ shorter length), because CATH's S40 clustering uses different identity/overlap
   rules. They were kept and disclosed rather than removed after seeing results.
-* **One pre-specified scoring choice.** Ranking by TM-score normalized by the query length was
-  fixed in advance. Normalizing by the shorter protein would have scored higher at superfamily
-  level (97.2 % vs 95.8 %); we report the pre-specified number.
+* **Score choices are reported, not hidden.** The main and hard tables use the score fixed in advance
+  (TM-score normalized by the query). Other normalizations appear only as sensitivity analyses,
+  and the one change of default was made on development data and confirmed on a held-out set.
 * **The superfamily boundary is partly a curation decision.** Several "errors" are domains from
   the same kind of enzyme that CATH places in different superfamilies of one fold.
 * **The faithfulness checker is narrow.** It verifies numbers, identifiers, fold names from a

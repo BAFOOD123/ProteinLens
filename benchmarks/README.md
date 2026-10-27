@@ -127,3 +127,8 @@ score on them and reporting it there would be test-set tuning. Instead:
 4. **Adoption rule:** the coverage-aware score becomes the default ranking in
    `proteinlens classify` and the app only if its test-set fold accuracy is at least that of the
    original score. Otherwise the original stays. Either way the test result is reported.
+
+**Outcome** (`results_test/summary.json`): the test set has 600 domains, 120 folds and 247
+superfamilies. Fold accuracy is 84.8 % [82.0, 87.8] with the original score and 89.5 % [87.0, 91.8]
+with the coverage-aware score, a paired difference of +4.7 points [2.7, 6.7]. The adoption rule is
+met, so the coverage-aware score is now the default ranking (`proteinlens.classify.DEFAULT_SCORE`).

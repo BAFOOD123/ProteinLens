@@ -29,7 +29,10 @@ fold, round-robin across up to 4 random superfamilies. The result is **288 domai
 **Hard set (pre-specified).** To test the few-examples regime, a second set was designed and
 committed before running: 120 folds drawn at random (seed 2026) from all 430 folds with ≥ 5 eligible
 domains, and 5 random domains per fold. This gives 600 domains and 236 superfamilies (107 singletons);
-each query has only 4 fold-mates. We also pre-specified an **abstention** analysis for both sets:
+each query has only 4 fold-mates. Main and hard later served as **development** sets for one change
+of score (below), which was confirmed on a third, **held-out test set** built afterwards (same
+design as the hard set, seed 7777, 600 domains sharing no domain with the other sets). We also
+pre-specified an **abstention** analysis for both sets:
 answer only when the best TM-score exceeds the literature threshold of 0.5.
 
 **Structure comparison.** TM-align (via `tmtools`) aligns C-α atoms and reports the TM-score
@@ -95,6 +98,15 @@ different normalization was best, so no choice dominates. **Abstention** at TM 0
 hard-set queries with 93.2 % [90.9, 95.2] fold accuracy (41.7 % on the abstained 60), and 98.3 % of
 main-set queries with 100.0 % (283/283).
 
+**Held-out confirmation of a better score.** On the development sets, a fixed rule (best mean
+fold accuracy across the candidate normalizations) selected the coverage-aware score, the smaller
+of the two TM-scores. On the held-out test set it raised fold accuracy from 84.8 % [82.0, 87.8] to
+89.5 % [87.0, 91.8], a paired difference of +4.7 points [2.7, 6.7]. Superfamily accuracy changed by
++0.8 [-0.7, 2.3] points. On the main set the same score cost 0.7 points [-1.7, 0.0]. The gain met
+the pre-registered adoption rule, so the coverage-aware score is now the tool's default. The test
+set reproduced the other findings: structure 92.2 % vs sequence 48.1 % at superfamily level on
+remote homologs (n = 270), and 96.7 % of the 91 fold errors (original score) matched a longer protein.
+
 The checker passed every template report tested. It rejected all 12 kinds of deliberately
 corrupted report in the test suite: wrong values, an invented derived number, a flipped or negated
 verdict, an identifier, CATH code or fold name from memory, and functional or evolutionary claims.
@@ -118,6 +130,6 @@ structure.
 ## 5. Future work
 
 Run the PENDING LLM experiment. Extend the benchmark to more folds, multi-domain chains and
-AlphaFold models stratified by pLDDT. Test a coverage-aware score (e.g. the smaller of the two TM-scores) on *new* data, since the hard
-set's errors suggest it but it must not be tuned on the same benchmark. Compare against other structural search tools. Evaluate the checker against
-human judgements of report faithfulness.
+AlphaFold models stratified by pLDDT. Look for a score that also separates superfamilies within a
+fold, which the coverage-aware score did not clearly improve. Compare against other structural
+search tools. Evaluate the checker against human judgements of report faithfulness.

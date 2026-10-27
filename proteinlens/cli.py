@@ -108,14 +108,18 @@ def classify(
     s = _load(identifier, chain, range_)
     hits = classify_structure(s, top_k=top, workers=workers)
     typer.echo(f"{s.name} ({len(s)} residues) vs {len(load_reference())} CATH reference domains")
-    typer.echo(f"{'TM(query)':>9} {'TM(ref)':>8} {'RMSD':>6}  {'domain':8} {'fold':10} name")
+    typer.echo(
+        f"{'TM(cover)':>9} {'TM(query)':>9} {'TM(ref)':>8} {'RMSD':>6}  "
+        f"{'domain':8} {'fold':10} name"
+    )
     for h in hits:
         typer.echo(
-            f"{h.tm_query:9.3f} {h.tm_reference:8.3f} {h.rmsd:6.2f}  {h.domain:8} {h.fold:10} "
+            f"{h.tm_coverage:9.3f} {h.tm_query:9.3f} {h.tm_reference:8.3f} {h.rmsd:6.2f}  "
+            f"{h.domain:8} {h.fold:10} "
             f"{h.fold_name}"
         )
     best = hits[0]
-    note = "" if best.tm_query > SAME_FOLD_TM else "  (low confidence: top TM-score <= 0.5)"
+    note = "" if best.tm_coverage > SAME_FOLD_TM else "  (low confidence: top TM-score <= 0.5)"
     typer.echo(f"Predicted fold: {best.fold} {best.fold_name}{note}")
 
 
