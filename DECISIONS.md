@@ -28,3 +28,4 @@ One line each: decision — reason.
 - **LLM experiment pairs exclude nearest-fold hits from the grounded facts** — those domains are in the reference set, so a fold lookup would leak the answer.
 - **Extension: a harder second benchmark (600 domains / 120 random folds / 5 per fold, seed 2026)** — the main set gives every query 10–14 fold-mates; this tests the few-examples case. Design committed before running.
 - **Abstention at TM 0.5 reported for both sets** — threshold from the literature (Xu & Zhang 2010), not tuned; shows how often 1-NN can answer confidently.
+- **Score improvement via a proper dev/test split** — main + hard are now "development" sets; a fixed rule (`select_score.py`, best mean fold accuracy) picked normalization by the longer protein. A new held-out test set (seed 7777, no shared domains) decides whether it is adopted (pre-registered rule: adopt if test fold accuracy ≥ original).

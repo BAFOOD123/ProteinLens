@@ -7,6 +7,7 @@ Everything here is produced by the scripts in this folder; nothing is typed in b
 | `make dataset` (`build_dataset.py`) | builds the CATH benchmark set | ~1 min first time, seconds when cached |
 | `make benchmark` | dataset + all-vs-all alignment (`run_benchmark.py`) + analysis (`analyze.py`) | ~8 min |
 | `make benchmark-smoke` | the same on a 40-domain subset → `benchmarks/smoke/` | ~10 s |
+| `make benchmark-test` | held-out test of the score chosen on main + hard (below) → `results_test/` | ~30 min |
 | `make benchmark-hard` | the harder second benchmark (below) → `results_hard/`, `figures_hard/` | ~30 min |
 | `make eval-llm` (`llm_experiment.py`) | grounded vs ungrounded LLM experiment (needs an API key) | see `results/llm_experiment/` |
 
@@ -107,3 +108,22 @@ and analysis were written down and committed before any of its results were comp
 literature threshold (TM-score > 0.5 usually means the same fold; not tuned on these data), we also
 report the **coverage** (fraction of queries whose best match has TM > 0.5) and the accuracy on the
 answered and abstained queries (`summary.json` → `abstain_below_tm_0_5`).
+
+## Improving the score without fooling ourselves: a held-out test set (pre-specified)
+
+The hard set suggested a better score, but main and hard have both been looked at, so choosing a
+score on them and reporting it there would be test-set tuning. Instead:
+
+1. **Development sets = main + hard.** `select_score.py` applies a fixed rule to them: among the
+   candidate TM-score normalizations (by query, by reference, by the shorter protein, by the
+   longer protein), choose the one with the highest mean fold accuracy. It selected
+   **normalization by the longer protein** (= the smaller of the two TM-scores, so a match must
+   cover *both* proteins): `score_selection.json`.
+2. **Test set**, built after the selection and committed before it was run: same design as the
+   hard set (120 random folds × 5 random domains, same filters), seed **7777**, and **no domain
+   that appears in the main or hard sets**.
+3. On the test set we report both the original (query-normalized) score and the selected
+   coverage-aware score, with a paired bootstrap CI of the difference.
+4. **Adoption rule:** the coverage-aware score becomes the default ranking in
+   `proteinlens classify` and the app only if its test-set fold accuracy is at least that of the
+   original score. Otherwise the original stays. Either way the test result is reported.

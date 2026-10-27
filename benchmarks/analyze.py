@@ -81,7 +81,7 @@ def style_axes(ax) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--set", choices=["main", "hard"], default="main", help="benchmark set")
+    ap.add_argument("--set", choices=["main", "hard", "test"], default="main", help="benchmark set")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
     suffix = "" if args.set == "main" else f"_{args.set}"
@@ -301,6 +301,29 @@ def main() -> None:
             correct["structure"]["superfamily"][confident], rng
         ),
     }
+    # Coverage-aware score: rank by the smaller of the two TM-scores (= normalized by the longer
+    # protein), so a match must cover both proteins. Selected on the development sets (main +
+    # hard) by benchmarks/select_score.py; confirmed or rejected on the held-out test set.
+    tm_cov = np.minimum(tm, tm.T)
+    cov_ok = {lv: (nearest_neighbour(tm_cov, truth[lv]) == truth[lv]).astype(float) for lv in truth}
+    summary["coverage_aware_score"] = {
+        "definition": "1-NN on min(TM by query length, TM by reference length)",
+        **{lv: acc_entry(cov_ok[lv], rng) for lv in truth},
+        "minus_primary": {},
+    }
+    for lv in truth:
+        lo, hi = paired_diff_ci(cov_ok[lv], correct["structure"][lv], rng)
+        summary["coverage_aware_score"]["minus_primary"][lv] = {
+            "diff": round(float(cov_ok[lv].mean() - correct["structure"][lv].mean()), 4),
+            "ci95": [round(lo, 4), round(hi, 4)],
+        }
+    summary["coverage_aware_score"]["remote_homologs_superfamily"] = acc_entry(
+        cov_ok["superfamily"][remote], rng
+    )
+    summary["coverage_aware_score"]["queries_with_superfamily_partner"] = acc_entry(
+        cov_ok["superfamily"][has_sf_partner], rng
+    )
+
     # Descriptive error analysis (structure, fold level): size of the nearest neighbour relative
     # to the query, and accuracy by query length and by CATH class.
     lengths_arr = table["n_residues"].to_numpy()

@@ -2,7 +2,7 @@
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 
-.PHONY: setup test test-all lint format dataset benchmark benchmark-smoke benchmark-hard eval-llm app clean
+.PHONY: setup test test-all lint format dataset benchmark benchmark-smoke benchmark-hard benchmark-test eval-llm app clean
 
 setup:            ## Create .venv and install pinned dependencies + the package
 	python3 -m venv .venv
@@ -39,6 +39,12 @@ benchmark-hard:   ## Harder second benchmark: 600 domains / 120 folds (resumable
 	$(PY) benchmarks/build_dataset.py --set hard
 	$(PY) benchmarks/run_benchmark.py --set hard
 	$(PY) benchmarks/analyze.py --set hard
+
+benchmark-test:   ## Held-out test set for the score chosen on main + hard (resumable; re-run if it stops)
+	$(PY) benchmarks/select_score.py
+	$(PY) benchmarks/build_dataset.py --set test
+	$(PY) benchmarks/run_benchmark.py --set test
+	$(PY) benchmarks/analyze.py --set test
 
 eval-llm:         ## Grounded vs ungrounded LLM experiment (needs ANTHROPIC_API_KEY)
 	$(PY) benchmarks/llm_experiment.py

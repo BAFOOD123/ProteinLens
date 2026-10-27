@@ -41,8 +41,8 @@ def smoke_indices(table) -> list[int]:
     return [int(i) for i in table.groupby("fold", sort=False).head(2).index]
 
 
-DATA_DIRS = {"main": "data", "hard": "data_hard"}
-RESULT_DIRS = {"main": "results", "hard": "results_hard"}
+DATA_DIRS = {"main": "data", "hard": "data_hard", "test": "data_test"}
+RESULT_DIRS = {"main": "results", "hard": "results_hard", "test": "results_test"}
 
 
 def row_job(args: tuple[int, list[int], str]) -> tuple[int, np.ndarray]:

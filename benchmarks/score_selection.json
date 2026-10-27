@@ -1,0 +1,30 @@
+{
+  "rule": "highest mean fold accuracy over the development sets",
+  "dev_sets": [
+    "results",
+    "results_hard"
+  ],
+  "candidates": {
+    "query_length (primary)": {
+      "results": 0.9965,
+      "results_hard": 0.88,
+      "mean_fold": 0.9383
+    },
+    "reference_length": {
+      "results": 0.9792,
+      "results_hard": 0.8833,
+      "mean_fold": 0.9312
+    },
+    "shorter_length (max of the two)": {
+      "results": 0.9965,
+      "results_hard": 0.875,
+      "mean_fold": 0.9358
+    },
+    "longer_length (min of the two)": {
+      "results": 0.9896,
+      "results_hard": 0.92,
+      "mean_fold": 0.9548
+    }
+  },
+  "selected": "longer_length (min of the two)"
+}

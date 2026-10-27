@@ -73,9 +73,17 @@ HARD_CONFIG = {
     "superfamilies_per_fold": None,  # None = domains drawn uniformly at random within the fold
     "domains_per_fold": 5,
 }
-CONFIGS = {"main": MAIN_CONFIG, "hard": HARD_CONFIG}
+# Held-out TEST set for the score selected on main + hard (the "development" sets). Same design as
+# the hard set, new seed, and no domain that appears in the main or hard sets.
+TEST_CONFIG = {
+    **HARD_CONFIG,
+    "name": "test",
+    "seed": 7777,
+    "exclude_domains_in": ["data", "data_hard"],
+}
+CONFIGS = {"main": MAIN_CONFIG, "hard": HARD_CONFIG, "test": TEST_CONFIG}
 CONFIG = MAIN_CONFIG  # replaced in main() according to --set
-DATA_DIRS = {"main": "data", "hard": "data_hard"}
+DATA_DIRS = {"main": "data", "hard": "data_hard", "test": "data_test"}
 
 
 def download_cath_files() -> dict[str, Path]:
@@ -112,6 +120,9 @@ def eligible_domains(files: dict[str, Path]) -> pd.DataFrame:
     d = d[d["c"].isin(CONFIG["classes"])].copy()
     d["fold"] = d["c"].astype(str) + "." + d["a"].astype(str) + "." + d["t"].astype(str)
     d["superfamily"] = d["fold"] + "." + d["h"].astype(str)
+    for other in CONFIG.get("exclude_domains_in", []):
+        used = set(pd.read_csv(REPO / "benchmarks" / other / "dataset.csv")["domain"])
+        d = d[~d["domain"].isin(used)]
     return d.sort_values("domain").reset_index(drop=True)
 
 

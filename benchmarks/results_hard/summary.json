@@ -267,6 +267,61 @@
       "n": 540
     }
   },
+  "coverage_aware_score": {
+    "definition": "1-NN on min(TM by query length, TM by reference length)",
+    "fold": {
+      "accuracy": 0.92,
+      "ci95": [
+        0.8983,
+        0.94
+      ],
+      "n_correct": 552,
+      "n": 600
+    },
+    "superfamily": {
+      "accuracy": 0.7933,
+      "ci95": [
+        0.7617,
+        0.825
+      ],
+      "n_correct": 476,
+      "n": 600
+    },
+    "minus_primary": {
+      "fold": {
+        "diff": 0.04,
+        "ci95": [
+          0.0233,
+          0.0583
+        ]
+      },
+      "superfamily": {
+        "diff": 0.01,
+        "ci95": [
+          0.0,
+          0.0217
+        ]
+      }
+    },
+    "remote_homologs_superfamily": {
+      "accuracy": 0.9359,
+      "ci95": [
+        0.906,
+        0.9658
+      ],
+      "n_correct": 219,
+      "n": 234
+    },
+    "queries_with_superfamily_partner": {
+      "accuracy": 0.9655,
+      "ci95": [
+        0.9493,
+        0.9797
+      ],
+      "n_correct": 476,
+      "n": 493
+    }
+  },
   "structure_fold_errors_vs_neighbour_size": {
     "errors": {
       "n": 72,
