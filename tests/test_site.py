@@ -1,4 +1,4 @@
-"""The website must be rebuilt whenever results change: site/index.html has to match a fresh build."""
+"""site/index.html must match a fresh build, so the website never drifts from the results."""
 
 import subprocess
 import sys
