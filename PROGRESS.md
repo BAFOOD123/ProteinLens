@@ -59,3 +59,16 @@ All milestones M0–M9 done. Elapsed ≈ 0:45 of the 12 h budget. No live LLM ca
 is $0; development cost is not visible from inside the environment (no readout).
 **PENDING:** the live grounded-vs-ungrounded LLM run (`ANTHROPIC_API_KEY=... make eval-llm`; the script's own upper estimate is $0.54 for
 120 Haiku 5.5 + 36 Opus 5.5 calls; it aborts above $3).
+
+## Extension E1 — harder second benchmark + abstention (2026-10-27 02:24–03:05 UTC)
+User asked to continue with the best-fit improvement. Chose depth on the core (M3/M4) over new scope.
+- Design pre-specified and committed (commit "Extension: pre-specify harder second benchmark …") before any
+  hard-set result existed: 600 domains / 120 random folds / 5 per fold, seed 2026.
+- Main-set dataset byte-identical after refactoring the builder (md5 checked); main-set result files unchanged
+  except two added keys in `summary.json` (and three more descriptive keys added afterwards).
+- Hard run: 179,700 pairs; hit the 20-min limit once and resumed automatically (chunks on disk).
+- Results (`benchmarks/results_hard/summary.json`): structure fold 88.0 % [85.5, 90.3] vs sequence 65.5 %;
+  superfamily (queries with a partner, n = 493) 95.3 % vs 78.7 %; remote homologs 91.5 % vs 56.0 %.
+- Failure analysis: 95.8 % of fold errors have a longer nearest neighbour (size bias of query-normalized TM).
+- Abstention at TM 0.5: hard set 90.0 % coverage / 93.2 % accuracy; main set 98.3 % / 100.0 %.
+- README, WRITEUP, UNDERSTANDING, app (Benchmarks tabs) updated; docs-number test covers hard-set numbers.

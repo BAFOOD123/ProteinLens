@@ -26,6 +26,12 @@ Rossmann) plus 5 random eligible folds per class (seed 42). We then sampled up t
 fold, round-robin across up to 4 random superfamilies. The result is **288 domains, 20 folds and
 60 superfamilies**, and every superfamily has ≥ 2 members.
 
+**Hard set (pre-specified).** To test the few-examples regime, a second set was designed and
+committed before running: 120 folds drawn at random (seed 2026) from all 430 folds with ≥ 5 eligible
+domains, and 5 random domains per fold. This gives 600 domains and 236 superfamilies (107 singletons);
+each query has only 4 fold-mates. We also pre-specified an **abstention** analysis for both sets:
+answer only when the best TM-score exceeds the literature threshold of 0.5.
+
 **Structure comparison.** TM-align (via `tmtools`) aligns C-α atoms and reports the TM-score
 normalized by each protein's length, the RMSD and aligned length (pairs < 5 Å), and the
 superposition. We also derive per-residue distances and the top deviating regions (≥ 3 consecutive
@@ -76,6 +82,19 @@ with TM 0.423. All 12 superfamily errors chose a neighbour from a related superf
 the correct fold. Several involve domains whose PDB titles name the same kind of enzyme
 (leucyl- or isoleucyl-tRNA synthetases) but which CATH places in different superfamilies.
 
+**Hard set.** Fold accuracy fell to 88.0 % [85.5, 90.3] for structure and 65.5 % [61.7, 69.3] for
+sequence. Superfamily accuracy was 78.3 % [75.0, 81.5] vs 64.7 % [60.8, 68.7]. Over the 493 queries
+that have a superfamily partner, it was 95.3 % [93.5, 97.0] vs 78.7 % [75.0, 82.6]. On remote homologs
+(n = 234) structure reached 91.5 % [87.6, 94.9] vs sequence 56.0 % [49.6, 62.4]. The 72 fold errors had
+one dominant cause: the nearest neighbour was longer than the query in 95.8 % of them (median 1.9×),
+versus 56.1 % of correct predictions. Query-length normalization lets a small domain, often a
+helical bundle, match part of a larger protein. Accuracy was 78.8 % for the shortest third of
+queries and 95.5 % for the longest, and 74.1 % for mainly-α domains. Normalizing by the longer
+protein would have given 92.0 %, but this was not the pre-specified score. On the main set a
+different normalization was best, so no choice dominates. **Abstention** at TM 0.5 kept 90.0 % of
+hard-set queries with 93.2 % [90.9, 95.2] fold accuracy (41.7 % on the abstained 60), and 98.3 % of
+main-set queries with 100.0 % (283/283).
+
 The checker passed every template report tested. It rejected all 12 kinds of deliberately
 corrupted report in the test suite: wrong values, an invented derived number, a flipped or negated
 verdict, an identifier, CATH code or fold name from memory, and functional or evolutionary claims.
@@ -86,8 +105,8 @@ adds anything.
 
 ## 4. Limitations
 
-The benchmark is small and clean (20 well-populated folds, high-resolution single domains), so it
-overstates performance on arbitrary inputs. CATH is partly derived from structural comparison,
+Both benchmarks use clean, high-resolution single domains. The main set's 20 well-populated folds
+overstate performance, as the hard set's drop to 88.0 % shows, and real inputs will be harder still. CATH is partly derived from structural comparison,
 so agreement with it is partly circular; the structure-vs-sequence contrast is the informative
 result. Nine pairs exceed 40 % identity by our measure despite S40 filtering; we disclose them
 rather than remove them post hoc. The pre-specified TM normalization was not the best in a
@@ -99,6 +118,6 @@ structure.
 ## 5. Future work
 
 Run the PENDING LLM experiment. Extend the benchmark to more folds, multi-domain chains and
-AlphaFold models stratified by pLDDT. Add a calibrated confidence score, e.g. abstain when the top
-TM-score is ≤ 0.5. Compare against other structural search tools. Evaluate the checker against
+AlphaFold models stratified by pLDDT. Test a coverage-aware score (e.g. the smaller of the two TM-scores) on *new* data, since the hard
+set's errors suggest it but it must not be tuned on the same benchmark. Compare against other structural search tools. Evaluate the checker against
 human judgements of report faithfulness.

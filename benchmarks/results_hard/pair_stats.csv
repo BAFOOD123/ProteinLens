@@ -1,0 +1,4 @@
+relation,n_pairs,median_tm,frac_tm_above_0_5,median_seq_id
+different fold,178500,0.3226,0.0057,0.0584
+"same fold, different superfamily",402,0.4607,0.3607,0.064
+same superfamily,798,0.7413,0.9461,0.159

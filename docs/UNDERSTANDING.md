@@ -126,6 +126,25 @@ fold's share of the set, 5.2 %. Both are reported.
 (which TM-score normalization to use) was fixed before results were seen. That avoids "tuning on
 the test set", which would make the numbers look better than they really are.
 
+### A harder test, and knowing when not to answer
+
+In the main benchmark every query has 10–14 members of its own fold to match, which makes 1-NN's
+job easy. A second **hard set** (600 domains, 120 folds, only 5 per fold) was designed and committed
+*before* it was run, so its result could not be steered. Fold accuracy dropped from 99.7 % to
+**88.0 %**, which is still far above sequence (65.5 %).
+
+Looking at the errors showed a **size bias**. The TM-score used for ranking is divided by the
+*query's* length, so it measures "how much of my protein is covered". A small domain can be
+covered by *part* of a much bigger protein, and in 95.8 % of the errors the wrong neighbour was
+longer than the query. A score that requires covering *both* proteins would have done better on
+this set, but not on the main set. Switching after seeing the results would be test-set tuning,
+so the headline keeps the original choice.
+
+**Abstention** means saying "I'm not sure" instead of guessing. If ProteinLens answers only when its
+best match has TM-score > 0.5, it answers 90.0 % of hard-set queries and gets 93.2 % of those right.
+On the 10 % it refuses, a forced guess would have been right only 41.7 % of the time. This trade of
+coverage for accuracy is how a tool like this should behave on real, unknown proteins.
+
 ## 7. Bootstrap confidence intervals
 
 288 queries is a sample, and a different sample would give a slightly different accuracy. The
@@ -178,8 +197,10 @@ pairs, so a grounded LLM must beat 83.3 % to show it adds anything beyond the ru
 
 ## 10. The limitations, one by one
 
-* **Small, clean benchmark.** 20 folds with many members each, high-resolution single domains.
-  Real-world inputs are messier, so expect lower accuracy.
+* **Clean benchmarks.** The main set has 20 folds with many members each. With few examples per
+  fold (the hard set) accuracy falls to 88.0 %, and real-world inputs are messier still.
+* **Size bias.** Ranking by the query-normalized TM-score lets small domains match pieces of big
+  proteins, which causes most hard-set errors.
 * **Circularity.** CATH uses structural comparison when building its classification, so a
   structure method agreeing with CATH is partly built in. The fair comparison is structure vs
   sequence on the same queries.
@@ -243,9 +264,10 @@ pairs, so a grounded LLM must beat 83.3 % to show it adds anything beyond the ru
    the middle 95 % of results. It shows how much the accuracy could vary with a different sample.
 
 10. **Your fold accuracy is 99.7 %. Should I believe it?**
-    It is real for this benchmark, but the benchmark is easier than real life: 20 well-populated
-    folds, clean single domains, and CATH itself uses structural comparison. The more meaningful
-    result is the large gap over sequence on remote homologs.
+    It is real for that benchmark, but the benchmark is easy: 20 well-populated folds, clean single
+    domains, and CATH itself uses structural comparison. On a harder, pre-specified set with 120
+    folds and only 5 examples each, accuracy is 88.0 %, still well above sequence (65.5 %). The most
+    meaningful result is the large gap over sequence on remote homologs in both sets.
 
 11. **Describe a failure and what you learned from it.**
     1f06A02 was put in the wrong fold. Its best TM-score to its own fold was only 0.385, so it did not

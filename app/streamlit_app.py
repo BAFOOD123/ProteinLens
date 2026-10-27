@@ -325,17 +325,22 @@ def page_classify() -> None:
         components.html(single_html(s), height=390)
 
 
-def page_benchmarks() -> None:
-    st.header("Benchmark results")
-    summary_path = RESULTS / "summary.json"
+BENCHMARK_SETS = {
+    "Main set": ("results", "figures", "make benchmark"),
+    "Hard set": ("results_hard", "figures_hard", "make benchmark-hard"),
+}
+
+
+def render_benchmark_set(res_dir: Path, fig_dir: Path, command: str) -> None:
+    summary_path = res_dir / "summary.json"
     if not summary_path.exists():
-        st.warning("No results yet — run `make benchmark`.")
+        st.warning(f"No results yet — run `{command}`.")
         return
     s = json.loads(summary_path.read_text())
     st.caption(
         f"Leave-one-out 1-nearest-neighbour classification of {s['n_domains']} CATH S40 domains "
         f"({s['n_folds']} folds, {s['n_superfamilies']} superfamilies). 95% bootstrap CIs. "
-        "All numbers are read from benchmarks/results/summary.json."
+        f"All numbers are read from benchmarks/{res_dir.name}/summary.json."
     )
     rows = []
     for block, label in (
@@ -345,6 +350,8 @@ def page_benchmarks() -> None:
         for m in ("structure", "sequence", "majority"):
             for lv in ("fold", "superfamily"):
                 e = block[m][lv]
+                if not e["n"]:
+                    continue
                 rows.append(
                     {
                         "subset": f"{label} (n={e['n']})",
@@ -355,15 +362,40 @@ def page_benchmarks() -> None:
                     }
                 )
     st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True)
-    c1, c2 = st.columns(2)
-    c1.image(str(FIGURES / "accuracy.png"))
-    c2.image(str(FIGURES / "accuracy_vs_identity.png"))
-    c1.image(str(FIGURES / "tm_distributions.png"))
-    c2.image(str(FIGURES / "confusion_matrix.png"))
+    ab = s.get("abstain_below_tm_0_5")
+    if ab:
+        fa = ab["fold_accuracy_answered"]
+        st.markdown(
+            f"**Abstaining when the best TM-score is not above 0.5:** answers "
+            f"{100 * ab['coverage']:.1f}% of queries ({ab['n_answered']}/{s['n_domains']}), "
+            f"with fold accuracy {100 * fa['accuracy']:.1f}% on those."
+        )
+    figs = [
+        f
+        for f in (
+            "accuracy.png",
+            "accuracy_vs_identity.png",
+            "tm_distributions.png",
+            "confusion_matrix.png",
+        )
+        if (fig_dir / f).exists()
+    ]
+    cols = st.columns(2)
+    for k, f in enumerate(figs):
+        cols[k % 2].image(str(fig_dir / f))
     with st.expander("Per-fold accuracy"):
-        st.dataframe(pd.read_csv(RESULTS / "per_fold.csv"), hide_index=True)
-    with st.expander("Failure analysis"):
-        st.markdown((RESULTS / "FAILURE_ANALYSIS.md").read_text())
+        st.dataframe(pd.read_csv(res_dir / "per_fold.csv"), hide_index=True)
+    if (res_dir / "FAILURE_ANALYSIS.md").exists():
+        with st.expander("Failure analysis"):
+            st.markdown((res_dir / "FAILURE_ANALYSIS.md").read_text())
+
+
+def page_benchmarks() -> None:
+    st.header("Benchmark results")
+    tabs = st.tabs(list(BENCHMARK_SETS))
+    for tab, (res, figs, command) in zip(tabs, BENCHMARK_SETS.values(), strict=True):
+        with tab:
+            render_benchmark_set(REPO / "benchmarks" / res, REPO / "benchmarks" / figs, command)
     st.subheader("Grounded vs ungrounded LLM experiment")
     exp = RESULTS / "llm_experiment" / "summary.json"
     if exp.exists():

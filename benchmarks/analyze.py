@@ -301,6 +301,40 @@ def main() -> None:
             correct["structure"]["superfamily"][confident], rng
         ),
     }
+    # Descriptive error analysis (structure, fold level): size of the nearest neighbour relative
+    # to the query, and accuracy by query length and by CATH class.
+    lengths_arr = table["n_residues"].to_numpy()
+    ratio = lengths_arr[nn_struct] / lengths_arr
+    ok = correct["structure"]["fold"].astype(bool)
+    summary["structure_fold_errors_vs_neighbour_size"] = {
+        group: {
+            "n": int(mask.sum()),
+            "median_neighbour_to_query_length_ratio": round(float(np.median(ratio[mask])), 2)
+            if mask.any()
+            else None,
+            "fraction_neighbour_longer": round(float((ratio[mask] > 1).mean()), 4)
+            if mask.any()
+            else None,
+        }
+        for group, mask in (("errors", ~ok), ("correct", ok))
+    }
+    length_bins = pd.qcut(lengths_arr, 3)
+    summary["structure_fold_accuracy_by_query_length_tercile"] = [
+        {
+            "length_range": str(b),
+            "n": int((length_bins == b).sum()),
+            "accuracy": round(float(ok[length_bins == b].mean()), 4),
+        }
+        for b in length_bins.categories
+    ]
+    classes = table["cath_class"].to_numpy()
+    summary["structure_fold_accuracy_by_class"] = {
+        str(c): {
+            "n": int((classes == c).sum()),
+            "accuracy": round(float(ok[classes == c].mean()), 4),
+        }
+        for c in sorted(set(classes))
+    }
     high_id = np.triu(seq_id, 1) >= 0.4
     summary["pairs_with_seq_id_ge_40pct"] = int(high_id.sum())
 

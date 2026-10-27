@@ -267,6 +267,49 @@
       "n": 283
     }
   },
+  "structure_fold_errors_vs_neighbour_size": {
+    "errors": {
+      "n": 1,
+      "median_neighbour_to_query_length_ratio": 1.09,
+      "fraction_neighbour_longer": 1.0
+    },
+    "correct": {
+      "n": 287,
+      "median_neighbour_to_query_length_ratio": 1.03,
+      "fraction_neighbour_longer": 0.5993
+    }
+  },
+  "structure_fold_accuracy_by_query_length_tercile": [
+    {
+      "length_range": "(53.999, 125.667]",
+      "n": 96,
+      "accuracy": 1.0
+    },
+    {
+      "length_range": "(125.667, 167.0]",
+      "n": 97,
+      "accuracy": 0.9897
+    },
+    {
+      "length_range": "(167.0, 302.0]",
+      "n": 95,
+      "accuracy": 1.0
+    }
+  ],
+  "structure_fold_accuracy_by_class": {
+    "1": {
+      "n": 85,
+      "accuracy": 1.0
+    },
+    "2": {
+      "n": 87,
+      "accuracy": 1.0
+    },
+    "3": {
+      "n": 116,
+      "accuracy": 0.9914
+    }
+  },
   "pairs_with_seq_id_ge_40pct": 9,
   "accuracy_vs_identity_superfamily": [
     {

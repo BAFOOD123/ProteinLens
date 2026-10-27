@@ -49,6 +49,31 @@ structure stays at 92.0 %:
   <img src="benchmarks/figures/accuracy_vs_identity.png" width="40%" />
 </p>
 
+### A harder second benchmark (pre-specified)
+
+The main set gives every query 10–14 members of its own fold. To test the realistic case of many
+folds with few examples, a second set was designed and committed **before** it was run: **600
+domains from 120 random folds, 5 per fold** (seed 2026, same filters). Source:
+[`benchmarks/results_hard/summary.json`](benchmarks/results_hard/summary.json).
+
+| Hard set | Fold | Superfamily |
+|---|---|---|
+| **Structure** (TM-score 1-NN) | **88.0 %** [85.5, 90.3] (528/600) | 78.3 % [75.0, 81.5] (470/600) |
+| Sequence (Smith-Waterman 1-NN) | 65.5 % [61.7, 69.3] (393/600) | 64.7 % [60.8, 68.7] (388/600) |
+| Structure, queries with a superfamily partner (n = 493) | | **95.3 %** [93.5, 97.0] |
+| Sequence, queries with a superfamily partner (n = 493) | | 78.7 % [75.0, 82.6] |
+| Structure / sequence, remote homologs (n = 234) | | 91.5 % [87.6, 94.9] / 56.0 % [49.6, 62.4] |
+
+Accuracy drops from 99.7 % to 88.0 % at fold level, as stated in advance. The errors have a clear
+cause: in **95.8 % of the 72 fold errors the nearest neighbour is longer than the query** (median
+1.9× longer, vs 1.02× for correct predictions). A small domain, often a small helical bundle, can be
+superimposed onto *part* of a bigger protein. Accuracy is 78.8 % for the shortest third of queries
+and 95.5 % for the longest third ([hard-set failure analysis](benchmarks/results_hard/FAILURE_ANALYSIS.md)).
+
+**Knowing when not to answer.** If ProteinLens answers only when the best TM-score is above 0.5 (the
+literature threshold, not tuned), it answers 90.0 % of hard-set queries with 93.2 % [90.9, 95.2]
+fold accuracy, and 98.3 % of main-set queries with 100.0 % (283/283).
+
 **Read these numbers with care** (details in [Limitations](#limitations) and the
 [failure analysis](benchmarks/results/FAILURE_ANALYSIS.md)): the benchmark is clean and small
 (20 well-populated folds, X-ray domains ≤ 2.5 Å), and CATH itself is built partly from structure
@@ -89,7 +114,8 @@ Optional LLM narration: copy `.env.example`, set `ANTHROPIC_API_KEY` (and option
 the template.
 
 Reproduce the benchmark: `make benchmark` (≈ 8 minutes on 4 CPUs; resumable) or
-`make benchmark-smoke` (40 domains, ≈ 10 s).
+`make benchmark-smoke` (40 domains, ≈ 10 s). The harder second benchmark: `make benchmark-hard`
+(≈ 30 minutes; if it stops at its time limit, run it again to resume).
 
 ## How it works
 
@@ -118,10 +144,16 @@ More: [plain-language explainer](docs/UNDERSTANDING.md) · [paper-style write-up
 
 ## Limitations
 
-* **Small, clean benchmark.** 20 folds with ≥ 10 eligible members each; X-ray domains at ≤ 2.5 Å,
-  50–300 residues, already cut into domains by CATH. Real inputs (multi-domain chains, NMR models,
-  low-confidence predictions, folds absent from the reference set) are harder. 1-NN cannot predict
-  a fold that is not in the reference set; the app warns when the best TM-score is ≤ 0.5.
+* **Clean benchmarks.** The main set has 20 folds with ≥ 10 eligible members each; the hard set
+  (120 folds, 5 each) shows that accuracy drops to 88.0 % when examples are scarce. Both use X-ray
+  domains at ≤ 2.5 Å, 50–300 residues, already cut into domains by CATH. Real inputs (multi-domain
+  chains, NMR models, low-confidence predictions, folds absent from the reference set) are harder
+  still. 1-NN cannot predict a fold that is not in its reference set; the app warns when the best
+  TM-score is ≤ 0.5.
+* **Size bias of the score.** Normalizing the TM-score by the query's length lets small domains
+  match fragments of large proteins; this causes most hard-set errors. Normalizing by the longer
+  protein would have scored 92.0 % there, but on the main set another normalization was best, so no
+  choice wins everywhere. The pre-specified score is kept for all headline numbers.
 * **Circularity with the answer key.** CATH uses structural comparison when classifying domains,
   so high agreement between a structure method and CATH is partly built in. The meaningful
   comparison is structure vs sequence on the same queries.

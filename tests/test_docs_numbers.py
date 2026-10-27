@@ -5,6 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SUMMARY = json.loads((ROOT / "benchmarks/results/summary.json").read_text())
+HARD = json.loads((ROOT / "benchmarks/results_hard/summary.json").read_text())
 LLM = json.loads((ROOT / "benchmarks/results/llm_experiment/summary.json").read_text())
 
 
@@ -30,6 +31,23 @@ def expected_strings() -> list[str]:
     b = LLM["tm_rule_baseline"]
     out.append(f"{pct(b['accuracy'])} % [{pct(b['ci95'][0])}, {pct(b['ci95'][1])}]")
     out.append(f"{SUMMARY['n_domains']} CATH S40 domains")
+    # Hard set
+    for method in ("structure", "sequence"):
+        for level in ("fold", "superfamily"):
+            out.append(acc_string(HARD["all_queries"][method][level]))
+        out.append(acc_string(HARD["queries_with_superfamily_partner"][method]))
+    for method in ("structure", "sequence"):
+        e = HARD["remote_homologs"][method]["superfamily"]
+        out.append(f"{pct(e['accuracy'])} % [{pct(e['ci95'][0])}, {pct(e['ci95'][1])}]")
+    ab = HARD["abstain_below_tm_0_5"]
+    out.append(
+        f"answers {pct(ab['coverage'])} % of hard-set queries with "
+        f"{acc_string(ab['fold_accuracy_answered'])}"
+    )
+    ab_main = SUMMARY["abstain_below_tm_0_5"]
+    out.append(f"{pct(ab_main['coverage'])} % of main-set queries")
+    errs = HARD["structure_fold_errors_vs_neighbour_size"]["errors"]
+    out.append(f"{pct(errs['fraction_neighbour_longer'])} % of the {errs['n']} fold errors")
     return out
 
 

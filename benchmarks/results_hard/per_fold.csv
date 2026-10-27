@@ -1,0 +1,121 @@
+fold,fold_name,n,structure_acc,sequence_acc
+1.10.10,"Arc Repressor Mutant, subunit A",5,0.4,0.0
+1.10.101,Muramoyl-pentapeptide Carboxypeptidase; domain 1,5,1.0,0.8
+1.10.1130,"Flavocytochrome C3; Chain A, domain 2",5,0.6,0.6
+1.10.1240,"Methyltransferase, Methionine Synthase (B12-binding Domains); Chain A, domain 1",5,0.0,0.0
+1.10.150,DNA polymerase; domain 1,5,0.4,0.0
+1.10.1530,"Hypothetical Oxidoreductase Yiak; Chain: A, domain 1",5,1.0,1.0
+1.10.220,Annexin V; domain 1,5,0.4,0.4
+1.10.246,"Serum Albumin; Chain A, Domain 1",5,0.4,0.0
+1.10.274,"Enzyme I; Chain A, domain 2",5,0.8,0.0
+1.10.357,Tetracycline Repressor; domain 2,5,1.0,0.8
+1.10.3660,6-phosphogluconate dehydrogenase C-terminal fold,5,1.0,0.8
+1.10.443,hpI Integrase; Chain A,5,1.0,0.8
+1.10.520,Peroxidase; domain 1,5,1.0,1.0
+1.10.530,Lysozyme,5,1.0,0.4
+1.10.540,"Butyryl-Coa Dehydrogenase, subunit A; domain 1",5,1.0,0.6
+1.10.565,Retinoid X Receptor,5,1.0,1.0
+1.10.720,"Transcription Termination Factor Rho, Rna-binding Domain; Chain A, Domain 1",5,0.0,0.0
+1.20.1080,Glycerol uptake facilitator protein,5,1.0,1.0
+1.20.1250,Growth Hormone; Chain: A;,5,1.0,0.4
+1.20.1260,Ferritin,5,0.8,0.8
+1.20.1270,Substrate Binding Domain Of Dnak; Chain:A; Domain 2,5,0.8,0.4
+1.20.1280,Monooxygenase,5,0.4,0.4
+1.20.272,"Zinc Finger, Delta Prime; domain 3",5,0.6,0.4
+1.20.59,"Chorismate Mutase Domain, subunit A",5,1.0,1.0
+1.20.81,Receptor-associated Protein,5,0.6,0.4
+1.20.90,Phospholipase A2,5,0.8,1.0
+1.20.960,Mitochondrial Import Receptor Subunit Tom20; Chain A,5,1.0,0.0
+2.10.109,"Umud Fragment, subunit A",5,1.0,0.8
+2.10.270,left handed beta-beta-3-solenoid,5,1.0,1.0
+2.10.60,CD59,5,1.0,1.0
+2.10.90,"Cystine Knot Cytokines, subunit B",5,1.0,0.8
+2.102.10,Rieske Iron-sulfur Protein,5,1.0,1.0
+2.130.10,Methylamine Dehydrogenase; Chain H,5,1.0,0.8
+2.150.10,"Alkaline Protease, subunit P, domain 1",5,1.0,1.0
+2.170.270,Beta-clip-like,5,1.0,1.0
+2.20.20,Anthopleurin-A,5,0.6,0.4
+2.40.10,"Thrombin, subunit H",5,1.0,0.8
+2.40.100,Cyclophilin,5,1.0,0.8
+2.40.160,Porin,5,1.0,0.6
+2.40.240,Ribosomal Protein L25; Chain P,5,0.4,0.4
+2.40.33,M1 Pyruvate Kinase; Domain 3,5,1.0,0.6
+2.40.330,At1g16640 B3 domain,5,1.0,0.8
+2.40.340,Beta-clip,5,1.0,1.0
+2.40.37,"Lyase, Ornithine Decarboxylase; Chain A, domain 1",5,1.0,0.6
+2.40.40,Barwin-like endoglucanases,5,1.0,0.0
+2.60.120,Jelly Rolls,5,0.8,0.0
+2.60.210,"Apoptosis, Tumor Necrosis Factor Receptor Associated Protein 2; Chain A",5,1.0,0.6
+2.60.320,"mini-chromosome maintenance (MCM) complex, domain 2",5,0.8,0.6
+2.60.40,Immunoglobulin-like,5,0.6,0.0
+2.60.420,"Maltose phosphorylase, domain 3",5,1.0,1.0
+2.60.60,Lipoxygenase-1,5,1.0,0.6
+2.70.70,Glucose Permease (Domain IIA),5,1.0,0.8
+3.10.105,Dipeptide-binding Protein; domain 3,5,1.0,1.0
+3.10.180,"2,3-Dihydroxybiphenyl 1,2-Dioxygenase; domain 1",5,0.8,0.2
+3.10.20,Ubiquitin-like (UB roll),5,0.8,0.0
+3.10.200,Carbonic Anhydrase II,5,1.0,1.0
+3.10.250,Mac-2 Binding Protein,5,1.0,1.0
+3.10.290,Structural Genomics Hypothetical 15.5 Kd Protein In mrcA-pckA Intergenic Region; Chain A,5,1.0,0.4
+3.10.330,"Vcp-like ATPase; Chain A, domain 2",5,1.0,1.0
+3.10.400,Sulfate adenylyltransferase,5,1.0,0.8
+3.100.10,Ribosomal Protein L15; Chain: K; domain 2,5,1.0,0.6
+3.15.10,Bactericidal permeability-increasing protein; domain 1,5,1.0,1.0
+3.20.19,Aconitase; domain 4,5,1.0,1.0
+3.20.190,N-terminal domain of MutM-like DNA repair proteins,5,1.0,0.8
+3.20.80,Multidrug-efflux Transporter 1 Regulator Bmrr; Chain A,5,1.0,0.8
+3.30.1120,"Arylsulfatase, C-terminal domain",5,0.6,0.0
+3.30.1130,"GTP Cyclohydrolase I, domain 2",5,1.0,0.8
+3.30.1240,"Hypothetical Protein, Haloacid Dehalogenase-like Hydrolase; Chain: A; domain 2",5,1.0,1.0
+3.30.1310,Ybab; Chain: A;,5,0.8,0.6
+3.30.1390,"Ribosomal Protein L30; Chain: A,",5,0.8,0.4
+3.30.1450,"Beta-lactamase Inhibitory Protein; Chain:B, domain 1",5,1.0,0.4
+3.30.1600,SIR2/SIRT2 'Small Domain',5,1.0,1.0
+3.30.200,Phosphorylase Kinase; domain 1,5,1.0,0.4
+3.30.2350,Pseudouridine synthase,5,1.0,0.6
+3.30.30,Defensin A-like,5,0.8,0.4
+3.30.310,TATA-Binding Protein,5,0.4,0.4
+3.30.420,Nucleotidyltransferase; domain 5,5,1.0,0.0
+3.30.429,Macrophage Migration Inhibitory Factor,5,1.0,1.0
+3.30.479,Tetrahydropterin Synthase; Chain A,5,1.0,0.6
+3.30.540,"Fructose-1,6-Bisphosphatase; Chain A, domain 1",5,1.0,1.0
+3.30.56,"Phenylalanyl-tRNA Synthetase; Chain B, domain 1",5,0.8,0.0
+3.30.60,Wheat Germ Agglutinin (Isolectin 2); domain 1,5,0.4,0.4
+3.30.710,Potassium Channel Kv1.1; Chain A,5,1.0,0.6
+3.30.920,"Metal Transport, Frataxin; Chain A",5,0.4,0.4
+3.30.980,"Threonyl-tRNA Synthetase; Chain A, domain 2",5,1.0,1.0
+3.40.1010,Cobalt-precorrin-4 Transmethylase; domain 1,5,1.0,0.6
+3.40.1030,"Pyrimidine Nucleoside Phosphorylase; Chain A, domain 2",5,1.0,0.8
+3.40.1170,"MutS, DNA mismatch repair protein, domain I",5,0.8,0.8
+3.40.120,"Alpha-D-Glucose-1,6-Bisphosphate; Chain A, domain 3",5,0.8,0.8
+3.40.1350,"Trna Endonuclease; Chain: A, domain 1",5,0.4,0.0
+3.40.1570,Heme iron utilization protein-like fold,5,1.0,0.8
+3.40.225,L-fuculose-1-phosphate Aldolase,5,1.0,1.0
+3.40.395,Adenoviral Proteinase; Chain,5,1.0,0.8
+3.40.462,"Vanillyl-alcohol Oxidase; Chain A, domain 3",5,1.0,0.6
+3.40.47,"Peroxisomal Thiolase; Chain A, domain 1",5,1.0,1.0
+3.40.525,Phosphatidylinositol Transfer Protein Sec14p,5,1.0,1.0
+3.40.570,Extracellular Endonuclease; Chain A,5,1.0,1.0
+3.40.605,"Aldehyde Dehydrogenase; Chain A, domain 1",5,1.0,1.0
+3.40.630,Aminopeptidase,5,0.8,0.8
+3.40.720,"Alkaline Phosphatase, subunit A",5,1.0,1.0
+3.40.800,Arginase; Chain A,5,0.8,0.8
+3.40.91,Restriction Endonuclease,5,0.8,0.8
+3.40.920,Pyruvate-ferredoxin Oxidoreductase; domain 3,5,1.0,1.0
+3.50.30,Glucose Oxidase; domain 1,5,1.0,0.0
+3.60.130,Double-stranded beta-helix,5,1.0,1.0
+3.60.90,S-adenosylmethionine decarboxylase,5,1.0,1.0
+3.90.1140,"Cyclic Phosphodiesterase; Chain: A,",5,1.0,0.6
+3.90.1150,"Aspartate Aminotransferase, domain 1",5,0.8,0.0
+3.90.1570,"tt1808, chain A",5,0.6,0.0
+3.90.176,"Toxin ADP-ribosyltransferase; Chain A, domain 1",5,1.0,1.0
+3.90.180,"Quinone Oxidoreductase; Chain A, domain 1",5,1.0,1.0
+3.90.220,"Adenine-n6-DNA-methyltransferase TaqI; Chain A, domain 2",5,1.0,1.0
+3.90.230,Creatine Amidinohydrolase,5,1.0,1.0
+3.90.45,Peptide Deformylase,5,1.0,1.0
+3.90.640,"Actin; Chain A, domain 4",5,1.0,0.4
+3.90.660,"Polyamine Oxidase; Chain A, domain 2",5,1.0,0.4
+3.90.730,Ribonuclease Rh; Chain A,5,1.0,1.0
+3.90.76,Dipeptide-binding Protein; domain 1,5,1.0,1.0
+3.90.79,Nucleoside Triphosphate Pyrophosphohydrolase,5,1.0,1.0
+3.90.80,Inorganic Pyrophosphatase,5,1.0,1.0
