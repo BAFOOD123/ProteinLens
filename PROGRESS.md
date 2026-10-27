@@ -26,7 +26,10 @@ Optional ACTION NEEDED (only if you want SCOPe instead of CATH): allow `scop.ber
 | M2 Comparison engine | 23:39 | 23:41 | 0:09 | tmtools TM-align, symmetric results, deviating regions, CLI compare |
 | M3 Benchmark set | 23:41 | 23:44 | 0:12 | 288 CATH S40 domains / 20 folds / 60 superfamilies; deterministic rebuild |
 | M4 Benchmark results | 23:44 | 23:54 | 0:22 | all-vs-all 41,328 pairs in 357 s; results + 4 figures + failure analysis |
-| M5 Reports + checker | 23:48 | | | facts, template, LLM narration, checker + 21 tests (in progress) |
+| M5 Reports + checker | 23:48 | 23:56 | 0:24 | facts, template, LLM narration, checker; corruption tests; CLI classify/report |
+| M6 LLM experiment | 23:56 | 23:57 | 0:25 | pipeline + mock tests; PENDING (no key); TM-rule baseline 83.3 % on 60 pairs |
+| M7 Streamlit app | 23:57 | 00:02 | 0:30 | Compare/Classify/Benchmarks/About; AppTest e2e; Playwright screenshots |
+| M8 Documentation | 00:02 | 00:10 | 0:38 | README, WRITEUP, UNDERSTANDING (+15 Q&A), CITATIONS, DEPLOY |
 
 ## Cost tracking
 No usage/cost readout is exposed in this environment. Proxy: elapsed time and work done.

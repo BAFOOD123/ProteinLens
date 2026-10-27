@@ -381,7 +381,12 @@ def page_benchmarks() -> None:
 
 def page_about() -> None:
     st.header("About ProteinLens")
-    st.markdown((REPO / "README.md").read_text().split("## Quickstart")[0])
+    intro = (REPO / "README.md").read_text().split("## Quickstart")[0]
+    # Local image paths do not render inside Streamlit markdown; drop those lines.
+    keep = [
+        ln for ln in intro.splitlines() if not ln.lstrip().startswith(("![", "<p", "<img", "</p"))
+    ]
+    st.markdown("\n".join(keep))
 
 
 # --------------------------------------------------------------------------------------

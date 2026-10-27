@@ -22,3 +22,7 @@ One line each: decision — reason.
 - **Default LLM: `claude-opus-5-5` (env `PROTEINLENS_MODEL`); bulk M6 calls: `claude-haiku-5-5`** — model IDs/prices from the Claude API reference (cached 2026-10-06), per the brief's "cheapest capable model for bulk".
 - **No server-side refusal fallback** — a refusal or API error falls back to the verified template report instead, which keeps the code simple.
 - **Checker is deliberately strict**: any functional/evolutionary word (bind, oxygen, ancestor, homolog …) or fold name not present in the facts fails a report, since nothing computed supports it.
+- **3Dmol.js embedded directly instead of py3Dmol/stmol** — one fewer dependency; the CDN was blocked in the build VM, so `vendor_3dmol()` can inline a copy fetched from the npm registry (used for screenshots).
+- **tmtools is GPL-3.0; ProteinLens code stays MIT** — tmtools is a pip dependency, not redistributed; this is stated in README and CITATIONS.
+- **App seeds its cache from the bundled fixtures** — the four example pairs work offline and on first load.
+- **LLM experiment pairs exclude nearest-fold hits from the grounded facts** — those domains are in the reference set, so a fold lookup would leak the answer.
