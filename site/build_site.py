@@ -203,6 +203,102 @@ def checker_demo() -> dict:
     }
 
 
+def encode_coords(ca: np.ndarray) -> str:
+    """C-alpha coordinates at 0.1 Å, delta-encoded (first point absolute), comma-separated."""
+    q = np.round(np.asarray(ca) * 10).astype(int)
+    d = np.vstack([q[:1], np.diff(q, axis=0)])
+    return ",".join(map(str, d.ravel()))
+
+
+def _superpose(args: tuple[str, str, str]) -> tuple[list[float], list[float]]:
+    """Rotation/translation moving domain a onto domain b (runs in a worker process)."""
+    from proteinlens.align import compare
+    from proteinlens.classify import load_reference
+
+    data_dir, a, b = args
+    by_name = {st.name: st for st in load_reference(data_dir).structures}
+    r = compare(by_name[a], by_name[b])
+    return (
+        [round(float(x), 4) for x in np.asarray(r.rotation).ravel()],
+        [round(float(x), 2) for x in r.translation],
+    )
+
+
+def explorer() -> dict:
+    """Every benchmark domain, its top-5 neighbours, and the superposition onto its nearest one.
+
+    Neighbours are ranked by the current default (coverage-aware) score, with ties broken by the
+    lowest index exactly as in the benchmark. The original-score neighbour is kept for comparison.
+    """
+    from concurrent.futures import ProcessPoolExecutor
+
+    from proteinlens.classify import load_reference
+
+    domains: dict[str, int] = {}
+    records: list[list] = []  # [id, fold, superfamily, sequence, coords]
+    fold_names: dict[str, str] = {}
+    sets_out = {}
+    for key, (res_name, data_name, label) in SETS.items():
+        res, data = ROOT / "benchmarks" / res_name, ROOT / "benchmarks" / data_name
+        if not (res / "pairwise.npz").exists():
+            continue
+        pw = np.load(res / "pairwise.npz")
+        names = [str(x) for x in pw["domain"]]
+        ref = load_reference(str(data))
+        by_name = {st.name: st for st in ref.structures}
+        table = ref.table.set_index("domain")
+        for name in names:
+            if name not in domains:
+                row = table.loc[name]
+                domains[name] = len(records)
+                st = by_name[name]
+                records.append(
+                    [
+                        name,
+                        row["fold"],
+                        row["superfamily"],
+                        st.sequence,
+                        encode_coords(st.ca_coords),
+                    ]
+                )
+                fold_names[row["fold"]] = (
+                    row["fold_name"] if isinstance(row["fold_name"], str) else ""
+                )
+        tm = pw["tm"].astype(float)
+        cov = np.minimum(tm, tm.T)
+        np.fill_diagonal(cov, -1.0)
+        tmq = tm.copy()
+        np.fill_diagonal(tmq, -1.0)
+        orders = [np.argsort(-cov[i], kind="stable")[:5] for i in range(len(names))]
+        jobs = [(str(data), name, names[int(orders[i][0])]) for i, name in enumerate(names)]
+        with ProcessPoolExecutor(4) as pool:
+            transforms = list(pool.map(_superpose, jobs, chunksize=16))
+        rows = []
+        n_ok = 0
+        for i, name in enumerate(names):
+            order = orders[i]
+            nn = int(order[0])
+            nn_orig = int(np.argmax(tmq[i]))
+            n_ok += table.loc[names[nn], "fold"] == table.loc[name, "fold"]
+            rot, trans = transforms[i]  # moves this domain onto its closest match
+            rows.append(
+                [
+                    domains[name],
+                    [[domains[names[j]], round(float(cov[i, j]), 3)] for j in order],
+                    domains[names[nn_orig]],
+                    round(float(tmq[i, nn_orig]), 3),
+                    rot,
+                    trans,
+                ]
+            )
+        # The explorer must agree with the reported benchmark numbers.
+        summary = json.loads((res / "summary.json").read_text())
+        expected = summary["coverage_aware_score"]["fold"]["accuracy"]
+        assert round(n_ok / len(names), 4) == expected, (key, n_ok / len(names), expected)
+        sets_out[key] = {"label": label, "rows": rows}
+    return {"domains": records, "folds": fold_names, "sets": sets_out}
+
+
 def main() -> None:
     import argparse
 
@@ -220,6 +316,7 @@ def main() -> None:
         "sets": [s for s in (load_set(k) for k in SETS) if s],
         "examples": examples(),
         "checker": checker_demo(),
+        "explorer": explorer(),
         "llm": json.loads((ROOT / "benchmarks/results/llm_experiment/summary.json").read_text()),
     }
     sel = ROOT / "benchmarks" / "score_selection.json"

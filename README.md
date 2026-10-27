@@ -98,8 +98,10 @@ for sequence. Source: [`benchmarks/results_test/summary.json`](benchmarks/result
 
 ### Results website
 
-[`site/index.html`](site/index.html) is a self-contained page with the 3D comparisons, all three
-benchmark sets, the score improvement and the checker demo. It is generated from the result files by
+[`site/index.html`](site/index.html) is a self-contained page with four guided 3D comparisons, an
+**explorer for all 1,474 benchmark domains** (search any domain, see its closest match superimposed
+in 3D, its top-5 matches and whether the predicted fold was right), all three benchmark sets, the
+score improvement and the checker demo. It is generated from the result files by
 `python site/build_site.py`, and a test fails if it is out of date. To publish it on GitHub Pages, enable
 Pages with source "GitHub Actions" in the repository settings; `.github/workflows/pages.yml` then
 deploys it on every push to `main`.
