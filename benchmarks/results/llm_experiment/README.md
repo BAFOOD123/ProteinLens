@@ -28,7 +28,7 @@ What `make eval-llm` will add (`responses.csv`, an updated `summary.json`):
 * Models: `claude-haiku-5-5` on all 60 pairs × 2 conditions (120 calls); `claude-opus-5-5` on an
   18-pair balanced subset × 2 (36 calls). 156 calls in total (cap: 300).
 * Every response is cached in `data/cache/llm/`; re-running costs nothing for cached calls.
-* The script stops before calling the API if the estimated cost exceeds `--max-cost` (default $3).
+* The script stops before calling the API if the estimated cost exceeds `--max-cost` (default $3). Its own upper estimate for the full plan, computed from the actual prompts, is **$0.54** ($0.04 Haiku + $0.50 Opus).
 * The grounded facts deliberately omit nearest-fold hits (the domains are in the reference set, so
   that would leak the answer).
 * For condition A the checker is not a rule-violation test (A was allowed to use memory); its pass

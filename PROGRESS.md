@@ -29,7 +29,7 @@ Optional ACTION NEEDED (only if you want SCOPe instead of CATH): allow `scop.ber
 | M5 Reports + checker | 23:48 | 23:56 | 0:24 | facts, template, LLM narration, checker; corruption tests; CLI classify/report |
 | M6 LLM experiment | 23:56 | 23:57 | 0:25 | pipeline + mock tests; PENDING (no key); TM-rule baseline 83.3 % on 60 pairs |
 | M7 Streamlit app | 23:57 | 00:02 | 0:30 | Compare/Classify/Benchmarks/About; AppTest e2e; Playwright screenshots |
-| M8 Documentation | 00:02 | 00:10 | 0:38 | README, WRITEUP, UNDERSTANDING (+15 Q&A), CITATIONS, DEPLOY |
+| M8 Documentation | 00:02 | 00:06 | 0:34 | README, WRITEUP, UNDERSTANDING (+15 Q&A), CITATIONS, DEPLOY |
 
 ## Cost tracking
 No usage/cost readout is exposed in this environment. Proxy: elapsed time and work done.
@@ -39,3 +39,23 @@ No live LLM API calls have been made (no `ANTHROPIC_API_KEY`). Spend so far is d
 - Structure 1-NN fold accuracy 99.7 % [98.96, 100], superfamily 95.8 % [93.4, 97.9] (n = 288)
 - Sequence 1-NN fold 80.9 % [76.0, 85.4], superfamily 78.1 % [73.3, 83.0]
 - Remote homologs (n = 133): superfamily structure 93.2 % vs sequence 54.9 %
+
+## M9 — Final verification (2026-10-27 00:06–00:15 UTC)
+- Fresh clone of the pushed branch → `make setup` (39 s) → `make lint` ✅ → `make test` ✅ (63 passed at that commit).
+- `make dataset` from an empty cache in the fresh clone rebuilt `benchmarks/data/dataset.csv` **byte-identical**
+  (md5 00e6750f8398edcac57f0a61bb4cc20b) and `reference_set.npz` unchanged (`git status` clean).
+- `make benchmark-smoke` ✅ in the fresh clone.
+- **Full all-vs-all benchmark re-run in the fresh clone (empty cache, 41,328 alignments): every result file
+  (`summary.json`, `per_query.csv`, `per_fold.csv`, `failures.csv`, `superfamily_failures.csv`, `pair_stats.csv`,
+  `accuracy_vs_identity.csv`) is byte-identical to the committed one, and all `pairwise.npz` matrices are identical.**
+- Network tests (`make test-all`) ✅: RCSB, AlphaFold DB and CATH downloads.
+- CI (GitHub Actions, Python 3.12 + 3.13) green on every milestone commit M3–M8.
+- App: headless AppTest e2e (with no key, with a mock LLM, and with a failing LLM → template fallback) ✅;
+  real-browser run with Playwright/Chromium for the screenshots in `docs/figures/` ✅.
+- README / WRITEUP headline numbers are checked against `summary.json` by `tests/test_docs_numbers.py` ✅.
+
+## Final summary
+All milestones M0–M9 done. Elapsed ≈ 0:45 of the 12 h budget. No live LLM calls were made, so API spend
+is $0; development cost is not visible from inside the environment (no readout).
+**PENDING:** the live grounded-vs-ungrounded LLM run (`ANTHROPIC_API_KEY=... make eval-llm`; the script's own upper estimate is $0.54 for
+120 Haiku 5.5 + 36 Opus 5.5 calls; it aborts above $3).
